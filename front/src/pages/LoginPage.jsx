@@ -1,3 +1,5 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
 const Container = styled.div`
@@ -60,6 +62,12 @@ const Button = styled.button`
 `;
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const handleSignUp = () => {
+    navigate("/signup");
+  };
+
   return (
     <Container>
       <Title>Login</Title>
@@ -71,9 +79,8 @@ const LoginPage = () => {
         <label>Password</label>
         <Input type="password" placeholder="Enter your password" />
       </FormGroup>
-
       <ButtonContainer>
-        <Button>Sign Up</Button>
+        <Button onClick={handleSignUp}>Sign Up</Button>
         <Button>Login</Button>
       </ButtonContainer>
     </Container>
