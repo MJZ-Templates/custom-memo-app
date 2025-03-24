@@ -3,10 +3,13 @@ import styled from "@emotion/styled";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100vh;
+  width: 100vw;
   background-color: #d3d3d3;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
 `;
 
 const Title = styled.h1`
@@ -15,10 +18,17 @@ const Title = styled.h1`
   font-weight: bold;
 `;
 
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+`;
+
 const Input = styled.input`
   width: 300px;
   padding: 10px;
-  margin-bottom: 15px;
+  margin-top: 5px;
   border: none;
   background-color: #6c63ff;
   color: white;
@@ -52,14 +62,19 @@ const Button = styled.button`
 const LoginPage = () => {
   return (
     <Container>
-      <Title>로그인</Title>
-      <label>이메일</label>
-      <Input type="email" placeholder="이메일 입력" />
-      <label>비밀번호</label>
-      <Input type="password" placeholder="비밀번호 입력" />
+      <Title>Login</Title>
+      <FormGroup>
+        <label>Email</label>
+        <Input type="email" placeholder="Enter your email" />
+      </FormGroup>
+      <FormGroup>
+        <label>Password</label>
+        <Input type="password" placeholder="Enter your password" />
+      </FormGroup>
+
       <ButtonContainer>
-        <Button>회원가입</Button>
-        <Button>로그인</Button>
+        <Button>Sign Up</Button>
+        <Button>Login</Button>
       </ButtonContainer>
     </Container>
   );
