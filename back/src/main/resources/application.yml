@@ -1,4 +1,7 @@
 spring:
+  security:
+    secret: ${SECURITY_SECRET_KEY}
+    expiration: ${SECURITY_EXPIRATION}
   datasource:
     url: jdbc:mysql://localhost:3306/memo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -10,15 +10,12 @@ class Member(
     var id: Long?,
 
     @Column
-    val username: String,
-
-    @Column
     val email: String,
 
     @Column
     val password: String
 ) {
-    constructor() : this(null, "", "", "") {
+    constructor() : this(null, "", "") {
 
     }
 }

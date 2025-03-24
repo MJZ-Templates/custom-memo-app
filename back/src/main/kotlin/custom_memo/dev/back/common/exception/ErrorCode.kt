@@ -23,6 +23,7 @@ enum class ErrorCode(val code: Int, val httpStatus: HttpStatus, val message: Str
     MISSING_REQUEST_HEADER(40004, HttpStatus.BAD_REQUEST, "필수 요청 헤더가 누락되었습니다."),
     BAD_REQUEST_PARAMETER(40005, HttpStatus.BAD_REQUEST, "잘못된 요청 파라미터입니다."),
     BAD_REQUEST_JSON(40006, HttpStatus.BAD_REQUEST, "잘못된 JSON 형식입니다."),
+    ALREADY_EXIST_MEMBER(40007, HttpStatus.BAD_REQUEST, "이미 존재하는 사용자입니다."),
 
     // Access Denied Error
     ACCESS_DENIED(40300, HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),

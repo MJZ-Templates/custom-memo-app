@@ -10,9 +10,13 @@ import org.springframework.stereotype.Service
 @Service
 class MemberService(private val memberRepository: MemberRepository) {
 
+    fun save(member: Member): Member = memberRepository.save(member)
+
     fun findMember(id: Long): Member = memberRepository.findByIdOrNull(id)
         ?: throw CommonException(ErrorCode.NOT_FOUND_MEMBER)
 
-    fun findMemberByUsername(username: String): Member = memberRepository.findByUsername(username)
+    fun findMemberByEmail(email: String): Member = memberRepository.findByEmail(email)
         ?: throw CommonException(ErrorCode.NOT_FOUND_MEMBER)
+
+    fun findMemberByEmailOrNull(username: String): Member? = memberRepository.findByEmail(username)
 }
