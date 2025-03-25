@@ -30,8 +30,8 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
           <ModalTitle>{mode === "edit" ? "Edit Memo" : "Add Memo"}</ModalTitle>
           <FavoriteButton
             onClick={() => setIsFavorite((prev) => !prev)}
-            title="즐겨찾기"
             aria-label="즐겨찾기"
+            title="즐겨찾기"
           >
             {isFavorite ? <FaBookmark color="#6C6E7E" /> : <FaRegBookmark />}
           </FavoriteButton>
@@ -47,6 +47,7 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
           onChange={(e) => setContent(e.target.value)}
           placeholder="Enter your memo here"
         />
+
         <ButtonGroup>
           {mode === "edit" && (
             <DeleteButton onClick={onDelete}>Delete</DeleteButton>
@@ -101,6 +102,9 @@ const FavoriteButton = styled.button`
   border: none;
   font-size: 20px;
   cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
 `;
 
 const TitleInput = styled.input`
@@ -133,7 +137,6 @@ const ButtonGroup = styled.div`
 const BaseButton = styled.button`
   padding: 8px 16px;
   border-radius: 6px;
-  font-size: 14px;
   cursor: pointer;
   border: none;
 `;
@@ -141,17 +144,14 @@ const BaseButton = styled.button`
 const CancelButton = styled(BaseButton)`
   background-color: #6c6e7e14;
   color: #525463;
-  font-weight: 500;
 `;
 
 const SaveButton = styled(BaseButton)`
   background-color: #5094fa;
   color: #ffffff;
-  font-weight: 500;
 `;
 
 const DeleteButton = styled(BaseButton)`
   background-color: #f5535e;
   color: #ffffff;
-  font-weight: 500;
 `;
