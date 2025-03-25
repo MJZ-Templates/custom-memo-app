@@ -12,6 +12,18 @@ const LoginPageContainer = styled.div`
   gap: 30px;
 `;
 
+const FormCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 30px;
+  border: 1px solid #e1e1e8;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  gap: 30px;
+`;
+
 const Title = styled.h1`
   margin: 0;
   font-size: 32px;
@@ -59,22 +71,24 @@ const LoginPage = () => {
 
   return (
     <LoginPageContainer>
-      <Title>Login</Title>
-      <FormGroupWrapper>
-        <FormGroup>
-          <FormLabel>Email</FormLabel>
-          <FormInput type="email" placeholder="Enter your email" />
-        </FormGroup>
-        <FormGroup>
-          <FormLabel>Password</FormLabel>
-          <FormInput type="password" placeholder="Enter your password" />
-        </FormGroup>
-      </FormGroupWrapper>
+      <FormCard>
+        <Title>Login</Title>
+        <FormGroupWrapper>
+          <FormGroup>
+            <FormLabel>Email</FormLabel>
+            <FormInput type="email" placeholder="Enter your email" />
+          </FormGroup>
+          <FormGroup>
+            <FormLabel>Password</FormLabel>
+            <FormInput type="password" placeholder="Enter your password" />
+          </FormGroup>
+        </FormGroupWrapper>
 
-      <ButtonWrapper>
-        <Button onClick={handleSignUp}>Sign Up</Button>
-        <Button>Login</Button>
-      </ButtonWrapper>
+        <ButtonWrapper>
+          <Button onClick={handleSignUp}>Sign Up</Button>
+          <Button>Login</Button>
+        </ButtonWrapper>
+      </FormCard>
     </LoginPageContainer>
   );
 };
