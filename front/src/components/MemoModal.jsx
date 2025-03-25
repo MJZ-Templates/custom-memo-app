@@ -25,9 +25,19 @@ const ModalContainer = styled.div`
   gap: 16px;
 `;
 
-const Title = styled.h2`
+const ModalTitle = styled.h2`
   margin: 0;
   font-size: 20px;
+`;
+
+const TitleInput = styled.input`
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
 `;
 
 const Textarea = styled.textarea`
@@ -74,24 +84,32 @@ const DeleteButton = styled(BaseButton)`
 `;
 
 const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   useEffect(() => {
     if (mode === "edit" && memoData) {
-      setContent(memoData.content);
+      setTitle(memoData.title || "");
+      setContent(memoData.content || "");
     } else {
+      setTitle("");
       setContent("");
     }
   }, [mode, memoData]);
 
   const handleSave = () => {
-    onSave(content);
+    onSave({ title, content });
   };
 
   return (
     <Overlay>
       <ModalContainer>
-        <Title>{mode === "edit" ? "Edit Memo" : "Add Memo"}</Title>
+        <ModalTitle>{mode === "edit" ? "Edit Memo" : "Add Memo"}</ModalTitle>
+        <TitleInput
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter memo title"
+        />
         <Textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
