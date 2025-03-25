@@ -1,64 +1,53 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
+import Button from "../components/Button";
 
-const Container = styled.div`
+const LoginPageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  background-color: #d3d3d3;
   justify-content: center;
   align-items: center;
-  margin: 0;
-  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  gap: 30px;
 `;
 
 const Title = styled.h1`
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+`;
+
+const FormGroupWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const FormGroup = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 15px;
-`;
-
-const Input = styled.input`
-  width: 300px;
-  padding: 10px;
-  margin-top: 5px;
-  border: none;
-  background-color: #6c63ff;
-  color: white;
-  font-size: 16px;
-  border-radius: 5px;
-  ::placeholder {
-    color: white;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
   gap: 10px;
 `;
 
-const Button = styled.button`
-  width: 140px;
-  padding: 10px;
-  border: none;
-  background-color: #6c63ff;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-  }
+const FormLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+`;
+
+const FormInput = styled.input`
+  width: 280px;
+  padding: 12px;
+  border: 1px solid #e1e1e8;
+  border-radius: 8px;
+  color: #6c6e7e;
+  font-size: 14px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 
 const LoginPage = () => {
@@ -69,21 +58,24 @@ const LoginPage = () => {
   };
 
   return (
-    <Container>
+    <LoginPageContainer>
       <Title>Login</Title>
-      <FormGroup>
-        <label>Email</label>
-        <Input type="email" placeholder="Enter your email" />
-      </FormGroup>
-      <FormGroup>
-        <label>Password</label>
-        <Input type="password" placeholder="Enter your password" />
-      </FormGroup>
-      <ButtonContainer>
+      <FormGroupWrapper>
+        <FormGroup>
+          <FormLabel>Email</FormLabel>
+          <FormInput type="email" placeholder="Enter your email" />
+        </FormGroup>
+        <FormGroup>
+          <FormLabel>Password</FormLabel>
+          <FormInput type="password" placeholder="Enter your password" />
+        </FormGroup>
+      </FormGroupWrapper>
+
+      <ButtonWrapper>
         <Button onClick={handleSignUp}>Sign Up</Button>
         <Button>Login</Button>
-      </ButtonContainer>
-    </Container>
+      </ButtonWrapper>
+    </LoginPageContainer>
   );
 };
 
