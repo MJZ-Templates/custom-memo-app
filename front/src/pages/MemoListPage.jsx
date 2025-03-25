@@ -54,9 +54,13 @@ const MemoListPage = () => {
     }
   };
 
-  const filteredMemos = memos.filter((memo) =>
-    memo.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredMemos = searchQuery.trim()
+    ? memos.filter(
+        (memo) =>
+          memo.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          memo.content.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : memos;
 
   return (
     <MemoListPageContainer>
@@ -71,7 +75,6 @@ const MemoListPage = () => {
         <SearchBar
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search by title..."
         />
       </ButtonContainer>
 
