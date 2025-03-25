@@ -1,7 +1,16 @@
 import styled from "@emotion/styled";
 
-const Button = ({ onClick, children }) => {
-  return <StyledButton onClick={onClick}>{children}</StyledButton>;
+const Button = ({ onClick, children, backgroundColor, color, ...rest }) => {
+  return (
+    <StyledButton
+      onClick={onClick}
+      backgroundColor={backgroundColor}
+      color={color}
+      {...rest}
+    >
+      {children}
+    </StyledButton>
+  );
 };
 
 const StyledButton = styled.button`
@@ -9,14 +18,15 @@ const StyledButton = styled.button`
   justify-content: center;
   align-items: center;
   padding: 10px 16px;
-  background-color: #448efe;
-  border: 1px solid #448efe;
+  border: 1px solid transparent;
   border-radius: 8px;
-  color: #ffffff;
-  cursor: pointer;
   font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
   gap: 8px;
+
+  background-color: ${({ backgroundColor }) => backgroundColor || "#448efe"};
+  color: ${({ color }) => color || "#ffffff"};
 `;
 
 export default Button;
