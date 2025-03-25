@@ -9,6 +9,7 @@ import memoStore from "../store/memoStore.jsx";
 import Button from "../components/Button.jsx";
 import MemoModal from "../components/MemoModal.jsx";
 import MemoCard from "../components/MemoCard.jsx";
+import SearchBar from "../components/SearchBar.jsx";
 
 const MemoListPage = () => {
   const { user } = userStore();
@@ -16,8 +17,9 @@ const MemoListPage = () => {
   const { addMemo, updateMemo, deleteMemo, memos } = memoStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [mode, setMode] = useState("create"); // 'create' | 'edit'
+  const [mode, setMode] = useState("create");
   const [selectedMemo, setSelectedMemo] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const openCreateModal = () => {
     setMode("create");
@@ -36,11 +38,11 @@ const MemoListPage = () => {
     setSelectedMemo(null);
   };
 
-  const handleSave = (content) => {
+  const handleSave = (data) => {
     if (mode === "create") {
-      addMemo(content);
+      addMemo(data);
     } else if (mode === "edit" && selectedMemo) {
-      updateMemo(selectedMemo.id, content);
+      updateMemo(selectedMemo.id, data);
     }
     closeModal();
   };
@@ -52,6 +54,14 @@ const MemoListPage = () => {
     }
   };
 
+  const filteredMemos = searchQuery.trim()
+    ? memos.filter(
+        (memo) =>
+          memo.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          memo.content.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : memos;
+
   return (
     <MemoListPageContainer>
       <PageTitle>{user.name}'s Memo!</PageTitle>
@@ -62,10 +72,14 @@ const MemoListPage = () => {
           <FaPlus />
           Add CreateMemo
         </Button>
+        <SearchBar
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </ButtonContainer>
 
       <MemoListContainer>
-        {memos.map((memo) => (
+        {filteredMemos.map((memo) => (
           <MemoCard
             key={memo.id}
             memo={memo}
@@ -126,8 +140,6 @@ const MemoListContainer = styled.div`
   margin: 0 auto;
   width: 100%;
 `;
-
-// 여기까지
 
 const ModalOverlay = styled.div`
   position: fixed;
