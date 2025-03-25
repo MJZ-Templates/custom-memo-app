@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
-import { FaPlus } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaPlus } from "react-icons/fa6";
 
 import userStore from "../store/userStore.jsx";
 import modeStore from "../store/modeStore.jsx";
@@ -67,12 +67,15 @@ const MemoListPage = () => {
           <FaPlus />
           Add CreateMemo
         </Button>
-        <SearchInput
-          type="text"
-          placeholder="Search by title..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+        <SearchWrapper>
+          <FaMagnifyingGlass />
+          <SearchInput
+            type="text"
+            placeholder="Search by title..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </SearchWrapper>
       </ButtonContainer>
 
       <MemoListContainer>
@@ -130,13 +133,28 @@ const ButtonContainer = styled.div`
   gap: 8px;
 `;
 
-const SearchInput = styled.input`
+const SearchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-left: auto;
   padding: 8px 12px;
   border: 1px solid #e1e1e8;
   border-radius: 8px;
+  background-color: white;
+
+  svg {
+    color: #7c7e89;
+    font-size: 14px;
+  }
+`;
+
+const SearchInput = styled.input`
+  border: none;
+  outline: none;
   font-size: 14px;
-  width: 200px;
+  width: 160px;
+  background: transparent;
 `;
 
 const MemoListContainer = styled.div`
