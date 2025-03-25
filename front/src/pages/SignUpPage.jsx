@@ -145,7 +145,12 @@ const SignUpPage = () => {
           </FormGroupWrapper>
 
           <ButtonWrapper>
-            <Button type="button" onClick={handleCancel}>
+            <Button
+              type="button"
+              onClick={handleCancel}
+              backgroundColor="#6C6E7E14"
+              color="#525463"
+            >
               Cancel
             </Button>
             <Button type="submit">Sign Up</Button>
