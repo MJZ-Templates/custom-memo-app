@@ -1,5 +1,65 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
+import { FaBookmark, FaRegBookmark } from "react-icons/fa";
+
+const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    if (mode === "edit" && memoData) {
+      setTitle(memoData.title || "");
+      setContent(memoData.content || "");
+      setIsFavorite(memoData.isFavorite || false);
+    } else {
+      setTitle("");
+      setContent("");
+      setIsFavorite(false);
+    }
+  }, [mode, memoData]);
+
+  const handleSave = () => {
+    onSave({ title, content, isFavorite });
+  };
+
+  return (
+    <Overlay>
+      <ModalContainer>
+        <ModalTitleRow>
+          <ModalTitle>{mode === "edit" ? "Edit Memo" : "Add Memo"}</ModalTitle>
+          <FavoriteButton
+            onClick={() => setIsFavorite((prev) => !prev)}
+            title="즐겨찾기"
+            aria-label="즐겨찾기"
+          >
+            {isFavorite ? <FaBookmark color="#6C6E7E" /> : <FaRegBookmark />}
+          </FavoriteButton>
+        </ModalTitleRow>
+
+        <TitleInput
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter memo title"
+        />
+        <Textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Enter your memo here"
+        />
+        <ButtonGroup>
+          {mode === "edit" && (
+            <DeleteButton onClick={onDelete}>Delete</DeleteButton>
+          )}
+          <CancelButton onClick={onCancel}>Cancel</CancelButton>
+          <SaveButton onClick={handleSave}>Save</SaveButton>
+        </ButtonGroup>
+      </ModalContainer>
+    </Overlay>
+  );
+};
+
+export default MemoModal;
 
 const Overlay = styled.div`
   position: fixed;
@@ -18,16 +78,29 @@ const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 400px;
-  background: white;
+  background: #ffffff;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   gap: 16px;
 `;
 
+const ModalTitleRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const ModalTitle = styled.h2`
   margin: 0;
   font-size: 20px;
+`;
+
+const FavoriteButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 `;
 
 const TitleInput = styled.input`
@@ -82,49 +155,3 @@ const DeleteButton = styled(BaseButton)`
   color: #ffffff;
   font-weight: 500;
 `;
-
-const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
-  useEffect(() => {
-    if (mode === "edit" && memoData) {
-      setTitle(memoData.title || "");
-      setContent(memoData.content || "");
-    } else {
-      setTitle("");
-      setContent("");
-    }
-  }, [mode, memoData]);
-
-  const handleSave = () => {
-    onSave({ title, content });
-  };
-
-  return (
-    <Overlay>
-      <ModalContainer>
-        <ModalTitle>{mode === "edit" ? "Edit Memo" : "Add Memo"}</ModalTitle>
-        <TitleInput
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter memo title"
-        />
-        <Textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Enter your memo here"
-        />
-        <ButtonGroup>
-          {mode === "edit" && (
-            <DeleteButton onClick={onDelete}>Delete</DeleteButton>
-          )}
-          <CancelButton onClick={onCancel}>Cancel</CancelButton>
-          <SaveButton onClick={handleSave}>Save</SaveButton>
-        </ButtonGroup>
-      </ModalContainer>
-    </Overlay>
-  );
-};
-
-export default MemoModal;
