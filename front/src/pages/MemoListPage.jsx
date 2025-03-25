@@ -2,16 +2,16 @@ import userStore from "../store/userStore.jsx";
 import Button from "../components/Button.jsx";
 import styled from "@emotion/styled";
 import modeStore from "../store/modeStore.jsx";
-import MemoList from "../components/MemoList.jsx";
 import useModal from "../hooks/useModal.jsx";
 import MemoForm from "../components/MemoForm.jsx";
 import memoStore from "../store/memoStore.jsx";
 import { FaPlus } from "react-icons/fa6";
+import Memo from "../components/Memo.jsx";
 
 const MemoListPage = () => {
   const { user } = userStore();
   const { toggle } = modeStore();
-  const { addMemo } = memoStore();
+  const { addMemo, memos } = memoStore();
   const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
@@ -26,7 +26,11 @@ const MemoListPage = () => {
         </Button>
       </ButtonContainer>
 
-      <MemoList />
+      <MemoListContainer>
+        {memos.map((memo) => (
+          <Memo key={memo.id} memo={memo} userName={user.name} />
+        ))}
+      </MemoListContainer>
 
       {isModalOpen && (
         <ModalOverlay onClick={closeModal}>
@@ -47,13 +51,15 @@ const MemoListPageContainer = styled.div`
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 24px 16px;
+  gap: 20px;
 `;
 
 const PageTitle = styled.h1`
   color: #2b2d36;
   font-size: 32px;
   font-weight: 700;
+  margin: 0;
 `;
 
 const ButtonContainer = styled.div`
@@ -67,6 +73,16 @@ const ButtonContainer = styled.div`
   border-radius: 8px;
   gap: 8px;
 `;
+
+const MemoListContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 0 auto;
+  width: 100%;
+`;
+
+// 여기까지
 
 const ModalOverlay = styled.div`
   position: fixed;
