@@ -7,8 +7,8 @@ import modeStore from "../store/modeStore.jsx";
 import memoStore from "../store/memoStore.jsx";
 
 import Button from "../components/Button.jsx";
-import Memo from "../components/Memo.jsx";
 import MemoModal from "../components/MemoModal.jsx";
+import MemoCard from "../components/MemoCard.jsx";
 
 const MemoListPage = () => {
   const { user } = userStore();
@@ -66,7 +66,7 @@ const MemoListPage = () => {
 
       <MemoListContainer>
         {memos.map((memo) => (
-          <Memo
+          <MemoCard
             key={memo.id}
             memo={memo}
             userName={user.name}

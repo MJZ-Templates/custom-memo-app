@@ -40,9 +40,7 @@ const MemoFooter = styled.footer`
   font-size: 14px;
 `;
 
-export default Memo;
-
-const Memo = ({ memo, userName, onClick }) => {
+const MemoCard = ({ memo, userName, onClick }) => {
   return (
     <MemoContainer onClick={onClick}>
       <MemoTitle>{memo.title}</MemoTitle>
@@ -53,3 +51,5 @@ const Memo = ({ memo, userName, onClick }) => {
     </MemoContainer>
   );
 };
+
+export default MemoCard;
