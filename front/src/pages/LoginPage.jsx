@@ -57,8 +57,27 @@ const FormInput = styled.input`
   font-size: 14px;
 `;
 
+const SignUpText = styled.p`
+  margin: 0;
+  font-size: 14px;
+  text-align: center;
+  color: #6c6e7e;
+`;
+
+const SignUpLink = styled.button`
+  all: unset;
+  font-weight: 500;
+  color: #448efe;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const ButtonWrapper = styled.div`
   display: flex;
+  justify-content: center;
   gap: 10px;
 `;
 
@@ -82,10 +101,13 @@ const LoginPage = () => {
             <FormLabel>Password</FormLabel>
             <FormInput type="password" placeholder="Enter your password" />
           </FormGroup>
+          <SignUpText>
+            Don’t have an account?{" "}
+            <SignUpLink onClick={handleSignUp}>Sign up</SignUpLink>
+          </SignUpText>
         </FormGroupWrapper>
 
         <ButtonWrapper>
-          <Button onClick={handleSignUp}>Sign Up</Button>
           <Button>Login</Button>
         </ButtonWrapper>
       </FormCard>
