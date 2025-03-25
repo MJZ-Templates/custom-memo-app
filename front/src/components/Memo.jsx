@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import React from "react";
 import styled from "@emotion/styled";
 import useModal from "../hooks/useModal.jsx";
 import MemoForm from "./MemoForm.jsx";

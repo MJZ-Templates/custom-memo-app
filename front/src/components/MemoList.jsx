@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import React from "react";
 import memoStore from "../store/memoStore.jsx";
 import Memo from "./Memo.jsx";
 import styled from "@emotion/styled";

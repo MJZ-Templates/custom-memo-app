@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "@emotion/styled";
 import Button from "./Button.jsx";
