@@ -16,8 +16,9 @@ const MemoListPage = () => {
   const { addMemo, updateMemo, deleteMemo, memos } = memoStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [mode, setMode] = useState("create"); // 'create' | 'edit'
+  const [mode, setMode] = useState("create");
   const [selectedMemo, setSelectedMemo] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const openCreateModal = () => {
     setMode("create");
@@ -36,11 +37,11 @@ const MemoListPage = () => {
     setSelectedMemo(null);
   };
 
-  const handleSave = (content) => {
+  const handleSave = (data) => {
     if (mode === "create") {
-      addMemo(content);
+      addMemo(data);
     } else if (mode === "edit" && selectedMemo) {
-      updateMemo(selectedMemo.id, content);
+      updateMemo(selectedMemo.id, data);
     }
     closeModal();
   };
@@ -52,6 +53,10 @@ const MemoListPage = () => {
     }
   };
 
+  const filteredMemos = memos.filter((memo) =>
+    memo.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <MemoListPageContainer>
       <PageTitle>{user.name}'s Memo!</PageTitle>
@@ -62,10 +67,16 @@ const MemoListPage = () => {
           <FaPlus />
           Add CreateMemo
         </Button>
+        <SearchInput
+          type="text"
+          placeholder="Search by title..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </ButtonContainer>
 
       <MemoListContainer>
-        {memos.map((memo) => (
+        {filteredMemos.map((memo) => (
           <MemoCard
             key={memo.id}
             memo={memo}
@@ -119,6 +130,15 @@ const ButtonContainer = styled.div`
   gap: 8px;
 `;
 
+const SearchInput = styled.input`
+  margin-left: auto;
+  padding: 8px 12px;
+  border: 1px solid #e1e1e8;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 200px;
+`;
+
 const MemoListContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -126,8 +146,6 @@ const MemoListContainer = styled.div`
   margin: 0 auto;
   width: 100%;
 `;
-
-// 여기까지
 
 const ModalOverlay = styled.div`
   position: fixed;
