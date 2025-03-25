@@ -37,6 +37,7 @@ const SearchInput = styled.input`
   border: none;
   outline: none;
   font-size: 14px;
-  width: 200px;
+  min-width: 280px;
+  flex: 1;
   background: transparent;
 `;
