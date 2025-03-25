@@ -1,25 +1,23 @@
 import styled from "@emotion/styled";
-import { FaBookmark, FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
 
 const MemoCard = ({ memo, userName, onClick, onToggleFavorite }) => {
   return (
     <MemoContainer onClick={onClick}>
       <MemoTitleRow>
         <MemoTitle>{memo.title}</MemoTitle>
-        <FavoriteButton
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleFavorite(memo.id);
-          }}
-          aria-label="Toggle favorite"
-          title="Toggle favorite"
-        >
-          {memo.isFavorite ? (
-            <FaBookmark color="#6C6E7E" />
-          ) : (
-            <FaRegBookmark color="#6C6E7E" />
-          )}
-        </FavoriteButton>
+        {memo.isFavorite && (
+          <FavoriteButton
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleFavorite(memo.id);
+            }}
+            aria-label="Toggle favorite"
+            title="Toggle favorite"
+          >
+            <BookmarkIcon />
+          </FavoriteButton>
+        )}
       </MemoTitleRow>
       <MemoContent>{memo.content}</MemoContent>
       <MemoFooter>
@@ -68,6 +66,11 @@ const FavoriteButton = styled.button`
   padding: 4px;
   display: flex;
   align-items: center;
+`;
+
+const BookmarkIcon = styled(FaBookmark)`
+  color: #6c6e7e;
+  font-size: 18px;
 `;
 
 const MemoContent = styled.p`
