@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import Button from "../components/Button";
+import { Link } from "react-router-dom";
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -10,6 +10,7 @@ const LoginPageContainer = styled.div`
   height: 100vh;
   width: 100vw;
   gap: 30px;
+  background-color: #f7f7fa;
 `;
 
 const FormCard = styled.div`
@@ -19,7 +20,7 @@ const FormCard = styled.div`
   padding: 40px 30px;
   border: 1px solid #e1e1e8;
   border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   background-color: #fff;
   gap: 30px;
 `;
@@ -43,9 +44,12 @@ const FormGroup = styled.div`
 
 const FormLabel = styled.label`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   width: 80px;
+  color: #2b2d36;
+  font-weight: 500;
+  font-size: 14px;
 `;
 
 const FormInput = styled.input`
@@ -53,22 +57,44 @@ const FormInput = styled.input`
   padding: 12px;
   border: 1px solid #e1e1e8;
   border-radius: 8px;
-  color: #6c6e7e;
+  color: #213547;
   font-size: 14px;
+
+  &:focus {
+    outline: none;
+    border-color: #448efe;
+    box-shadow: 0 0 0 2px rgba(68, 142, 254, 0.2);
+  }
+`;
+
+const SignUpText = styled.p`
+  margin: 0;
+  font-size: 14px;
+  text-align: center;
+  color: #6c6e7e;
+`;
+
+const SignUpLink = styled(Link)`
+  font-weight: 500;
+  color: #448efe;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:visited {
+    color: #448efe;
+  }
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
+  justify-content: center;
   gap: 10px;
 `;
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-
-  const handleSignUp = () => {
-    navigate("/signup");
-  };
-
   return (
     <LoginPageContainer>
       <FormCard>
@@ -82,11 +108,13 @@ const LoginPage = () => {
             <FormLabel>Password</FormLabel>
             <FormInput type="password" placeholder="Enter your password" />
           </FormGroup>
+          <SignUpText>
+            Don’t have an account? <SignUpLink to="/signup">Sign up</SignUpLink>
+          </SignUpText>
         </FormGroupWrapper>
 
         <ButtonWrapper>
-          <Button onClick={handleSignUp}>Sign Up</Button>
-          <Button>Login</Button>
+          <Button style={{ width: "200px", fontWeight: 600 }}>Login</Button>
         </ButtonWrapper>
       </FormCard>
     </LoginPageContainer>

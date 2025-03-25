@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import Button from "../components/Button";
+import { Link } from "react-router-dom";
 
 const SignUpPageContainer = styled.div`
   display: flex;
@@ -9,6 +10,7 @@ const SignUpPageContainer = styled.div`
   align-items: center;
   height: 100vh;
   width: 100vw;
+  background-color: #f7f7fa;
 `;
 
 const FormCard = styled.div`
@@ -18,7 +20,7 @@ const FormCard = styled.div`
   padding: 40px 30px;
   border: 1px solid #e1e1e8;
   border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   background-color: #fff;
   gap: 30px;
 `;
@@ -42,7 +44,7 @@ const FormGroup = styled.div`
 
 const FormLabel = styled.label`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   width: 80px;
   color: #2b2d36;
@@ -55,14 +57,20 @@ const FormInput = styled.input`
   padding: 12px;
   border: 1px solid #e1e1e8;
   border-radius: 8px;
-  color: #6c6e7e;
+  color: #213547;
   font-size: 14px;
+
+  &:focus {
+    outline: none;
+    border-color: #448efe;
+    box-shadow: 0 0 0 2px rgba(68, 142, 254, 0.2);
+  }
 `;
 
 const CheckboxWrapper = styled.label`
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
   font-size: 14px;
 `;
 
@@ -71,6 +79,30 @@ const ButtonWrapper = styled.div`
   justify-content: center;
   margin-top: 30px;
   gap: 10px;
+`;
+
+const CancelLinkButton = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: #6c6e7e14;
+  color: #525463;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &:hover,
+  &:visited,
+  &:active {
+    color: #525463;
+    text-decoration: none;
+  }
 `;
 
 const SignUpPage = () => {
@@ -100,12 +132,6 @@ const SignUpPage = () => {
     }
 
     alert("Sign up complete!");
-  };
-
-  const handleCancel = () => {
-    setEmail("");
-    setPassword("");
-    setRememberMe(false);
   };
 
   return (
@@ -140,15 +166,22 @@ const SignUpPage = () => {
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
               />
-              Remember email/password
+              Remember Email/Password
             </CheckboxWrapper>
           </FormGroupWrapper>
 
           <ButtonWrapper>
-            <Button type="button" onClick={handleCancel}>
-              Cancel
+            <CancelLinkButton to="/">Cancel</CancelLinkButton>
+
+            <Button
+              type="submit"
+              style={{
+                width: "120px",
+                fontWeight: 600,
+              }}
+            >
+              Sign Up
             </Button>
-            <Button type="submit">Sign Up</Button>
           </ButtonWrapper>
         </form>
       </FormCard>
