@@ -15,15 +15,18 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 400px;
   background: white;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  gap: 16px;
 `;
 
 const Title = styled.h2`
-  margin-bottom: 16px;
+  margin: 0;
   font-size: 20px;
 `;
 
@@ -35,7 +38,7 @@ const Textarea = styled.textarea`
   border-radius: 8px;
   padding: 12px;
   font-size: 14px;
-  margin-bottom: 20px;
+  box-sizing: border-box;
 `;
 
 const ButtonGroup = styled.div`
@@ -53,18 +56,21 @@ const BaseButton = styled.button`
 `;
 
 const CancelButton = styled(BaseButton)`
-  background-color: #e0e0e0;
-  color: #333;
+  background-color: #6c6e7e14;
+  color: #525463;
+  font-weight: 500;
 `;
 
 const SaveButton = styled(BaseButton)`
-  background-color: #1976d2;
-  color: white;
+  background-color: #5094fa;
+  color: #ffffff;
+  font-weight: 500;
 `;
 
 const DeleteButton = styled(BaseButton)`
-  background-color: #f44336;
+  background-color: #f5535e;
   color: white;
+  font-weight: 500;
 `;
 
 const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
