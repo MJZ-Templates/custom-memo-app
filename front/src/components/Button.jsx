@@ -5,13 +5,17 @@ const Button = ({ onClick, children }) => {
 };
 
 const StyledButton = styled.button`
-  padding: 5px 12px;
-  background-color: #448efe29;
-  color: #1d6ce0;
-  border: 1px solid #5094fa;
-  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: #448efe;
+  border: 1px solid #448efe;
+  border-radius: 8px;
+  color: #ffffff;
   cursor: pointer;
   font-weight: 500;
+  gap: 8px;
 `;
 
 export default Button;

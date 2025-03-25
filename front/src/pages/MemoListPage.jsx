@@ -6,6 +6,7 @@ import MemoList from "../components/MemoList.jsx";
 import useModal from "../hooks/useModal.jsx";
 import MemoForm from "../components/MemoForm.jsx";
 import memoStore from "../store/memoStore.jsx";
+import { FaPlus } from "react-icons/fa6";
 
 const MemoListPage = () => {
   const { user } = userStore();
@@ -14,13 +15,16 @@ const MemoListPage = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
-    <div>
-      <h1>{user.name}'s Memo!</h1>
+    <MemoListPageContainer>
+      <PageTitle>{user.name}'s Memo!</PageTitle>
 
-      <StyledButtons>
+      <ButtonContainer>
         <Button onClick={toggle}>ModeChange</Button>
-        <Button onClick={openModal}>Add CreateMemo</Button>
-      </StyledButtons>
+        <Button onClick={openModal}>
+          <FaPlus />
+          Add CreateMemo
+        </Button>
+      </ButtonContainer>
 
       <MemoList />
 
@@ -32,17 +36,36 @@ const MemoListPage = () => {
           </ModalContent>
         </ModalOverlay>
       )}
-    </div>
+    </MemoListPageContainer>
   );
 };
 
-const StyledButtons = styled.div`
+const MemoListPageContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+`;
+
+const PageTitle = styled.h1`
+  color: #2b2d36;
+  font-size: 32px;
+  font-weight: 700;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
   justify-content: flex-start;
-  margin-top: 15px;
-  margin-bottom: 20px;
+  width: 100%;
+  max-width: 1280px;
+  background-color: #cdced629;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  gap: 8px;
 `;
 
 const ModalOverlay = styled.div`
