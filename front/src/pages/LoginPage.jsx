@@ -44,9 +44,12 @@ const FormGroup = styled.div`
 
 const FormLabel = styled.label`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   width: 80px;
+  color: #2b2d36;
+  font-weight: 500;
+  font-size: 14px;
 `;
 
 const FormInput = styled.input`
