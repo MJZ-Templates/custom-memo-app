@@ -44,7 +44,7 @@ const Textarea = styled.textarea`
   width: 100%;
   height: 150px;
   resize: none;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border-radius: 8px;
   padding: 12px;
   font-size: 14px;
@@ -79,7 +79,7 @@ const SaveButton = styled(BaseButton)`
 
 const DeleteButton = styled(BaseButton)`
   background-color: #f5535e;
-  color: white;
+  color: #ffffff;
   font-weight: 500;
 `;
 
