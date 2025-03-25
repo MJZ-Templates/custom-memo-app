@@ -1,18 +1,56 @@
-import userStore from "../store/userStore.jsx";
-import Button from "../components/Button.jsx";
+import { useState } from "react";
 import styled from "@emotion/styled";
-import modeStore from "../store/modeStore.jsx";
-import useModal from "../hooks/useModal.jsx";
-import MemoForm from "../components/MemoForm.jsx";
-import memoStore from "../store/memoStore.jsx";
 import { FaPlus } from "react-icons/fa6";
-import Memo from "../components/Memo.jsx";
+
+import userStore from "../store/userStore.jsx";
+import modeStore from "../store/modeStore.jsx";
+import memoStore from "../store/memoStore.jsx";
+
+import Button from "../components/Button.jsx";
+import MemoModal from "../components/MemoModal.jsx";
+import MemoCard from "../components/MemoCard.jsx";
 
 const MemoListPage = () => {
   const { user } = userStore();
   const { toggle } = modeStore();
-  const { addMemo, memos } = memoStore();
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const { addMemo, updateMemo, deleteMemo, memos } = memoStore();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mode, setMode] = useState("create"); // 'create' | 'edit'
+  const [selectedMemo, setSelectedMemo] = useState(null);
+
+  const openCreateModal = () => {
+    setMode("create");
+    setSelectedMemo(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (memo) => {
+    setMode("edit");
+    setSelectedMemo(memo);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedMemo(null);
+  };
+
+  const handleSave = (content) => {
+    if (mode === "create") {
+      addMemo(content);
+    } else if (mode === "edit" && selectedMemo) {
+      updateMemo(selectedMemo.id, content);
+    }
+    closeModal();
+  };
+
+  const handleDelete = () => {
+    if (selectedMemo) {
+      deleteMemo(selectedMemo.id);
+      closeModal();
+    }
+  };
 
   return (
     <MemoListPageContainer>
@@ -20,7 +58,7 @@ const MemoListPage = () => {
 
       <ButtonContainer>
         <Button onClick={toggle}>ModeChange</Button>
-        <Button onClick={openModal}>
+        <Button onClick={openCreateModal}>
           <FaPlus />
           Add CreateMemo
         </Button>
@@ -28,21 +66,29 @@ const MemoListPage = () => {
 
       <MemoListContainer>
         {memos.map((memo) => (
-          <Memo key={memo.id} memo={memo} userName={user.name} />
+          <MemoCard
+            key={memo.id}
+            memo={memo}
+            userName={user.name}
+            onClick={() => openEditModal(memo)}
+          />
         ))}
       </MemoListContainer>
 
       {isModalOpen && (
-        <ModalOverlay onClick={closeModal}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <MemoForm onSave={addMemo} onCancel={closeModal} />
-            <CloseButton onClick={closeModal}>✖</CloseButton>
-          </ModalContent>
-        </ModalOverlay>
+        <MemoModal
+          mode={mode}
+          memoData={selectedMemo}
+          onSave={handleSave}
+          onDelete={handleDelete}
+          onCancel={closeModal}
+        />
       )}
     </MemoListPageContainer>
   );
 };
+
+export default MemoListPage;
 
 const MemoListPageContainer = styled.div`
   display: flex;
@@ -112,5 +158,3 @@ const CloseButton = styled.button`
   font-size: 20px;
   cursor: pointer;
 `;
-
-export default MemoListPage;
