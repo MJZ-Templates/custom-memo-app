@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
-import { FaMagnifyingGlass, FaPlus } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
 
 import userStore from "../store/userStore.jsx";
 import modeStore from "../store/modeStore.jsx";
@@ -9,6 +9,7 @@ import memoStore from "../store/memoStore.jsx";
 import Button from "../components/Button.jsx";
 import MemoModal from "../components/MemoModal.jsx";
 import MemoCard from "../components/MemoCard.jsx";
+import SearchBar from "../components/SearchBar.jsx";
 
 const MemoListPage = () => {
   const { user } = userStore();
@@ -67,15 +68,11 @@ const MemoListPage = () => {
           <FaPlus />
           Add CreateMemo
         </Button>
-        <SearchWrapper>
-          <FaMagnifyingGlass />
-          <SearchInput
-            type="text"
-            placeholder="Search by title..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </SearchWrapper>
+        <SearchBar
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search by title..."
+        />
       </ButtonContainer>
 
       <MemoListContainer>
@@ -131,30 +128,6 @@ const ButtonContainer = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   gap: 8px;
-`;
-
-const SearchWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: auto;
-  padding: 8px 12px;
-  border: 1px solid #e1e1e8;
-  border-radius: 8px;
-  background-color: white;
-
-  svg {
-    color: #7c7e89;
-    font-size: 14px;
-  }
-`;
-
-const SearchInput = styled.input`
-  border: none;
-  outline: none;
-  font-size: 14px;
-  width: 160px;
-  background: transparent;
 `;
 
 const MemoListContainer = styled.div`
