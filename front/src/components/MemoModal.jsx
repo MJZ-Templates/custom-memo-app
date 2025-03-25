@@ -91,18 +91,18 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
   return (
     <Overlay>
       <ModalContainer>
-        <Title>{mode === "edit" ? "메모 수정" : "메모 추가"}</Title>
+        <Title>{mode === "edit" ? "Edit Memo" : "Add Memo"}</Title>
         <Textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="메모를 입력하세요"
+          placeholder="Enter your memo here"
         />
         <ButtonGroup>
           {mode === "edit" && (
-            <DeleteButton onClick={onDelete}>삭제</DeleteButton>
+            <DeleteButton onClick={onDelete}>Delete</DeleteButton>
           )}
-          <CancelButton onClick={onCancel}>취소</CancelButton>
-          <SaveButton onClick={handleSave}>저장</SaveButton>
+          <CancelButton onClick={onCancel}>Cancel</CancelButton>
+          <SaveButton onClick={handleSave}>Save</SaveButton>
         </ButtonGroup>
       </ModalContainer>
     </Overlay>
