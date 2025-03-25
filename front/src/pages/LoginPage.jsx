@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import Button from "../components/Button";
+import { Link } from "react-router-dom";
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -64,14 +64,17 @@ const SignUpText = styled.p`
   color: #6c6e7e;
 `;
 
-const SignUpLink = styled.button`
-  all: unset;
+const SignUpLink = styled(Link)`
   font-weight: 500;
   color: #448efe;
   cursor: pointer;
 
   &:hover {
     text-decoration: underline;
+  }
+
+  &:visited {
+    color: #448efe;
   }
 `;
 
@@ -82,12 +85,6 @@ const ButtonWrapper = styled.div`
 `;
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-
-  const handleSignUp = () => {
-    navigate("/signup");
-  };
-
   return (
     <LoginPageContainer>
       <FormCard>
@@ -102,13 +99,12 @@ const LoginPage = () => {
             <FormInput type="password" placeholder="Enter your password" />
           </FormGroup>
           <SignUpText>
-            Don’t have an account?{" "}
-            <SignUpLink onClick={handleSignUp}>Sign up</SignUpLink>
+            Don’t have an account? <SignUpLink to="/signup">Sign up</SignUpLink>
           </SignUpText>
         </FormGroupWrapper>
 
         <ButtonWrapper>
-          <Button>Login</Button>
+          <Button style={{ width: "200px", fontWeight: 600 }}>Login</Button>
         </ButtonWrapper>
       </FormCard>
     </LoginPageContainer>
