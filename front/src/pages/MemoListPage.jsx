@@ -49,7 +49,6 @@ const MemoListPageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 1280px;
   margin: 0 auto;
   padding: 24px 16px;
   gap: 20px;
