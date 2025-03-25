@@ -28,7 +28,7 @@ const Memo = ({ memo, userName }) => {
   );
 };
 
-const MemoContainer = styled.div`
+const MemoContainer = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -41,7 +41,7 @@ const MemoContainer = styled.div`
   box-sizing: border-box;
 
   &:hover {
-    background-color: #f7f7fa;
+    background-color: #cdced629;
   }
 `;
 
@@ -60,9 +60,12 @@ const MemoContent = styled.p`
   letter-spacing: 0.1px;
 `;
 
-const MemoFooter = styled.div`
+const MemoFooter = styled.footer`
   display: flex;
   justify-content: end;
+  color: #6c6e7e;
+  font-weight: 500;
+  font-size: 14px;
 `;
 
 // 여기까지
