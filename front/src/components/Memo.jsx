@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import React from "react";
 import styled from "@emotion/styled";
 import useModal from "../hooks/useModal.jsx";
 import MemoForm from "./MemoForm.jsx";
@@ -10,14 +8,13 @@ const Memo = ({ memo, userName }) => {
   const { deleteMemo } = memoStore();
 
   return (
-    <Container onClick={openModal}>
-      <Title>{memo.title}</Title>
-      <Content>{memo.content}</Content>
-      <BottomSection>
-        <div>
-          {userName}_{memo.id}
-        </div>
-      </BottomSection>
+    <MemoContainer onClick={openModal}>
+      <MemoTitle>{memo.title}</MemoTitle>
+      <MemoContent>{memo.content}</MemoContent>
+      {/* 나중에 최종 변경 시간 등으로 변경하기 */}
+      <MemoFooter>
+        {userName}_{memo.id}
+      </MemoFooter>
 
       {isModalOpen && (
         <ModalOverlay onClick={closeModal}>
@@ -27,46 +24,48 @@ const Memo = ({ memo, userName }) => {
           </ModalContent>
         </ModalOverlay>
       )}
-    </Container>
+    </MemoContainer>
   );
 };
 
-const Container = styled.div`
-  margin-top: 10px;
+const MemoContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: #007aff;
-  border: 1px solid #007aff;
-  width: 350px;
-  height: 200px;
-  padding: 10px;
+  color: #2b2d36;
+  border: 1px solid #e1e1e8;
+  border-radius: 24px;
+  padding: 16px;
   cursor: pointer;
-  border-radius: 5px;
-  transition: box-shadow 0.3s;
+  height: 154px;
+  box-sizing: border-box;
 
   &:hover {
-    box-shadow: 0 0 10px #007aff;
+    background-color: #f7f7fa;
   }
 `;
 
-const Title = styled.div`
-  font-size: 18px;
-  font-weight: bold;
+const MemoTitle = styled.h3`
+  font-size: 16px;
+  margin: 0;
+  font-weight: 700;
 `;
 
-const Content = styled.div`
+const MemoContent = styled.p`
   flex: 1;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.1px;
 `;
 
-const BottomSection = styled.div`
+const MemoFooter = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  justify-self: flex-end;
-  align-self: flex-end;
-  align-items: flex-end;
+  justify-content: end;
 `;
+
+// 여기까지
 
 const ModalOverlay = styled.div`
   position: fixed;

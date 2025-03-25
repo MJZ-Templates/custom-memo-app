@@ -2,27 +2,35 @@ import userStore from "../store/userStore.jsx";
 import Button from "../components/Button.jsx";
 import styled from "@emotion/styled";
 import modeStore from "../store/modeStore.jsx";
-import MemoList from "../components/MemoList.jsx";
 import useModal from "../hooks/useModal.jsx";
 import MemoForm from "../components/MemoForm.jsx";
 import memoStore from "../store/memoStore.jsx";
+import { FaPlus } from "react-icons/fa6";
+import Memo from "../components/Memo.jsx";
 
 const MemoListPage = () => {
   const { user } = userStore();
   const { toggle } = modeStore();
-  const { addMemo } = memoStore();
+  const { addMemo, memos } = memoStore();
   const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
-    <div>
-      <h1>{user.name}'s Memo!</h1>
+    <MemoListPageContainer>
+      <PageTitle>{user.name}'s Memo!</PageTitle>
 
-      <StyledButtons>
+      <ButtonContainer>
         <Button onClick={toggle}>ModeChange</Button>
-        <Button onClick={openModal}>Add CreateMemo</Button>
-      </StyledButtons>
+        <Button onClick={openModal}>
+          <FaPlus />
+          Add CreateMemo
+        </Button>
+      </ButtonContainer>
 
-      <MemoList />
+      <MemoListContainer>
+        {memos.map((memo) => (
+          <Memo key={memo.id} memo={memo} userName={user.name} />
+        ))}
+      </MemoListContainer>
 
       {isModalOpen && (
         <ModalOverlay onClick={closeModal}>
@@ -32,18 +40,48 @@ const MemoListPage = () => {
           </ModalContent>
         </ModalOverlay>
       )}
-    </div>
+    </MemoListPageContainer>
   );
 };
 
-const StyledButtons = styled.div`
+const MemoListPageContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  justify-content: flex-start;
-  margin-top: 15px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 16px;
+  gap: 20px;
 `;
+
+const PageTitle = styled.h1`
+  color: #2b2d36;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1280px;
+  background-color: #cdced629;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  gap: 8px;
+`;
+
+const MemoListContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 0 auto;
+  width: 100%;
+`;
+
+// 여기까지
 
 const ModalOverlay = styled.div`
   position: fixed;
