@@ -19,22 +19,24 @@ const MemoCard = ({ memo, onClick, onToggleFavorite }) => {
       style={{ backgroundColor: MEMO_COLOR_MAP[memo.color] || "#f0f0f0" }}
       onClick={onClick}
     >
-      <MemoTitleRow>
-        <MemoTitle>{memo.title}</MemoTitle>
-        {memo.isFavorite && (
-          <FavoriteButton
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleFavorite(memo.id);
-            }}
-            aria-label="Toggle favorite"
-            title="Toggle favorite"
-          >
-            <BookmarkIcon />
-          </FavoriteButton>
-        )}
-      </MemoTitleRow>
-      <MemoContent>{memo.content}</MemoContent>
+      <MemoContentWrapper>
+        <MemoTitleRow>
+          <MemoTitle>{memo.title}</MemoTitle>
+          {memo.isFavorite && (
+            <FavoriteButton
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleFavorite(memo.id);
+              }}
+              aria-label="Toggle favorite"
+              title="Toggle favorite"
+            >
+              <BookmarkIcon />
+            </FavoriteButton>
+          )}
+        </MemoTitleRow>
+        <MemoContent>{memo.content}</MemoContent>
+      </MemoContentWrapper>
       <MemoFooter>{formatDate(memo.createdAt)}</MemoFooter>
     </MemoContainer>
   );
@@ -58,6 +60,8 @@ const MemoContainer = styled.article`
     background-color: #cdced629;
   }
 `;
+
+const MemoContentWrapper = styled.div``;
 
 const MemoTitleRow = styled.div`
   display: flex;
