@@ -32,8 +32,9 @@ const ColumnContainer = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 12px;
-  padding: 12px;
+  padding: 12px 12px 20px;
   background-color: ${({ backgroundColor }) => backgroundColor || "#f4f5f7"};
+  border: 1px solid #e1e1e8;
   border-radius: 12px;
 `;
 
