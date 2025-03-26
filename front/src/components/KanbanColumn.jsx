@@ -25,7 +25,6 @@ const ColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 300px;
   gap: 12px;
   padding: 12px;
   background-color: #f4f5f7;

@@ -3,9 +3,9 @@ import KanbanColumn from "./KanbanColumn";
 
 const STATUS_ORDER = ["TODO", "IN_PROGRESS", "DONE"];
 const STATUS_LABELS = {
-  TODO: "할 일",
-  IN_PROGRESS: "진행 중",
-  DONE: "완료됨",
+  TODO: "To Do",
+  IN_PROGRESS: "In Progress",
+  DONE: "Done",
 };
 
 const KanbanBoard = ({ memos, userName, onMemoClick }) => {
@@ -36,6 +36,5 @@ const BoardContainer = styled.div`
   gap: 24px;
   justify-content: flex-start;
   width: 100%;
-  overflow-x: auto;
   padding: 20px 0;
 `;
