@@ -10,8 +10,8 @@ const STATUS_LABELS = {
 };
 
 const STATUS_COLORS = {
-  TODO: "#E3F2FD",
-  IN_PROGRESS: "#FFF3E0",
+  TODO: "#FFFDE7		",
+  IN_PROGRESS: "#E3F2FD",
   DONE: "#E8F5E9",
 };
 
