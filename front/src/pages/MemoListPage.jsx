@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { FaPlus, FaList, FaTableColumns } from "react-icons/fa6";
+import { FaPlus, FaRightLeft } from "react-icons/fa6";
 
 // 더미 데이터
 import { dummyMemos } from "../mock/dummyMemos";
@@ -98,7 +98,7 @@ const MemoListPage = () => {
           color="#2B2D36"
           hoverColor="#E8E8EE"
         >
-          {viewMode === "list" ? <FaTableColumns /> : <FaList />}
+          <FaRightLeft />
           {viewMode === "list" ? "Kanban Mode" : "List Mode"}
         </Button>
         <SearchBar
