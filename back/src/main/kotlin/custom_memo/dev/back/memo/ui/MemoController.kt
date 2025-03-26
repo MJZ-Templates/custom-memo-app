@@ -5,13 +5,8 @@ import custom_memo.dev.back.common.dto.ResponseDto
 import custom_memo.dev.back.memo.app.MemoService
 import custom_memo.dev.back.memo.app.dto.CreateMemoRequest
 import custom_memo.dev.back.memo.app.dto.GetMemoResponse
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import custom_memo.dev.back.memo.app.dto.UpdateMemoRequest
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/memo")
@@ -35,5 +30,10 @@ class MemoController(private val memoService: MemoService) {
     @DeleteMapping("/{id}")
     fun deleteMemo(@PathVariable("id") id: Long): ResponseDto<CommonSuccess> {
         return ResponseDto.ok(memoService.deleteMemo(id))
+    }
+
+    @PatchMapping("/{id}")
+    fun updateMemo(@PathVariable("id") id: Long, @RequestBody dto: UpdateMemoRequest): ResponseDto<CommonSuccess> {
+        return ResponseDto.ok(memoService.updateMemo(id, dto))
     }
 }

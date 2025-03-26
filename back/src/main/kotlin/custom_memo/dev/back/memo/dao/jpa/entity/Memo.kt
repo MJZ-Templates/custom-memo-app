@@ -21,10 +21,13 @@ class Memo(
     var color: MemoColor = MemoColor.WHITE,
 
     @Column
-    var favorite: Boolean = false
+    var favorite: Boolean = false,
+
+    @Column
+    var status: MemoStatus = MemoStatus.TODO
 
 ) : BaseTimeEntity() {
-    constructor() : this(null, "", "", MemoColor.WHITE, false)
+    constructor() : this(null, "", "", MemoColor.WHITE, false, MemoStatus.TODO)
     constructor(title: String, content: String, color: String, favorite: Boolean) : this(
         null,
         title,
@@ -33,7 +36,7 @@ class Memo(
         favorite
     )
 
-    fun update(title: String?, content: String?, color: String?, favorite: Boolean?) {
+    fun update(title: String?, content: String?, color: String?, favorite: Boolean?, status: MemoStatus?) {
         if (title?.isBlank() == true || content?.isBlank() == true) {
             throw CommonException(ErrorCode.INVALID_ARGUMENT)
         }
@@ -41,5 +44,6 @@ class Memo(
         content?.let { this.content = it }
         color?.let { this.color = MemoColor.valueOf(it.uppercase()) }
         favorite?.let { this.favorite = it }
+        status?.let { this.status = it }
     }
 }
