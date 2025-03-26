@@ -2,31 +2,42 @@ import styled from "@emotion/styled";
 import { FaBookmark } from "react-icons/fa";
 import { MEMO_COLOR_MAP } from "../constants/memoColors";
 
-const MemoCard = ({ memo, userName, onClick, onToggleFavorite }) => {
+const formatDate = (isoString) => {
+  if (!isoString) return "";
+  const date = new Date(isoString);
+  return `${date.getFullYear()}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${date
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+};
+
+const MemoCard = ({ memo, onClick, onToggleFavorite }) => {
   return (
     <MemoContainer
       style={{ backgroundColor: MEMO_COLOR_MAP[memo.color] || "#f0f0f0" }}
       onClick={onClick}
     >
-      <MemoTitleRow>
-        <MemoTitle>{memo.title}</MemoTitle>
-        {memo.isFavorite && (
-          <FavoriteButton
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleFavorite(memo.id);
-            }}
-            aria-label="Toggle favorite"
-            title="Toggle favorite"
-          >
-            <BookmarkIcon />
-          </FavoriteButton>
-        )}
-      </MemoTitleRow>
-      <MemoContent>{memo.content}</MemoContent>
-      <MemoFooter>
-        {userName}_{memo.id}
-      </MemoFooter>
+      <MemoContentWrapper>
+        <MemoTitleRow>
+          <MemoTitle>{memo.title}</MemoTitle>
+          {memo.isFavorite && (
+            <FavoriteButton
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleFavorite(memo.id);
+              }}
+              aria-label="Toggle favorite"
+              title="Toggle favorite"
+            >
+              <BookmarkIcon />
+            </FavoriteButton>
+          )}
+        </MemoTitleRow>
+        <MemoContent>{memo.content}</MemoContent>
+      </MemoContentWrapper>
+      <MemoFooter>{formatDate(memo.createdAt)}</MemoFooter>
     </MemoContainer>
   );
 };
@@ -40,7 +51,7 @@ const MemoContainer = styled.article`
   color: #2b2d36;
   border: 1px solid #e1e1e8;
   border-radius: 24px;
-  padding: 16px;
+  padding: 16px 16px 10px;
   cursor: pointer;
   height: 154px;
   box-sizing: border-box;
@@ -48,6 +59,12 @@ const MemoContainer = styled.article`
   &:hover {
     background-color: #cdced629;
   }
+`;
+
+const MemoContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;
 
 const MemoTitleRow = styled.div`
@@ -73,17 +90,21 @@ const FavoriteButton = styled.button`
 `;
 
 const BookmarkIcon = styled(FaBookmark)`
-  color: #6c6e7e;
-  font-size: 18px;
+  color: #f5535e;
+  font-size: 16px;
 `;
 
 const MemoContent = styled.p`
-  flex: 1;
   margin: 0;
   font-size: 14px;
   font-weight: 400;
-  line-height: 22px;
   letter-spacing: 0.1px;
+
+  white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 const MemoFooter = styled.footer`
