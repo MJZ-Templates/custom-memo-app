@@ -8,6 +8,7 @@ export const dummyMemos = [
     createdAt: "2025-03-26T10:30:00",
     color: MEMO_COLORS.YELLOW,
     favorite: true,
+    status: "IN_PROGRESS",
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ export const dummyMemos = [
     createdAt: "2025-03-25T16:45:00",
     color: MEMO_COLORS.BLUE,
     favorite: false,
+    status: "TODO",
   },
   {
     id: 3,
@@ -24,6 +26,7 @@ export const dummyMemos = [
     createdAt: "2025-03-24T09:10:00",
     color: MEMO_COLORS.PURPLE,
     favorite: true,
+    status: "DONE",
   },
   {
     id: 4,
@@ -32,5 +35,6 @@ export const dummyMemos = [
     createdAt: "2025-03-23T13:20:00",
     color: MEMO_COLORS.GREEN,
     favorite: false,
+    status: "TODO",
   },
 ];
