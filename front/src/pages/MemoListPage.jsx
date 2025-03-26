@@ -6,7 +6,8 @@ import { FaPlus } from "react-icons/fa6";
 import { dummyMemos } from "../mock/dummyMemos";
 import { dummyMembers } from "../mock/dummyMembers";
 
-import { Button, MemoModal, MemoCard, SearchBar } from "../components";
+import { Button, MemoModal, SearchBar } from "../components";
+import MemoList from "../components/MemoList";
 
 const MemoListPage = () => {
   const user = dummyMembers[0];
@@ -87,16 +88,11 @@ const MemoListPage = () => {
         />
       </ButtonContainer>
 
-      <MemoListContainer>
-        {filteredMemos.map((memo) => (
-          <MemoCard
-            key={memo.id}
-            memo={memo}
-            userName={user.name}
-            onClick={() => openEditModal(memo)}
-          />
-        ))}
-      </MemoListContainer>
+      <MemoList
+        memos={filteredMemos}
+        userName={user.name}
+        onMemoClick={openEditModal}
+      />
 
       {isModalOpen && (
         <MemoModal
@@ -138,12 +134,4 @@ const ButtonContainer = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   gap: 8px;
-`;
-
-const MemoListContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin: 0 auto;
-  width: 100%;
 `;

@@ -111,6 +111,5 @@ const MemoFooter = styled.footer`
   display: flex;
   justify-content: flex-end;
   color: #6c6e7e;
-  font-weight: 500;
   font-size: 14px;
 `;
