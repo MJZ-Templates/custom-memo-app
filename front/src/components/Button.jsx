@@ -6,6 +6,7 @@ const Button = ({
   backgroundColor,
   color,
   borderColor,
+  hoverColor,
   ...rest
 }) => {
   return (
@@ -14,6 +15,7 @@ const Button = ({
       backgroundColor={backgroundColor}
       color={color}
       borderColor={borderColor}
+      hoverColor={hoverColor}
       {...rest}
     >
       {children}
@@ -35,6 +37,11 @@ const StyledButton = styled.button`
 
   background-color: ${({ backgroundColor }) => backgroundColor || "#448efe"};
   color: ${({ color }) => color || "#ffffff"};
+
+  &:hover {
+    background-color: ${({ hoverColor, backgroundColor }) =>
+      hoverColor || backgroundColor || "#448efe"};
+  }
 `;
 
 export default Button;
