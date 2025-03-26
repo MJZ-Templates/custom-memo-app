@@ -1,4 +1,4 @@
-import { MEMO_COLORS } from "./memoColors";
+import { MEMO_COLORS } from "../constants/memoColors";
 
 export const dummyMemos = [
   {

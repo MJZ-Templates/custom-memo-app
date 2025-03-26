@@ -1,22 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { FaPlus } from "react-icons/fa6";
 
-import userStore from "../store/userStore.jsx";
-import modeStore from "../store/modeStore.jsx";
-import memoStore from "../store/memoStore.jsx";
+// 더미 데이터
+import { dummyMemos } from "../mock/dummyMemos";
+import { dummyMembers } from "../mock/dummyMembers";
 
 import { Button, MemoModal, MemoCard, SearchBar } from "../components";
 
 const MemoListPage = () => {
-  const { user } = userStore();
-  const { toggle } = modeStore();
-  const { addMemo, updateMemo, deleteMemo, memos } = memoStore();
+  const user = dummyMembers[0];
 
+  const [memos, setMemos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mode, setMode] = useState("create");
   const [selectedMemo, setSelectedMemo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    setMemos(dummyMemos);
+  }, []);
 
   const openCreateModal = () => {
     setMode("create");
@@ -37,16 +40,25 @@ const MemoListPage = () => {
 
   const handleSave = (data) => {
     if (mode === "create") {
-      addMemo(data);
+      const newMemo = {
+        ...data,
+        id: Date.now(),
+        createdAt: new Date().toISOString(),
+      };
+      setMemos((prev) => [...prev, newMemo]);
     } else if (mode === "edit" && selectedMemo) {
-      updateMemo(selectedMemo.id, data);
+      setMemos((prev) =>
+        prev.map((memo) =>
+          memo.id === selectedMemo.id ? { ...memo, ...data } : memo
+        )
+      );
     }
     closeModal();
   };
 
   const handleDelete = () => {
     if (selectedMemo) {
-      deleteMemo(selectedMemo.id);
+      setMemos((prev) => prev.filter((memo) => memo.id !== selectedMemo.id));
       closeModal();
     }
   };
@@ -64,7 +76,7 @@ const MemoListPage = () => {
       <PageTitle>{user.name}'s Memo!</PageTitle>
 
       <ButtonContainer>
-        <Button onClick={toggle}>ModeChange</Button>
+        <Button>ModeChange</Button>
         <Button onClick={openCreateModal}>
           <FaPlus />
           Add CreateMemo
