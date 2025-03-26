@@ -1,26 +1,30 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
+import { MEMO_COLORS, MEMO_COLOR_MAP } from "../constants/memoColors";
 
 const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
+  const [memoColor, setMemoColor] = useState("WHITE");
 
   useEffect(() => {
     if (mode === "edit" && memoData) {
       setTitle(memoData.title || "");
       setContent(memoData.content || "");
       setIsFavorite(memoData.isFavorite || false);
+      setMemoColor(memoData.color || "WHITE");
     } else {
       setTitle("");
       setContent("");
       setIsFavorite(false);
+      setMemoColor("WHITE");
     }
   }, [mode, memoData]);
 
   const handleSave = () => {
-    onSave({ title, content, isFavorite });
+    onSave({ title, content, isFavorite, color: memoColor });
   };
 
   return (
@@ -47,6 +51,18 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
           onChange={(e) => setContent(e.target.value)}
           placeholder="Enter your memo here"
         />
+
+        <ColorPaletteContainer>
+          {Object.keys(MEMO_COLORS).map((colorKey) => (
+            <ColorCircle
+              key={colorKey}
+              color={MEMO_COLOR_MAP[colorKey]}
+              isSelected={memoColor === colorKey}
+              onClick={() => setMemoColor(colorKey)}
+              aria-label={`색상: ${colorKey}`}
+            />
+          ))}
+        </ColorPaletteContainer>
 
         <ButtonGroup>
           {mode === "edit" && (
@@ -111,7 +127,7 @@ const TitleInput = styled.input`
   width: 100%;
   height: 40px;
   padding: 8px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border-radius: 8px;
   font-size: 14px;
   box-sizing: border-box;
@@ -126,6 +142,29 @@ const Textarea = styled.textarea`
   padding: 12px;
   font-size: 14px;
   box-sizing: border-box;
+`;
+
+const ColorPaletteContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+`;
+
+const ColorCircle = styled.button`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: ${(props) =>
+    props.isSelected ? "2px solid #000000" : "1px solid #cccccc"};
+  background-color: ${(props) => props.color};
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const ButtonGroup = styled.div`
