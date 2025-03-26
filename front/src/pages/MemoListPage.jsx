@@ -101,13 +101,11 @@ const MemoListPage = () => {
       </ButtonContainer>
 
       {viewMode === "list" ? (
-        <MemoListWrapper>
-          <MemoList
-            memos={filteredMemos}
-            userName={user.name}
-            onMemoClick={openEditModal}
-          />
-        </MemoListWrapper>
+        <MemoList
+          memos={filteredMemos}
+          userName={user.name}
+          onMemoClick={openEditModal}
+        />
       ) : (
         <KanbanBoard
           memos={filteredMemos}
@@ -156,12 +154,4 @@ const ButtonContainer = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   gap: 8px;
-`;
-
-const MemoListWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin: 0 auto;
-  width: 100%;
 `;
