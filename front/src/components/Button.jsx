@@ -1,11 +1,19 @@
 import styled from "@emotion/styled";
 
-const Button = ({ onClick, children, backgroundColor, color, ...rest }) => {
+const Button = ({
+  onClick,
+  children,
+  backgroundColor,
+  color,
+  borderColor,
+  ...rest
+}) => {
   return (
     <StyledButton
       onClick={onClick}
       backgroundColor={backgroundColor}
       color={color}
+      borderColor={borderColor}
       {...rest}
     >
       {children}
@@ -18,7 +26,7 @@ const StyledButton = styled.button`
   justify-content: center;
   align-items: center;
   padding: 10px 16px;
-  border: 1px solid transparent;
+  border: 1px solid ${({ borderColor }) => borderColor || "transparent"};
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;

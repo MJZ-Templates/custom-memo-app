@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaList, FaThLarge } from "react-icons/fa6";
 
 // 더미 데이터
 import { dummyMemos } from "../mock/dummyMemos";
@@ -22,7 +22,7 @@ const MemoListPage = () => {
   const [mode, setMode] = useState("create");
   const [selectedMemo, setSelectedMemo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [viewMode, setViewMode] = useState("list"); // 'list' or 'kanban'
+  const [viewMode, setViewMode] = useState("list");
 
   useEffect(() => {
     setMemos(dummyMemos);
@@ -87,12 +87,18 @@ const MemoListPage = () => {
       <PageTitle>{user.name}'s Memo!</PageTitle>
 
       <ButtonContainer>
-        <Button onClick={toggleViewMode}>
-          {viewMode === "list" ? "Kanban Mode" : "List Mode"}
-        </Button>
         <Button onClick={openCreateModal}>
           <FaPlus />
           Add CreateMemo
+        </Button>
+        <Button
+          onClick={toggleViewMode}
+          borderColor="#E1E1E8"
+          backgroundColor="#ffffff"
+          color="#2B2D36"
+        >
+          {viewMode === "list" ? <FaThLarge /> : <FaList />}
+          {viewMode === "list" ? "Kanban Mode" : "List Mode"}
         </Button>
         <SearchBar
           value={searchQuery}
