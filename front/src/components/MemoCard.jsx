@@ -2,7 +2,18 @@ import styled from "@emotion/styled";
 import { FaBookmark } from "react-icons/fa";
 import { MEMO_COLOR_MAP } from "../constants/memoColors";
 
-const MemoCard = ({ memo, userName, onClick, onToggleFavorite }) => {
+const formatDate = (isoString) => {
+  if (!isoString) return "";
+  const date = new Date(isoString);
+  return `${date.getFullYear()}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${date
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+};
+
+const MemoCard = ({ memo, onClick, onToggleFavorite }) => {
   return (
     <MemoContainer
       style={{ backgroundColor: MEMO_COLOR_MAP[memo.color] || "#f0f0f0" }}
@@ -24,9 +35,7 @@ const MemoCard = ({ memo, userName, onClick, onToggleFavorite }) => {
         )}
       </MemoTitleRow>
       <MemoContent>{memo.content}</MemoContent>
-      <MemoFooter>
-        {userName}_{memo.id}
-      </MemoFooter>
+      <MemoFooter>{formatDate(memo.createdAt)}</MemoFooter>
     </MemoContainer>
   );
 };
