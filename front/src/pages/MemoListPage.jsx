@@ -83,66 +83,81 @@ const MemoListPage = () => {
     : memos;
 
   return (
-    <MemoListPageContainer>
-      <PageTitle>{user.name}'s Memo!</PageTitle>
-
-      <ButtonContainer>
-        <Button onClick={openCreateModal}>
-          <FaPlus />
-          Add CreateMemo
-        </Button>
-        <Button
-          onClick={toggleViewMode}
-          borderColor="#E1E1E8"
-          backgroundColor="#ffffff"
-          color="#2B2D36"
-          hoverColor="#E8E8EE"
-        >
-          <FaRightLeft />
-          {viewMode === "list" ? "Kanban Mode" : "List Mode"}
-        </Button>
-        <SearchBar
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </ButtonContainer>
-
-      {viewMode === "list" ? (
-        <MemoList
-          memos={filteredMemos}
-          userName={user.name}
-          onMemoClick={openEditModal}
-        />
-      ) : (
-        <KanbanBoard
-          memos={filteredMemos}
-          userName={user.name}
-          onMemoClick={openEditModal}
-        />
-      )}
-
-      {isModalOpen && (
-        <MemoModal
-          mode={mode}
-          memoData={selectedMemo}
-          onSave={handleSave}
-          onDelete={handleDelete}
-          onCancel={closeModal}
-        />
-      )}
-    </MemoListPageContainer>
+    <PageContainer>
+      <MemoListPageContainer>
+        <PageTitle>{user.name}'s Memo!</PageTitle>
+        <ButtonContainer>
+          <Button onClick={openCreateModal}>
+            <FaPlus />
+            Add CreateMemo
+          </Button>
+          <Button
+            onClick={toggleViewMode}
+            borderColor="#E1E1E8"
+            backgroundColor="#ffffff"
+            color="#2B2D36"
+            hoverColor="#E8E8EE"
+          >
+            <FaRightLeft />
+            {viewMode === "list" ? "Kanban Mode" : "List Mode"}
+          </Button>
+          <SearchBar
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </ButtonContainer>
+        <MemoContainer>
+          {viewMode === "list" ? (
+            <MemoList
+              memos={filteredMemos}
+              userName={user.name}
+              onMemoClick={openEditModal}
+            />
+          ) : (
+            <KanbanBoard
+              memos={filteredMemos}
+              userName={user.name}
+              onMemoClick={openEditModal}
+            />
+          )}
+        </MemoContainer>
+        {isModalOpen && (
+          <MemoModal
+            mode={mode}
+            memoData={selectedMemo}
+            onSave={handleSave}
+            onDelete={handleDelete}
+            onCancel={closeModal}
+          />
+        )}{" "}
+      </MemoListPageContainer>
+    </PageContainer>
   );
 };
 
 export default MemoListPage;
 
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  gap: 30px;
+  /* background-color: #f7f7fa; */
+`;
+
 const MemoListPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  margin: 0 auto;
-  gap: 20px;
+  padding: 40px 30px;
+  /* border: 1px solid #e1e1e8; */
+  border-radius: 16px;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); */
+  background-color: #fff;
+  gap: 30px;
 `;
 
 const PageTitle = styled.h1`
@@ -161,4 +176,8 @@ const ButtonContainer = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   gap: 8px;
+`;
+
+const MemoContainer = styled.div`
+  width: 100%;
 `;

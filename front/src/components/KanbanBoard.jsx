@@ -41,7 +41,7 @@ export default KanbanBoard;
 
 const BoardContainer = styled.div`
   display: flex;
-  gap: 24px;
+  gap: 20px;
   justify-content: flex-start;
   width: 100%;
   overflow-x: auto;
