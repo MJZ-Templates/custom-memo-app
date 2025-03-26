@@ -6,10 +6,7 @@ import userStore from "../store/userStore.jsx";
 import modeStore from "../store/modeStore.jsx";
 import memoStore from "../store/memoStore.jsx";
 
-import Button from "../components/Button.jsx";
-import MemoModal from "../components/MemoModal.jsx";
-import MemoCard from "../components/MemoCard.jsx";
-import SearchBar from "../components/SearchBar.jsx";
+import { Button, MemoModal, MemoCard, SearchBar } from "../components";
 
 const MemoListPage = () => {
   const { user } = userStore();
