@@ -9,8 +9,27 @@ const LoginPageContainer = styled.div`
   align-items: center;
   height: 100vh;
   width: 100vw;
-  gap: 30px;
+  gap: 20px;
   background-color: #f7f7fa;
+`;
+
+const IntroWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const IntroTitle = styled.h1`
+  margin: 0;
+`;
+
+const IntroText = styled.p`
+  font-size: 18px;
+  color: #4a4c5c;
+  text-align: center;
+  line-height: 1.6;
+  margin: 0 20px;
 `;
 
 const FormCard = styled.div`
@@ -26,6 +45,8 @@ const FormCard = styled.div`
 `;
 
 const Title = styled.h1`
+  display: flex;
+  justify-content: center;
   margin: 0;
   font-size: 32px;
   font-weight: 700;
@@ -97,8 +118,18 @@ const ButtonWrapper = styled.div`
 const LoginPage = () => {
   return (
     <LoginPageContainer>
+      <IntroWrapper>
+        <IntroTitle>My Memo App</IntroTitle>
+        <IntroText>
+          Capture and organize your thoughts with your personal Memo App.
+          <br />
+          Simple, smart, and always with you.
+        </IntroText>
+      </IntroWrapper>
+
       <FormCard>
         <Title>Login</Title>
+
         <FormGroupWrapper>
           <FormGroup>
             <FormLabel>Email</FormLabel>
