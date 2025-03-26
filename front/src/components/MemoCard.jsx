@@ -87,14 +87,15 @@ const BookmarkIcon = styled(FaBookmark)`
 `;
 
 const MemoContent = styled.p`
-  flex: 1;
   margin: 0;
   font-size: 14px;
   font-weight: 400;
-  line-height: 22px;
   letter-spacing: 0.1px;
 
   white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
 `;
 
