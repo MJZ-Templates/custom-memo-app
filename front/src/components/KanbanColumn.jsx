@@ -1,9 +1,15 @@
 import styled from "@emotion/styled";
 import MemoCard from "./MemoCard";
 
-const KanbanColumn = ({ title, memos, userName, onMemoClick }) => {
+const KanbanColumn = ({
+  title,
+  memos,
+  userName,
+  onMemoClick,
+  backgroundColor,
+}) => {
   return (
-    <ColumnContainer>
+    <ColumnContainer backgroundColor={backgroundColor}>
       <ColumnTitle>{title}</ColumnTitle>
       <MemoList>
         {memos.map((memo) => (
@@ -27,7 +33,7 @@ const ColumnContainer = styled.div`
   width: 100%;
   gap: 12px;
   padding: 12px;
-  background-color: #f4f5f7;
+  background-color: ${({ backgroundColor }) => backgroundColor || "#f4f5f7"};
   border-radius: 12px;
 `;
 
@@ -35,7 +41,7 @@ const ColumnTitle = styled.h2`
   font-size: 20px;
   font-weight: 600;
   color: #333;
-  margin-bottom: 8px;
+  margin: 0;
 `;
 
 const MemoList = styled.div`

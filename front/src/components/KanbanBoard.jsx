@@ -2,10 +2,17 @@ import styled from "@emotion/styled";
 import KanbanColumn from "./KanbanColumn";
 
 const STATUS_ORDER = ["TODO", "IN_PROGRESS", "DONE"];
+
 const STATUS_LABELS = {
   TODO: "To Do",
   IN_PROGRESS: "In Progress",
   DONE: "Done",
+};
+
+const STATUS_COLORS = {
+  TODO: "#E3F2FD",
+  IN_PROGRESS: "#FFF3E0",
+  DONE: "#E8F5E9",
 };
 
 const KanbanBoard = ({ memos, userName, onMemoClick }) => {
@@ -23,6 +30,7 @@ const KanbanBoard = ({ memos, userName, onMemoClick }) => {
           memos={groupedMemos[status] || []}
           userName={userName}
           onMemoClick={onMemoClick}
+          backgroundColor={STATUS_COLORS[status]}
         />
       ))}
     </BoardContainer>
@@ -36,5 +44,5 @@ const BoardContainer = styled.div`
   gap: 24px;
   justify-content: flex-start;
   width: 100%;
-  padding: 20px 0;
+  overflow-x: auto;
 `;
