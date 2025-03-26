@@ -1,9 +1,13 @@
 import styled from "@emotion/styled";
 import { FaBookmark } from "react-icons/fa";
+import { MEMO_COLOR_MAP } from "../constants/memoColors";
 
 const MemoCard = ({ memo, userName, onClick, onToggleFavorite }) => {
   return (
-    <MemoContainer onClick={onClick}>
+    <MemoContainer
+      style={{ backgroundColor: MEMO_COLOR_MAP[memo.color] || "#f0f0f0" }}
+      onClick={onClick}
+    >
       <MemoTitleRow>
         <MemoTitle>{memo.title}</MemoTitle>
         {memo.isFavorite && (
