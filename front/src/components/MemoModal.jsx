@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { MEMO_COLORS, MEMO_COLOR_MAP } from "../constants/memoColors";
+import STTButton from "./STTButton";
 
 const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
   const [title, setTitle] = useState("");
@@ -99,17 +100,22 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
           placeholder="Enter your memo here"
         />
 
-        <ColorPaletteContainer>
-          {Object.keys(MEMO_COLORS).map((colorKey) => (
-            <ColorCircle
-              key={colorKey}
-              color={MEMO_COLOR_MAP[colorKey]}
-              isSelected={memoColor === colorKey}
-              onClick={() => setMemoColor(colorKey)}
-              aria-label={`색상: ${colorKey}`}
-            />
-          ))}
-        </ColorPaletteContainer>
+        <ColorPaletteSTTWrapper>
+          <ColorPalette>
+            {Object.keys(MEMO_COLORS).map((colorKey) => (
+              <ColorCircle
+                key={colorKey}
+                color={MEMO_COLOR_MAP[colorKey]}
+                isSelected={memoColor === colorKey}
+                onClick={() => setMemoColor(colorKey)}
+                aria-label={`색상: ${colorKey}`}
+              />
+            ))}
+          </ColorPalette>{" "}
+          <STTButton
+            onResult={(text) => setContent((prev) => prev + " " + text)}
+          />
+        </ColorPaletteSTTWrapper>
 
         <ButtonGroup>
           {mode === "edit" && (
@@ -191,8 +197,14 @@ const Textarea = styled.textarea`
   box-sizing: border-box;
 `;
 
-const ColorPaletteContainer = styled.div`
+const ColorPaletteSTTWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
+`;
+
+const ColorPalette = styled.div`
+  display: flex;
+  align-items: center;
   gap: 8px;
   flex-wrap: wrap;
 `;

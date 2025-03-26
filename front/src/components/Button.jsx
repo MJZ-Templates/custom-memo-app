@@ -35,6 +35,11 @@ const StyledButton = styled.button`
   cursor: pointer;
   gap: 8px;
 
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+
   background-color: ${({ backgroundColor }) => backgroundColor || "#448efe"};
   color: ${({ color }) => color || "#ffffff"};
 
