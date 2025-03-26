@@ -61,7 +61,11 @@ const MemoContainer = styled.article`
   }
 `;
 
-const MemoContentWrapper = styled.div``;
+const MemoContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
 
 const MemoTitleRow = styled.div`
   display: flex;
@@ -86,8 +90,8 @@ const FavoriteButton = styled.button`
 `;
 
 const BookmarkIcon = styled(FaBookmark)`
-  color: #6c6e7e;
-  font-size: 18px;
+  color: #f5535e;
+  font-size: 16px;
 `;
 
 const MemoContent = styled.p`

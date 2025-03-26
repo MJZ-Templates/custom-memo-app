@@ -80,7 +80,11 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
             aria-label="즐겨찾기"
             title="즐겨찾기"
           >
-            {isFavorite ? <FaBookmark color="#6C6E7E" /> : <FaRegBookmark />}
+            {isFavorite ? (
+              <FaBookmark color="#F5535E" />
+            ) : (
+              <FaRegBookmark color="#F5535E" />
+            )}
           </FavoriteButton>
         </ModalTitleRow>
 
