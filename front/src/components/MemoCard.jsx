@@ -93,6 +93,9 @@ const MemoContent = styled.p`
   font-weight: 400;
   line-height: 22px;
   letter-spacing: 0.1px;
+
+  white-space: pre-wrap;
+  overflow: hidden;
 `;
 
 const MemoFooter = styled.footer`
