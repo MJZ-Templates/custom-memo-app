@@ -119,7 +119,6 @@ const MemoListPageContainer = styled.div`
   align-items: center;
   width: 100%;
   margin: 0 auto;
-  padding: 24px 16px;
   gap: 20px;
 `;
 
@@ -134,7 +133,6 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  max-width: 1280px;
   background-color: #cdced629;
   padding: 12px 16px;
   box-sizing: border-box;
