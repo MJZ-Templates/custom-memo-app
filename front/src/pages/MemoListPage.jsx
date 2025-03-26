@@ -6,8 +6,13 @@ import { FaPlus } from "react-icons/fa6";
 import { dummyMemos } from "../mock/dummyMemos";
 import { dummyMembers } from "../mock/dummyMembers";
 
-import { Button, MemoModal, SearchBar } from "../components";
-import MemoList from "../components/MemoList";
+import {
+  Button,
+  KanbanBoard,
+  MemoList,
+  MemoModal,
+  SearchBar,
+} from "../components";
 
 const MemoListPage = () => {
   const user = dummyMembers[0];
@@ -17,6 +22,7 @@ const MemoListPage = () => {
   const [mode, setMode] = useState("create");
   const [selectedMemo, setSelectedMemo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [viewMode, setViewMode] = useState("list"); // 'list' or 'kanban'
 
   useEffect(() => {
     setMemos(dummyMemos);
@@ -64,6 +70,10 @@ const MemoListPage = () => {
     }
   };
 
+  const toggleViewMode = () => {
+    setViewMode((prev) => (prev === "list" ? "kanban" : "list"));
+  };
+
   const filteredMemos = searchQuery.trim()
     ? memos.filter(
         (memo) =>
@@ -77,7 +87,9 @@ const MemoListPage = () => {
       <PageTitle>{user.name}'s Memo!</PageTitle>
 
       <ButtonContainer>
-        <Button>ModeChange</Button>
+        <Button onClick={toggleViewMode}>
+          {viewMode === "list" ? "Kanban Mode" : "List Mode"}
+        </Button>
         <Button onClick={openCreateModal}>
           <FaPlus />
           Add CreateMemo
@@ -88,11 +100,21 @@ const MemoListPage = () => {
         />
       </ButtonContainer>
 
-      <MemoList
-        memos={filteredMemos}
-        userName={user.name}
-        onMemoClick={openEditModal}
-      />
+      {viewMode === "list" ? (
+        <MemoListWrapper>
+          <MemoList
+            memos={filteredMemos}
+            userName={user.name}
+            onMemoClick={openEditModal}
+          />
+        </MemoListWrapper>
+      ) : (
+        <KanbanBoard
+          memos={filteredMemos}
+          userName={user.name}
+          onMemoClick={openEditModal}
+        />
+      )}
 
       {isModalOpen && (
         <MemoModal
@@ -134,4 +156,12 @@ const ButtonContainer = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   gap: 8px;
+`;
+
+const MemoListWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 0 auto;
+  width: 100%;
 `;
