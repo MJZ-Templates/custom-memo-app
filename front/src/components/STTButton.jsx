@@ -4,6 +4,8 @@ import Button from "./Button";
 const STTButton = ({ onResult }) => {
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef(null);
+  const isStoppingRef = useRef(false);
+  const retryTimeoutRef = useRef(null);
 
   const initRecognition = () => {
     const SpeechRecognition =
@@ -11,25 +13,63 @@ const STTButton = ({ onResult }) => {
     const recognition = new SpeechRecognition();
 
     recognition.lang = "ko-KR";
-    recognition.interimResults = false;
+    recognition.interimResults = true;
     recognition.maxAlternatives = 1;
+    recognition.continuous = true;
 
     recognition.onstart = () => {
       setIsListening(true);
+      isStoppingRef.current = false;
     };
 
     recognition.onend = () => {
       setIsListening(false);
+
+      // 마이크 끄는 중이 아니면 재시도
+      if (!isStoppingRef.current) {
+        // 500ms 정도 대기 후 재시작 (안정성 확보)
+        retryTimeoutRef.current = setTimeout(() => {
+          try {
+            recognition.start();
+          } catch (error) {
+            console.error("STT auto-restart failed:", error);
+          }
+        }, 500);
+      }
     };
 
     recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      if (onResult) onResult(transcript);
+      let finalText = "";
+
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const result = event.results[i];
+        if (result.isFinal) {
+          finalText += result[0].transcript;
+        }
+      }
+
+      if (finalText && onResult) {
+        onResult(finalText);
+      }
     };
 
     recognition.onerror = (event) => {
       console.error("STT error:", event.error);
       setIsListening(false);
+
+      // 자동 재시작 가능한 오류만 재시도
+      if (
+        !isStoppingRef.current &&
+        ["no-speech", "audio-capture", "network"].includes(event.error)
+      ) {
+        retryTimeoutRef.current = setTimeout(() => {
+          try {
+            recognition.start();
+          } catch (error) {
+            console.error("Retry error:", error);
+          }
+        }, 1000);
+      }
     };
 
     recognitionRef.current = recognition;
@@ -48,9 +88,15 @@ const STTButton = ({ onResult }) => {
     const recognition = recognitionRef.current;
 
     if (isListening) {
+      isStoppingRef.current = true;
+      clearTimeout(retryTimeoutRef.current);
       recognition.stop();
     } else {
-      recognition.start();
+      try {
+        recognition.start();
+      } catch (error) {
+        console.error("start() error:", error);
+      }
     }
   };
 
