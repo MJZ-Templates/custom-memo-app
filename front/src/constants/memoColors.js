@@ -9,11 +9,11 @@ export const MEMO_COLORS = {
 };
 
 export const MEMO_COLOR_MAP = {
-  RED: "#ef9a9a",
-  ORANGE: "#ffcc80",
-  YELLOW: "#fff59d",
-  GREEN: "#a5d6a7",
-  BLUE: "#90caf9",
-  PURPLE: "#ce93d8",
+  RED: "#f8d7da",
+  ORANGE: "#ffe0b2",
+  YELLOW: "#fff9c4",
+  GREEN: "#c8e6c9",
+  BLUE: "#bbdefb",
+  PURPLE: "#e1bee7",
   WHITE: "#ffffff",
 };
