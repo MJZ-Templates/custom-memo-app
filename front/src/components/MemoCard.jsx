@@ -49,12 +49,12 @@ const MemoContainer = styled.article`
   flex-direction: column;
   justify-content: space-between;
   color: #2b2d36;
-  border: 1px solid #e1e1e8;
   border-radius: 24px;
   padding: 16px 16px 10px;
   cursor: pointer;
   height: 154px;
   box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 
   &:hover {
     background-color: #cdced629;
@@ -111,6 +111,5 @@ const MemoFooter = styled.footer`
   display: flex;
   justify-content: flex-end;
   color: #6c6e7e;
-  font-weight: 500;
   font-size: 14px;
 `;
