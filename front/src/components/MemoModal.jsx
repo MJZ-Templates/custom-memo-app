@@ -9,12 +9,19 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [memoColor, setMemoColor] = useState("WHITE");
 
+  const initialData = {
+    title: memoData?.title || "",
+    content: memoData?.content || "",
+    isFavorite: memoData?.isFavorite || false,
+    color: memoData?.color || "WHITE",
+  };
+
   useEffect(() => {
     if (mode === "edit" && memoData) {
-      setTitle(memoData.title || "");
-      setContent(memoData.content || "");
-      setIsFavorite(memoData.isFavorite || false);
-      setMemoColor(memoData.color || "WHITE");
+      setTitle(initialData.title);
+      setContent(initialData.content);
+      setIsFavorite(initialData.isFavorite);
+      setMemoColor(initialData.color);
     } else {
       setTitle("");
       setContent("");
@@ -25,6 +32,42 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
 
   const handleSave = () => {
     onSave({ title, content, isFavorite, color: memoColor });
+  };
+
+  const hasUnsavedChanges = () => {
+    if (mode === "edit") {
+      return (
+        title !== initialData.title ||
+        content !== initialData.content ||
+        isFavorite !== initialData.isFavorite ||
+        memoColor !== initialData.color
+      );
+    }
+    return (
+      title !== "" ||
+      content !== "" ||
+      isFavorite !== false ||
+      memoColor !== "WHITE"
+    );
+  };
+
+  const handleCancel = () => {
+    if (hasUnsavedChanges()) {
+      const confirmCancel = window.confirm(
+        "You have unsaved changes. Are you sure you want to cancel?"
+      );
+      if (!confirmCancel) return;
+    }
+    onCancel();
+  };
+
+  const handleDelete = () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this memo?"
+    );
+    if (confirmDelete) {
+      onDelete();
+    }
   };
 
   return (
@@ -66,9 +109,9 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
 
         <ButtonGroup>
           {mode === "edit" && (
-            <DeleteButton onClick={onDelete}>Delete</DeleteButton>
+            <DeleteButton onClick={handleDelete}>Delete</DeleteButton>
           )}
-          <CancelButton onClick={onCancel}>Cancel</CancelButton>
+          <CancelButton onClick={handleCancel}>Cancel</CancelButton>
           <SaveButton onClick={handleSave}>Save</SaveButton>
         </ButtonGroup>
       </ModalContainer>
