@@ -142,6 +142,9 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  width: 100%;
+  max-width: 960px;
+
   gap: 30px;
 `;
 
@@ -152,7 +155,6 @@ const MemoListPageContainer = styled.div`
   width: 100%;
   padding: 40px 30px;
   border-radius: 16px;
-  background-color: #fff;
   gap: 30px;
 `;
 

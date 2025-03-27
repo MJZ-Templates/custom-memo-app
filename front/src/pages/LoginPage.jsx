@@ -8,9 +8,10 @@ const LoginPageContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
+  max-width: 960px;
   gap: 20px;
-  background-color: #f7f7fa;
+  margin-top: -40px;
 `;
 
 const IntroWrapper = styled.div`

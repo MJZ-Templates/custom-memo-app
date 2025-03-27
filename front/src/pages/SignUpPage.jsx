@@ -9,8 +9,9 @@ const SignUpPageContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 100vw;
-  background-color: #f7f7fa;
+  width: 100%;
+  max-width: 960px;
+  gap: 20px;
 `;
 
 const FormCard = styled.div`
@@ -21,7 +22,7 @@ const FormCard = styled.div`
   border: 1px solid #e1e1e8;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background-color: #fff;
+  background-color: #ffffff;
   gap: 30px;
 `;
 
