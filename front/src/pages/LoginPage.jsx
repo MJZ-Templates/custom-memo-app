@@ -11,7 +11,6 @@ const LoginPageContainer = styled.div`
   width: 100%;
   max-width: 960px;
   gap: 20px;
-  margin-top: -40px;
 `;
 
 const IntroWrapper = styled.div`
@@ -19,6 +18,7 @@ const IntroWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: -40px;
 `;
 
 const IntroTitle = styled.h1`
