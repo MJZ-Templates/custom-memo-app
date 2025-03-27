@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 const AppContainer = styled.div`
   max-width: 960px;
   box-sizing: border-box;
+  margin: 0 auto;
 `;
 
 function App() {

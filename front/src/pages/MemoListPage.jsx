@@ -140,22 +140,18 @@ export default MemoListPage;
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   height: 100vh;
-  width: 100vw;
   gap: 30px;
-  /* background-color: #f7f7fa; */
 `;
 
 const MemoListPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   padding: 40px 30px;
-  /* border: 1px solid #e1e1e8; */
   border-radius: 16px;
-  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); */
   background-color: #fff;
   gap: 30px;
 `;
