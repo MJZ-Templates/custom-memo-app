@@ -2,6 +2,7 @@ package custom_memo.dev.back.auth.app
 
 import custom_memo.dev.back.auth.dao.MemberRepository
 import custom_memo.dev.back.auth.dao.jpa.entity.Member
+import custom_memo.dev.back.common.dto.CommonSuccess
 import custom_memo.dev.back.common.exception.CommonException
 import custom_memo.dev.back.common.exception.ErrorCode
 import org.springframework.data.repository.findByIdOrNull
@@ -19,4 +20,11 @@ class MemberService(private val memberRepository: MemberRepository) {
         ?: throw CommonException(ErrorCode.NOT_FOUND_MEMBER)
 
     fun findMemberByEmailOrNull(username: String): Member? = memberRepository.findByEmail(username)
+
+    fun validateEmail(email: String): CommonSuccess {
+        return memberRepository.existsByEmail(email)
+            .takeIf { !it }
+            ?.let { CommonSuccess.success() }
+            ?: CommonSuccess.fail()
+    }
 }
