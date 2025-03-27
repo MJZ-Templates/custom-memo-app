@@ -10,12 +10,15 @@ open class Member(
     open var id: Long?,
 
     @Column
+    open var name: String,
+
+    @Column
     open val email: String,
 
     @Column
     open val password: String
 ) {
-    constructor() : this(null, "", "") {
+    constructor() : this(null, "", "", "") {
 
     }
 }

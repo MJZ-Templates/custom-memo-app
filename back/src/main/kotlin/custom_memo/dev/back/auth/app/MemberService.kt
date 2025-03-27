@@ -1,5 +1,6 @@
 package custom_memo.dev.back.auth.app
 
+import custom_memo.dev.back.auth.app.dto.MemberDto
 import custom_memo.dev.back.auth.dao.MemberRepository
 import custom_memo.dev.back.auth.dao.jpa.entity.Member
 import custom_memo.dev.back.common.dto.CommonSuccess
@@ -15,6 +16,11 @@ class MemberService(private val memberRepository: MemberRepository) {
 
     fun findMember(id: Long): Member = memberRepository.findByIdOrNull(id)
         ?: throw CommonException(ErrorCode.NOT_FOUND_MEMBER)
+
+    fun getMember(id: Long): MemberDto {
+        val member = findMember(id)
+        return MemberDto(member.id!!, member.email, member.name)
+    }
 
     fun findMemberByEmail(email: String): Member = memberRepository.findByEmail(email)
         ?: throw CommonException(ErrorCode.NOT_FOUND_MEMBER)
