@@ -29,7 +29,7 @@ class AuthService(
 
     fun register(dto: AuthRequestDto): CommonSuccess {
         memberService.findMemberByEmailOrNull(dto.email)
-            ?: Member(null, dto.email, passwordEncoder.encode(dto.password))
+            ?: Member(null, dto.name, dto.email, passwordEncoder.encode(dto.password))
                 .let { memberService.save(it) }
                 .let { return CommonSuccess.success() }
         throw CommonException(ErrorCode.ALREADY_EXIST_MEMBER)
