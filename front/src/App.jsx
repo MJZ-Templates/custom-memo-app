@@ -5,9 +5,12 @@ import MemoListPage from "./pages/MemoListPage";
 import styled from "@emotion/styled";
 
 const AppContainer = styled.div`
-  max-width: 960px;
+  display: flex;
+  justify-content: center;
   box-sizing: border-box;
+  width: 100%;
   margin: 0 auto;
+  background-color: #f7f7fa;
 `;
 
 function App() {
