@@ -35,6 +35,6 @@ class AuthArgumentResolver : HandlerMethodArgumentResolver {
         }
 
         val principal = authentication.principal as CustomUserDetails
-        return principal.username.toLong()
+        return principal.getId().toLong()
     }
 }

@@ -11,22 +11,28 @@ import custom_memo.dev.back.memo.dao.jpa.MemoRepository
 import custom_memo.dev.back.memo.dao.jpa.entity.Memo
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class MemoService(private val memoRepository: MemoRepository, private val memberService: MemberService) {
+@Transactional
+class MemoService(
+    private val memoRepository: MemoRepository,
+    private val memberService: MemberService) {
 
     fun findMemo(id: Long): Memo = memoRepository.findByIdOrNull(id)
         ?: throw CommonException(ErrorCode.NOT_FOUND_MEMO)
 
-    fun createMemo(dto: CreateMemoRequest): CommonSuccess {
-        val memo = dto.of()
-        memoRepository.save(memo)
+    fun createMemo(memberId: Long, dto: CreateMemoRequest): CommonSuccess {
+        val member = memberService.findMember(memberId)
+        Memo(dto.title, dto.content, dto.color, dto.favorite, member)
+            .let { memoRepository.save(it) }
 
         return CommonSuccess.success()
     }
 
-    fun getMemos(): List<GetMemoResponse> {
-        return memoRepository.findAll().stream()
+    @Transactional(readOnly = true)
+    fun getMemos(memberId: Long): List<GetMemoResponse> {
+        return memoRepository.findAllByMemberId(memberId).stream()
             .map { memo -> GetMemoResponse.of(
                 memo.id,
                 memo.title,
@@ -39,6 +45,7 @@ class MemoService(private val memoRepository: MemoRepository, private val member
             .toList()
     }
 
+    @Transactional(readOnly = true)
     fun getMemo(id: Long): GetMemoResponse {
         val memo = findMemo(id)
         return GetMemoResponse.of(
@@ -52,14 +59,16 @@ class MemoService(private val memoRepository: MemoRepository, private val member
             memo.modifiedDate)
     }
 
-    fun deleteMemo(id: Long): CommonSuccess {
+    fun deleteMemo(memberId: Long, id: Long): CommonSuccess {
+        findMemo(id).validateMember(memberId)
         memoRepository.deleteById(id)
 
         return CommonSuccess.success()
     }
 
-    fun updateMemo(id: Long, dto: UpdateMemoRequest): CommonSuccess {
+    fun updateMemo(memberId: Long, id: Long, dto: UpdateMemoRequest): CommonSuccess {
         val memo = findMemo(id)
+        memo.validateMember(memberId)
         memo.update(dto.title, dto.content, dto.color, dto.favorite, dto.status)
 
         return CommonSuccess.success()
