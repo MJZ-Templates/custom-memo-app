@@ -3,17 +3,17 @@ package custom_memo.dev.back.auth.dao.jpa.entity
 import jakarta.persistence.*
 
 @Entity
-class Member(
+open class Member(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
+    open var id: Long?,
 
     @Column
-    val email: String,
+    open val email: String,
 
     @Column
-    val password: String
+    open val password: String
 ) {
     constructor() : this(null, "", "") {
 
