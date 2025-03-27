@@ -4,17 +4,21 @@ import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { MEMO_COLORS, MEMO_COLOR_MAP } from "../constants/memoColors";
 import STTButton from "./STTButton";
 
+const STATUS_OPTIONS = ["TODO", "IN_PROGRESS", "DONE"];
+
 const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
   const [memoColor, setMemoColor] = useState("WHITE");
+  const [status, setStatus] = useState("TODO");
 
   const initialData = {
     title: memoData?.title || "",
     content: memoData?.content || "",
     isFavorite: memoData?.isFavorite || false,
     color: memoData?.color || "WHITE",
+    status: memoData?.status || "TODO",
   };
 
   useEffect(() => {
@@ -23,16 +27,18 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
       setContent(initialData.content);
       setIsFavorite(initialData.isFavorite);
       setMemoColor(initialData.color);
+      setStatus(initialData.status);
     } else {
       setTitle("");
       setContent("");
       setIsFavorite(false);
       setMemoColor("WHITE");
+      setStatus("TODO");
     }
   }, [mode, memoData]);
 
   const handleSave = () => {
-    onSave({ title, content, isFavorite, color: memoColor });
+    onSave({ title, content, isFavorite, color: memoColor, status });
   };
 
   const hasUnsavedChanges = () => {
@@ -41,14 +47,16 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
         title !== initialData.title ||
         content !== initialData.content ||
         isFavorite !== initialData.isFavorite ||
-        memoColor !== initialData.color
+        memoColor !== initialData.color ||
+        status !== initialData.status
       );
     }
     return (
       title !== "" ||
       content !== "" ||
       isFavorite !== false ||
-      memoColor !== "WHITE"
+      memoColor !== "WHITE" ||
+      status !== "TODO"
     );
   };
 
@@ -78,8 +86,8 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
           <ModalTitle>{mode === "edit" ? "Edit Memo" : "Add Memo"}</ModalTitle>
           <FavoriteButton
             onClick={() => setIsFavorite((prev) => !prev)}
-            aria-label="즐겨찾기"
-            title="즐겨찾기"
+            aria-label="Toggle favorite"
+            title="Toggle favorite"
           >
             {isFavorite ? (
               <FaBookmark color="#F5535E" />
@@ -108,14 +116,25 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
                 color={MEMO_COLOR_MAP[colorKey]}
                 isSelected={memoColor === colorKey}
                 onClick={() => setMemoColor(colorKey)}
-                aria-label={`색상: ${colorKey}`}
+                aria-label={`Color: ${colorKey}`}
               />
             ))}
-          </ColorPalette>{" "}
+          </ColorPalette>
           <STTButton
             onResult={(text) => setContent((prev) => prev + " " + text)}
           />
         </ColorPaletteSTTWrapper>
+
+        <StatusSelect
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          {STATUS_OPTIONS.map((option) => (
+            <option key={option} value={option}>
+              {option.replace("_", " ")}
+            </option>
+          ))}
+        </StatusSelect>
 
         <ButtonGroup>
           {mode === "edit" && (
@@ -130,6 +149,8 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
 };
 
 export default MemoModal;
+
+// Styled Components
 
 const Overlay = styled.div`
   position: fixed;
@@ -224,6 +245,15 @@ const ColorCircle = styled.button`
   &:hover {
     transform: scale(1.1);
   }
+`;
+
+const StatusSelect = styled.select`
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f9f9f9;
 `;
 
 const ButtonGroup = styled.div`
