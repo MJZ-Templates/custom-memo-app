@@ -39,7 +39,7 @@ class SecurityConfig {
     ): SecurityFilterChain {
         return http
             .authorizeHttpRequests {
-                it.requestMatchers("/api", "/api/auth/register", "/api/auth/login").permitAll()
+                it.requestMatchers("/api", "/api/auth/**").permitAll()
                     .anyRequest().authenticated()
             }
             .httpBasic { it.disable() }
