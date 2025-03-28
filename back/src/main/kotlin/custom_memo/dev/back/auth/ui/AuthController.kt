@@ -3,6 +3,7 @@ package custom_memo.dev.back.auth.ui
 import custom_memo.dev.back.auth.app.AuthService
 import custom_memo.dev.back.auth.app.MemberService
 import custom_memo.dev.back.auth.app.dto.AuthRequestDto
+import custom_memo.dev.back.auth.app.dto.LoginRequestDto
 import custom_memo.dev.back.auth.app.dto.TokenDto
 import custom_memo.dev.back.common.dto.CommonSuccess
 import custom_memo.dev.back.common.dto.ResponseDto
@@ -15,7 +16,7 @@ class AuthController(
     private val memberService: MemberService) {
 
     @PostMapping("/login")
-    fun login(@RequestBody dto: AuthRequestDto): ResponseDto<TokenDto> {
+    fun login(@RequestBody dto: LoginRequestDto): ResponseDto<TokenDto> {
         return ResponseDto.ok(authService.login(dto))
     }
 

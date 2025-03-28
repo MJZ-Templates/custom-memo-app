@@ -1,6 +1,7 @@
 package custom_memo.dev.back.auth.app
 
 import custom_memo.dev.back.auth.app.dto.AuthRequestDto
+import custom_memo.dev.back.auth.app.dto.LoginRequestDto
 import custom_memo.dev.back.auth.app.dto.TokenDto
 import custom_memo.dev.back.auth.dao.jpa.entity.Member
 import custom_memo.dev.back.common.dto.CommonSuccess
@@ -19,7 +20,7 @@ class AuthService(
     val passwordEncoder: PasswordEncoder
 ) {
 
-    fun login(dto: AuthRequestDto): TokenDto {
+    fun login(dto: LoginRequestDto): TokenDto {
         val authentication = UsernamePasswordAuthenticationToken(dto.email, dto.password)
         val authenticatedToken = authenticationManager.authenticate(authentication)
         val generateToken = tokenGenerator.generateToken(authenticatedToken)
