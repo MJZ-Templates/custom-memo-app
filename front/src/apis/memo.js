@@ -16,3 +16,8 @@ export const getMemoById = async (memoId) => {
   const res = await instance.get(`/api/memo/${memoId}`);
   return res.data;
 };
+
+export const deleteMemo = async (memoId) => {
+  const res = await instance.delete(`/api/memo/${memoId}`);
+  return res.data;
+};

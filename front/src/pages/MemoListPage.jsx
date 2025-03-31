@@ -9,7 +9,7 @@ import {
   MemoModal,
   SearchBar,
 } from "../components";
-import { createMemo, getMemoById, getMemos } from "../apis/memo";
+import { createMemo, deleteMemo, getMemoById, getMemos } from "../apis/memo";
 import { MEMO_COLOR_MAP } from "../constants/memoColors";
 import { dummyMembers } from "../mock/dummyMembers"; // TODO: 추후 사용자 정보 연동
 
@@ -97,10 +97,26 @@ const MemoListPage = () => {
     }
   };
 
-  const handleDelete = () => {
-    if (selectedMemo) {
-      setMemos((prev) => prev.filter((memo) => memo.id !== selectedMemo.id));
-      closeModal();
+  const handleDelete = async () => {
+    if (!selectedMemo) return;
+
+    const confirm = window.confirm(
+      "Are you sure you want to delete this memo?"
+    );
+    if (!confirm) return;
+
+    try {
+      const res = await deleteMemo(selectedMemo.id);
+      if (res?.data?.isSuccess) {
+        alert("Memo deleted successfully!");
+        await fetchMemos();
+        closeModal();
+      }
+    } catch (error) {
+      alert(
+        "Failed to delete memo: " +
+          (error.response?.data?.message || error.message)
+      );
     }
   };
 
