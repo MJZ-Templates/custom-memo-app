@@ -1,6 +1,8 @@
+import { useState } from "react";
 import styled from "@emotion/styled";
 import { Button } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../apis/auth";
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -117,6 +119,31 @@ const ButtonWrapper = styled.div`
 `;
 
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await login({ email, password });
+      const accessToken = res.data.accessToken;
+
+      if (accessToken) {
+        localStorage.setItem("accessToken", accessToken);
+        alert("Login successful!");
+        navigate("/memo");
+      } else {
+        alert("Login failed: No token received.");
+      }
+    } catch (error) {
+      alert(
+        "Login failed: " + (error.response?.data?.message || error.message)
+      );
+    }
+  };
+
   return (
     <LoginPageContainer>
       <IntroWrapper>
@@ -130,24 +157,40 @@ const LoginPage = () => {
 
       <FormCard>
         <Title>Login</Title>
+        <form onSubmit={handleLogin}>
+          <FormGroupWrapper>
+            <FormGroup>
+              <FormLabel>Email</FormLabel>
+              <FormInput
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>Password</FormLabel>
+              <FormInput
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </FormGroup>
+            <SignUpText>
+              Don’t have an account?{" "}
+              <SignUpLink to="/signup">Sign up</SignUpLink>
+            </SignUpText>
+          </FormGroupWrapper>
 
-        <FormGroupWrapper>
-          <FormGroup>
-            <FormLabel>Email</FormLabel>
-            <FormInput type="email" placeholder="Enter your email" />
-          </FormGroup>
-          <FormGroup>
-            <FormLabel>Password</FormLabel>
-            <FormInput type="password" placeholder="Enter your password" />
-          </FormGroup>
-          <SignUpText>
-            Don’t have an account? <SignUpLink to="/signup">Sign up</SignUpLink>
-          </SignUpText>
-        </FormGroupWrapper>
-
-        <ButtonWrapper>
-          <Button style={{ width: "200px", fontWeight: 600 }}>Login</Button>
-        </ButtonWrapper>
+          <ButtonWrapper>
+            <Button type="submit" style={{ width: "200px", fontWeight: 600 }}>
+              Login
+            </Button>
+          </ButtonWrapper>
+        </form>
       </FormCard>
     </LoginPageContainer>
   );
