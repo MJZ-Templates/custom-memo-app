@@ -11,3 +11,8 @@ export const getMemos = async () => {
   const response = await instance.get("/api/memo");
   return response.data;
 };
+
+export const getMemoById = async (memoId) => {
+  const res = await instance.get(`/api/memo/${memoId}`);
+  return res.data;
+};

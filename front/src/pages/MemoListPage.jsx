@@ -9,7 +9,7 @@ import {
   MemoModal,
   SearchBar,
 } from "../components";
-import { createMemo, getMemos } from "../apis/memo";
+import { createMemo, getMemoById, getMemos } from "../apis/memo";
 import { MEMO_COLOR_MAP } from "../constants/memoColors";
 import { dummyMembers } from "../mock/dummyMembers"; // TODO: 추후 사용자 정보 연동
 
@@ -48,10 +48,23 @@ const MemoListPage = () => {
     setIsModalOpen(true);
   };
 
-  const openEditModal = (memo) => {
+  const openEditModal = async (memo) => {
     setMode("edit");
-    setSelectedMemo(memo);
-    setIsModalOpen(true);
+    try {
+      const res = await getMemoById(memo.id);
+      const fetchedMemo = res.data;
+
+      setSelectedMemo({
+        ...fetchedMemo,
+        color: MEMO_COLOR_MAP[fetchedMemo.color] || "#ffffff",
+      });
+      setIsModalOpen(true);
+    } catch (error) {
+      alert(
+        "Failed to load memo: " +
+          (error.response?.data?.message || error.message)
+      );
+    }
   };
 
   const closeModal = () => {
