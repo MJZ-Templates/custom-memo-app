@@ -77,7 +77,6 @@ const MemoListPage = () => {
       try {
         const response = await createMemo(data);
         if (response?.data?.isSuccess) {
-          alert("Memo created successfully!");
           await fetchMemos();
           closeModal();
         }
