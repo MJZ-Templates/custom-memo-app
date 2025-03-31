@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Button } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { register } from "../apis/auth";
 
 const SignUpPageContainer = styled.div`
   display: flex;
@@ -107,9 +108,11 @@ const CancelLinkButton = styled(Link)`
 `;
 
 const SignUpPage = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("savedEmail");
@@ -122,8 +125,9 @@ const SignUpPage = () => {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (rememberMe) {
       localStorage.setItem("savedEmail", email);
       localStorage.setItem("savedPassword", password);
@@ -132,7 +136,15 @@ const SignUpPage = () => {
       localStorage.removeItem("savedPassword");
     }
 
-    alert("Sign up complete!");
+    try {
+      await register({ name, email, password });
+      alert("Sign up successful! Please log in.");
+      navigate("/");
+    } catch (error) {
+      alert(
+        "Sign up failed: " + (error.response?.data?.message || error.message)
+      );
+    }
   };
 
   return (
@@ -142,7 +154,17 @@ const SignUpPage = () => {
         <form onSubmit={handleSubmit}>
           <FormGroupWrapper>
             <FormGroup>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Name*</FormLabel>
+              <FormInput
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your name"
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>Email*</FormLabel>
               <FormInput
                 type="email"
                 value={email}
@@ -152,7 +174,7 @@ const SignUpPage = () => {
               />
             </FormGroup>
             <FormGroup>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Password*</FormLabel>
               <FormInput
                 type="password"
                 value={password}
@@ -161,6 +183,7 @@ const SignUpPage = () => {
                 required
               />
             </FormGroup>
+
             <CheckboxWrapper>
               <input
                 type="checkbox"
@@ -173,7 +196,6 @@ const SignUpPage = () => {
 
           <ButtonWrapper>
             <CancelLinkButton to="/">Cancel</CancelLinkButton>
-
             <Button
               type="submit"
               style={{
