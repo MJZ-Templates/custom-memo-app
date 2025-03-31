@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
-import { MEMO_COLORS, MEMO_COLOR_MAP } from "../constants/memoColors";
+import {
+  MEMO_COLORS,
+  MEMO_COLOR_MAP,
+  getColorKeyFromHex,
+} from "../constants/memoColors";
 import STTButton from "./STTButton";
 
 const STATUS_OPTIONS = ["TODO", "IN_PROGRESS", "DONE"];
@@ -26,7 +30,7 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
       setTitle(initialData.title);
       setContent(initialData.content);
       setIsFavorite(initialData.isFavorite);
-      setMemoColor(initialData.color);
+      setMemoColor(getColorKeyFromHex(initialData.color));
       setStatus(initialData.status);
     } else {
       setTitle("");

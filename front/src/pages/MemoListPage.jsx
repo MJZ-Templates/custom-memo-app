@@ -16,15 +16,8 @@ import {
   getMemos,
   updateMemo,
 } from "../apis/memo";
-import { MEMO_COLOR_MAP } from "../constants/memoColors";
+import { getColorKeyFromHex, MEMO_COLOR_MAP } from "../constants/memoColors";
 import { dummyMembers } from "../mock/dummyMembers";
-
-const getColorKeyFromHex = (hex) => {
-  return (
-    Object.entries(MEMO_COLOR_MAP).find(([_, value]) => value === hex)?.[0] ||
-    "WHITE"
-  );
-};
 
 const MemoListPage = () => {
   const user = dummyMembers[0];
@@ -41,7 +34,6 @@ const MemoListPage = () => {
       const res = await getMemos();
       const memoList = res.data.map((memo) => ({
         ...memo,
-        color: MEMO_COLOR_MAP[memo.color] || "#ffffff",
       }));
       setMemos(memoList);
     } catch (err) {
@@ -66,11 +58,8 @@ const MemoListPage = () => {
     try {
       const res = await getMemoById(memo.id);
       const fetchedMemo = res.data;
+      setSelectedMemo(fetchedMemo);
 
-      setSelectedMemo({
-        ...fetchedMemo,
-        color: MEMO_COLOR_MAP[fetchedMemo.color] || "#ffffff",
-      });
       setIsModalOpen(true);
     } catch (error) {
       alert(
@@ -86,9 +75,15 @@ const MemoListPage = () => {
   };
 
   const handleSave = async (data) => {
+    const colorKey =
+      mode === "create" ? getColorKeyFromHex(data.color) : data.color;
+
     if (mode === "create") {
       try {
-        const response = await createMemo(data);
+        const response = await createMemo({
+          ...data,
+          color: colorKey,
+        });
         if (response?.data?.isSuccess) {
           await fetchMemos();
           closeModal();
@@ -104,11 +99,10 @@ const MemoListPage = () => {
         const updatePayload = {
           title: data.title,
           content: data.content,
-          color: getColorKeyFromHex(data.color),
+          color: colorKey,
           favorite: data.isFavorite,
           status: data.status,
         };
-
         const response = await updateMemo(selectedMemo.id, updatePayload);
         if (response?.data?.isSuccess) {
           alert("Memo updated successfully!");
@@ -126,7 +120,6 @@ const MemoListPage = () => {
 
   const handleDelete = async () => {
     if (!selectedMemo) return;
-
     try {
       const res = await deleteMemo(selectedMemo.id);
       if (res?.data?.isSuccess) {
