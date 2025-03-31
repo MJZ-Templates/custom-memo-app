@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Button } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { register } from "../apis/auth";
 
 const SignUpPageContainer = styled.div`
   display: flex;
@@ -110,6 +111,7 @@ const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("savedEmail");
@@ -122,8 +124,9 @@ const SignUpPage = () => {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (rememberMe) {
       localStorage.setItem("savedEmail", email);
       localStorage.setItem("savedPassword", password);
@@ -132,7 +135,15 @@ const SignUpPage = () => {
       localStorage.removeItem("savedPassword");
     }
 
-    alert("Sign up complete!");
+    try {
+      await register({ email, password });
+      alert("Sign up successful! Please log in.");
+      navigate("/");
+    } catch (error) {
+      alert(
+        "Sign up failed: " + (error.response?.data?.message || error.message)
+      );
+    }
   };
 
   return (
@@ -173,7 +184,6 @@ const SignUpPage = () => {
 
           <ButtonWrapper>
             <CancelLinkButton to="/">Cancel</CancelLinkButton>
-
             <Button
               type="submit"
               style={{
