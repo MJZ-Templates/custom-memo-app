@@ -13,6 +13,7 @@ import {
   MemoModal,
   SearchBar,
 } from "../components";
+import { createMemo } from "../apis/memo";
 
 const MemoListPage = () => {
   const user = dummyMembers[0];
@@ -45,22 +46,30 @@ const MemoListPage = () => {
     setSelectedMemo(null);
   };
 
-  const handleSave = (data) => {
+  const handleSave = async (data) => {
     if (mode === "create") {
-      const newMemo = {
-        ...data,
-        id: Date.now(),
-        createdAt: new Date().toISOString(),
-      };
-      setMemos((prev) => [...prev, newMemo]);
+      try {
+        const response = await createMemo(data);
+        if (response?.data?.isSuccess) {
+          alert("Memo created successfully!");
+          // 목록 갱신 (지금은 더미데이터니까 단순 추가)
+          setMemos((prev) => [...prev, { ...data, id: Date.now() }]);
+          closeModal();
+        }
+      } catch (error) {
+        alert(
+          "Failed to create memo: " +
+            (error.response?.data?.message || error.message)
+        );
+      }
     } else if (mode === "edit" && selectedMemo) {
       setMemos((prev) =>
         prev.map((memo) =>
           memo.id === selectedMemo.id ? { ...memo, ...data } : memo
         )
       );
+      closeModal();
     }
-    closeModal();
   };
 
   const handleDelete = () => {
