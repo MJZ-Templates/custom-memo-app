@@ -16,7 +16,6 @@ import {
   getMemos,
   updateMemo,
 } from "../apis/memo";
-import { getColorKeyFromHex, MEMO_COLOR_MAP } from "../constants/memoColors";
 import { dummyMembers } from "../mock/dummyMembers";
 
 const MemoListPage = () => {
@@ -75,8 +74,7 @@ const MemoListPage = () => {
   };
 
   const handleSave = async (data) => {
-    const colorKey =
-      mode === "create" ? getColorKeyFromHex(data.color) : data.color;
+    const colorKey = data.color;
 
     if (mode === "create") {
       try {
