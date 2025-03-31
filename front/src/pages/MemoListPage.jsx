@@ -9,12 +9,25 @@ import {
   MemoModal,
   SearchBar,
 } from "../components";
-import { createMemo, deleteMemo, getMemoById, getMemos } from "../apis/memo";
+import {
+  createMemo,
+  deleteMemo,
+  getMemoById,
+  getMemos,
+  updateMemo,
+} from "../apis/memo";
 import { MEMO_COLOR_MAP } from "../constants/memoColors";
-import { dummyMembers } from "../mock/dummyMembers"; // TODO: 추후 사용자 정보 연동
+import { dummyMembers } from "../mock/dummyMembers";
+
+const getColorKeyFromHex = (hex) => {
+  return (
+    Object.entries(MEMO_COLOR_MAP).find(([_, value]) => value === hex)?.[0] ||
+    "WHITE"
+  );
+};
 
 const MemoListPage = () => {
-  const user = dummyMembers[0]; // 현재 더미 유저 사용 중
+  const user = dummyMembers[0];
 
   const [memos, setMemos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,12 +100,27 @@ const MemoListPage = () => {
         );
       }
     } else if (mode === "edit" && selectedMemo) {
-      setMemos((prev) =>
-        prev.map((memo) =>
-          memo.id === selectedMemo.id ? { ...memo, ...data } : memo
-        )
-      );
-      closeModal();
+      try {
+        const updatePayload = {
+          title: data.title,
+          content: data.content,
+          color: getColorKeyFromHex(data.color),
+          favorite: data.isFavorite,
+          status: data.status,
+        };
+
+        const response = await updateMemo(selectedMemo.id, updatePayload);
+        if (response?.data?.isSuccess) {
+          alert("Memo updated successfully!");
+          await fetchMemos();
+          closeModal();
+        }
+      } catch (error) {
+        alert(
+          "Failed to update memo: " +
+            (error.response?.data?.message || error.message)
+        );
+      }
     }
   };
 
