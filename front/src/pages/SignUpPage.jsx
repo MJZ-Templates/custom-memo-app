@@ -108,6 +108,7 @@ const CancelLinkButton = styled(Link)`
 `;
 
 const SignUpPage = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -136,7 +137,7 @@ const SignUpPage = () => {
     }
 
     try {
-      await register({ email, password });
+      await register({ name, email, password });
       alert("Sign up successful! Please log in.");
       navigate("/");
     } catch (error) {
@@ -153,7 +154,17 @@ const SignUpPage = () => {
         <form onSubmit={handleSubmit}>
           <FormGroupWrapper>
             <FormGroup>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Name*</FormLabel>
+              <FormInput
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your name"
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>Email*</FormLabel>
               <FormInput
                 type="email"
                 value={email}
@@ -163,7 +174,7 @@ const SignUpPage = () => {
               />
             </FormGroup>
             <FormGroup>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Password*</FormLabel>
               <FormInput
                 type="password"
                 value={password}
@@ -172,6 +183,7 @@ const SignUpPage = () => {
                 required
               />
             </FormGroup>
+
             <CheckboxWrapper>
               <input
                 type="checkbox"
