@@ -100,11 +100,6 @@ const MemoListPage = () => {
   const handleDelete = async () => {
     if (!selectedMemo) return;
 
-    const confirm = window.confirm(
-      "Are you sure you want to delete this memo?"
-    );
-    if (!confirm) return;
-
     try {
       const res = await deleteMemo(selectedMemo.id);
       if (res?.data?.isSuccess) {
