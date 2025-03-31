@@ -17,6 +17,11 @@ export const getMemoById = async (memoId) => {
   return res.data;
 };
 
+export const updateMemo = async (memoId, updatedData) => {
+  const res = await instance.patch(`/api/memo/${memoId}`, updatedData);
+  return res.data;
+};
+
 export const deleteMemo = async (memoId) => {
   const res = await instance.delete(`/api/memo/${memoId}`);
   return res.data;
