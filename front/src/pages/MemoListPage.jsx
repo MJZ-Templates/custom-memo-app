@@ -2,10 +2,6 @@ import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { FaPlus, FaRightLeft } from "react-icons/fa6";
 
-// 더미 데이터
-import { dummyMemos } from "../mock/dummyMemos";
-import { dummyMembers } from "../mock/dummyMembers";
-
 import {
   Button,
   KanbanBoard,
@@ -13,9 +9,12 @@ import {
   MemoModal,
   SearchBar,
 } from "../components";
+import { createMemo, deleteMemo, getMemoById, getMemos } from "../apis/memo";
+import { MEMO_COLOR_MAP } from "../constants/memoColors";
+import { dummyMembers } from "../mock/dummyMembers"; // TODO: 추후 사용자 정보 연동
 
 const MemoListPage = () => {
-  const user = dummyMembers[0];
+  const user = dummyMembers[0]; // 현재 더미 유저 사용 중
 
   const [memos, setMemos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,8 +23,23 @@ const MemoListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("list");
 
+  const fetchMemos = async () => {
+    try {
+      const res = await getMemos();
+      const memoList = res.data.map((memo) => ({
+        ...memo,
+        color: MEMO_COLOR_MAP[memo.color] || "#ffffff",
+      }));
+      setMemos(memoList);
+    } catch (err) {
+      alert(
+        "Failed to load memos: " + (err.response?.data?.message || err.message)
+      );
+    }
+  };
+
   useEffect(() => {
-    setMemos(dummyMemos);
+    fetchMemos();
   }, []);
 
   const openCreateModal = () => {
@@ -34,10 +48,23 @@ const MemoListPage = () => {
     setIsModalOpen(true);
   };
 
-  const openEditModal = (memo) => {
+  const openEditModal = async (memo) => {
     setMode("edit");
-    setSelectedMemo(memo);
-    setIsModalOpen(true);
+    try {
+      const res = await getMemoById(memo.id);
+      const fetchedMemo = res.data;
+
+      setSelectedMemo({
+        ...fetchedMemo,
+        color: MEMO_COLOR_MAP[fetchedMemo.color] || "#ffffff",
+      });
+      setIsModalOpen(true);
+    } catch (error) {
+      alert(
+        "Failed to load memo: " +
+          (error.response?.data?.message || error.message)
+      );
+    }
   };
 
   const closeModal = () => {
@@ -45,28 +72,45 @@ const MemoListPage = () => {
     setSelectedMemo(null);
   };
 
-  const handleSave = (data) => {
+  const handleSave = async (data) => {
     if (mode === "create") {
-      const newMemo = {
-        ...data,
-        id: Date.now(),
-        createdAt: new Date().toISOString(),
-      };
-      setMemos((prev) => [...prev, newMemo]);
+      try {
+        const response = await createMemo(data);
+        if (response?.data?.isSuccess) {
+          await fetchMemos();
+          closeModal();
+        }
+      } catch (error) {
+        alert(
+          "Failed to create memo: " +
+            (error.response?.data?.message || error.message)
+        );
+      }
     } else if (mode === "edit" && selectedMemo) {
       setMemos((prev) =>
         prev.map((memo) =>
           memo.id === selectedMemo.id ? { ...memo, ...data } : memo
         )
       );
+      closeModal();
     }
-    closeModal();
   };
 
-  const handleDelete = () => {
-    if (selectedMemo) {
-      setMemos((prev) => prev.filter((memo) => memo.id !== selectedMemo.id));
-      closeModal();
+  const handleDelete = async () => {
+    if (!selectedMemo) return;
+
+    try {
+      const res = await deleteMemo(selectedMemo.id);
+      if (res?.data?.isSuccess) {
+        alert("Memo deleted successfully!");
+        await fetchMemos();
+        closeModal();
+      }
+    } catch (error) {
+      alert(
+        "Failed to delete memo: " +
+          (error.response?.data?.message || error.message)
+      );
     }
   };
 
@@ -129,7 +173,7 @@ const MemoListPage = () => {
             onDelete={handleDelete}
             onCancel={closeModal}
           />
-        )}{" "}
+        )}
       </MemoListPageContainer>
     </PageContainer>
   );
