@@ -2,10 +2,6 @@ import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { FaPlus, FaRightLeft } from "react-icons/fa6";
 
-// 더미 데이터
-import { dummyMemos } from "../mock/dummyMemos";
-import { dummyMembers } from "../mock/dummyMembers";
-
 import {
   Button,
   KanbanBoard,
@@ -13,10 +9,12 @@ import {
   MemoModal,
   SearchBar,
 } from "../components";
-import { createMemo } from "../apis/memo";
+import { createMemo, getMemos } from "../apis/memo";
+import { MEMO_COLOR_MAP } from "../constants/memoColors";
+import { dummyMembers } from "../mock/dummyMembers"; // TODO: 추후 사용자 정보 연동
 
 const MemoListPage = () => {
-  const user = dummyMembers[0];
+  const user = dummyMembers[0]; // 현재 더미 유저 사용 중
 
   const [memos, setMemos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,8 +23,23 @@ const MemoListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("list");
 
+  const fetchMemos = async () => {
+    try {
+      const res = await getMemos();
+      const memoList = res.data.map((memo) => ({
+        ...memo,
+        color: MEMO_COLOR_MAP[memo.color] || "#ffffff",
+      }));
+      setMemos(memoList);
+    } catch (err) {
+      alert(
+        "Failed to load memos: " + (err.response?.data?.message || err.message)
+      );
+    }
+  };
+
   useEffect(() => {
-    setMemos(dummyMemos);
+    fetchMemos();
   }, []);
 
   const openCreateModal = () => {
@@ -52,8 +65,7 @@ const MemoListPage = () => {
         const response = await createMemo(data);
         if (response?.data?.isSuccess) {
           alert("Memo created successfully!");
-          // 목록 갱신 (지금은 더미데이터니까 단순 추가)
-          setMemos((prev) => [...prev, { ...data, id: Date.now() }]);
+          await fetchMemos();
           closeModal();
         }
       } catch (error) {
@@ -138,7 +150,7 @@ const MemoListPage = () => {
             onDelete={handleDelete}
             onCancel={closeModal}
           />
-        )}{" "}
+        )}
       </MemoListPageContainer>
     </PageContainer>
   );

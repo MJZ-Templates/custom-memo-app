@@ -6,3 +6,8 @@ export const createMemo = async (memoData) => {
   const response = await instance.post("/api/memo", memoData);
   return response.data;
 };
+
+export const getMemos = async () => {
+  const response = await instance.get("/api/memo");
+  return response.data;
+};
