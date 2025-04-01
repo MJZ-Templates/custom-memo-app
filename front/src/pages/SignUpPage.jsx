@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { Button } from "../components";
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../apis/auth";
+import { checkEmailDuplicate, register } from "../apis/auth";
 
 const SignUpPageContainer = styled.div`
   display: flex;
@@ -112,7 +112,7 @@ const SignUpPage = () => {
     try {
       await register({ name, email, password });
       alert("Sign up successful! Please log in.");
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       alert(
         "Sign up failed: " + (error.response?.data?.message || error.message)
@@ -148,14 +148,27 @@ const SignUpPage = () => {
                 />
                 <Button
                   type="button"
-                  onClick={() => {
-                    alert("Verify email API not implemented yet.");
+                  onClick={async () => {
+                    try {
+                      const res = await checkEmailDuplicate(email);
+                      if (res.success && res.data?.isSuccess) {
+                        alert("This email is available!");
+                      } else {
+                        alert("This email is already taken.");
+                      }
+                    } catch (error) {
+                      alert(
+                        "Failed to verify email: " +
+                          (error.response?.data?.message || error.message)
+                      );
+                    }
                   }}
                 >
                   Verify
                 </Button>
               </div>
             </FormGroup>
+
             <FormGroup>
               <FormLabel>Password*</FormLabel>
               <FormInput

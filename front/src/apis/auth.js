@@ -33,3 +33,10 @@ export const getCurrentUser = async (token) => {
   });
   return response.data;
 };
+
+export const checkEmailDuplicate = async (email) => {
+  const response = await axios.post(
+    `${BASE_URL}/api/auth/email?email=${email}`
+  );
+  return response.data;
+};
