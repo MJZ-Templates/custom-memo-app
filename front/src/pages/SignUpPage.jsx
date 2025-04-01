@@ -138,13 +138,23 @@ const SignUpPage = () => {
             </FormGroup>
             <FormGroup>
               <FormLabel>Email*</FormLabel>
-              <FormInput
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-              />
+              <div style={{ display: "flex", gap: "8px" }}>
+                <FormInput
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+                <Button
+                  type="button"
+                  onClick={() => {
+                    alert("Verify email API not implemented yet.");
+                  }}
+                >
+                  Verify
+                </Button>
+              </div>
             </FormGroup>
             <FormGroup>
               <FormLabel>Password*</FormLabel>
