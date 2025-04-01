@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { Button } from "../components";
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../apis/auth";
+import { checkEmailDuplicate, register } from "../apis/auth";
 
 const SignUpPageContainer = styled.div`
   display: flex;
@@ -104,15 +104,21 @@ const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!isEmailVerified) {
+      alert("Please verify your email before signing up.");
+      return;
+    }
+
     try {
       await register({ name, email, password });
       alert("Sign up successful! Please log in.");
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       alert(
         "Sign up failed: " + (error.response?.data?.message || error.message)
@@ -138,14 +144,42 @@ const SignUpPage = () => {
             </FormGroup>
             <FormGroup>
               <FormLabel>Email*</FormLabel>
-              <FormInput
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-              />
+              <div style={{ display: "flex", gap: "8px" }}>
+                <FormInput
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setIsEmailVerified(false);
+                  }}
+                  placeholder="Enter your email"
+                  required
+                />
+                <Button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      const res = await checkEmailDuplicate(email);
+                      if (res.success && res.data?.isSuccess) {
+                        alert("This email is available!");
+                        setIsEmailVerified(true);
+                      } else {
+                        alert("This email is already taken.");
+                        setIsEmailVerified(false);
+                      }
+                    } catch (error) {
+                      alert(
+                        "Failed to verify email: " +
+                          (error.response?.data?.message || error.message)
+                      );
+                    }
+                  }}
+                >
+                  Verify
+                </Button>
+              </div>
             </FormGroup>
+
             <FormGroup>
               <FormLabel>Password*</FormLabel>
               <FormInput
