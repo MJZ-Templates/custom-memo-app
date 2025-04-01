@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { FaPlus, FaRightLeft } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 import {
   Button,
@@ -26,6 +27,13 @@ const MemoListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("list");
   const [user, setUser] = useState({ name: "Loading..." });
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/");
+  };
 
   const fetchMemos = async () => {
     try {
@@ -162,6 +170,9 @@ const MemoListPage = () => {
 
   return (
     <PageContainer>
+      <HeaderContainer>
+        <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+      </HeaderContainer>
       <MemoListPageContainer>
         <PageTitle>{user.name}'s Memo!</PageTitle>
         <ButtonContainer>
@@ -222,8 +233,25 @@ const PageContainer = styled.div`
   height: 100vh;
   width: 100%;
   max-width: 960px;
+  gap: 10px;
+  padding: 16px 20px 40px;
+`;
 
-  gap: 30px;
+const HeaderContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
+`;
+
+const LogoutButton = styled(Button)`
+  background-color: transparent;
+  color: #2b2d36;
+  border: 1px solid #2b2d36;
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
 `;
 
 const MemoListPageContainer = styled.div`
@@ -231,7 +259,6 @@ const MemoListPageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 40px 30px;
   border-radius: 16px;
   gap: 30px;
 `;
