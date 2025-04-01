@@ -16,6 +16,12 @@ export const login = async ({ email, password }) => {
     email,
     password,
   });
+
+  const token = response.data?.data?.accessToken;
+  if (token) {
+    localStorage.setItem("accessToken", token);
+  }
+
   return response.data;
 };
 
