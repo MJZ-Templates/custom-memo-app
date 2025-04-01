@@ -39,6 +39,7 @@ const StyledButton = styled.button`
   border-radius: 6px;
   border: none;
   cursor: pointer;
+  z-index: 1;
 
   background-color: ${({ backgroundColor }) => backgroundColor || "#448efe"};
   color: ${({ color }) => color || "#ffffff"};
