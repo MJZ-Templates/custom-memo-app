@@ -12,8 +12,9 @@
 ```
 
 ### 📝 Custom Memo App Template Project
-- This project allows users to customize the content by adding their own information.
-- Additionally, it provides statistics that allow users to track the number of visitors to the site.
+* A customizable memo application that allows users to create, organize, and manage memos in a visual and intuitive way.
+* Memos can be categorized using color tags and displayed on a Kanban-style board for easy task management.
+* Includes speech-to-text (STT) support, enabling users to quickly add memos by voice.
 
 ### 💻 Installation & Setup
 1. Check URL and Port
