@@ -16,17 +16,16 @@ import {
   getMemos,
   updateMemo,
 } from "../apis/memo";
-import { dummyMembers } from "../mock/dummyMembers";
+import { getMember } from "../apis/member";
 
 const MemoListPage = () => {
-  const user = dummyMembers[0];
-
   const [memos, setMemos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mode, setMode] = useState("create");
   const [selectedMemo, setSelectedMemo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("list");
+  const [user, setUser] = useState({ name: "Loading..." });
 
   const fetchMemos = async () => {
     try {
@@ -43,6 +42,22 @@ const MemoListPage = () => {
   };
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await getMember();
+
+        if (res.success && res.data) {
+          setUser(res.data);
+        }
+      } catch (error) {
+        alert(
+          "Failed to load user: " +
+            (error.response?.data?.message || error.message)
+        );
+      }
+    };
+
+    fetchUser();
     fetchMemos();
   }, []);
 
