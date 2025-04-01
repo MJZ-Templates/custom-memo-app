@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Button } from "../components";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,26 +15,6 @@ const LoginPageContainer = styled.div`
   gap: 20px;
 `;
 
-const IntroWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: -40px;
-`;
-
-const IntroTitle = styled.h1`
-  margin: 0;
-`;
-
-const IntroText = styled.p`
-  font-size: 18px;
-  color: #4a4c5c;
-  text-align: center;
-  line-height: 1.6;
-  margin: 0 20px;
-`;
-
 const FormCard = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,13 +23,10 @@ const FormCard = styled.div`
   border: 1px solid #e1e1e8;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background-color: #fff;
-  gap: 30px;
+  background-color: #ffffff;
 `;
 
 const Title = styled.h1`
-  display: flex;
-  justify-content: center;
   margin: 0;
   font-size: 32px;
   font-weight: 700;
@@ -59,6 +36,7 @@ const FormGroupWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: 30px 0;
 `;
 
 const FormGroup = styled.div`
@@ -91,25 +69,11 @@ const FormInput = styled.input`
   }
 `;
 
-const SignUpText = styled.p`
-  margin: 0;
+const CheckboxWrapper = styled.label`
+  display: flex;
+  justify-content: center;
+  gap: 4px;
   font-size: 14px;
-  text-align: center;
-  color: #6c6e7e;
-`;
-
-const SignUpLink = styled(Link)`
-  font-weight: 500;
-  color: #448efe;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  &:visited {
-    color: #448efe;
-  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -118,25 +82,79 @@ const ButtonWrapper = styled.div`
   gap: 10px;
 `;
 
+const CancelLinkButton = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: #6c6e7e14;
+  color: #525463;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &:hover,
+  &:visited,
+  &:active {
+    color: #525463;
+    text-decoration: none;
+  }
+`;
+
+const SignUpPrompt = styled.div`
+  margin-top: 10px;
+  font-size: 14px;
+  color: #2b2d36;
+  cursor: pointer;
+
+  a {
+    margin-left: 6px;
+    font-weight: 600;
+    color: #448efe;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("savedEmail");
+    const savedPassword = localStorage.getItem("savedPassword");
+
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await login({ email, password });
-      const accessToken = res.data.accessToken;
+    if (rememberMe) {
+      localStorage.setItem("savedEmail", email);
+      localStorage.setItem("savedPassword", password);
+    } else {
+      localStorage.removeItem("savedEmail");
+      localStorage.removeItem("savedPassword");
+    }
 
-      if (accessToken) {
-        localStorage.setItem("accessToken", accessToken);
-        alert("Login successful!");
-        navigate("/memo");
-      } else {
-        alert("Login failed: No token received.");
-      }
+    try {
+      await login({ email, password });
+      navigate("/memo");
     } catch (error) {
       alert(
         "Login failed: " + (error.response?.data?.message || error.message)
@@ -146,26 +164,17 @@ const LoginPage = () => {
 
   return (
     <LoginPageContainer>
-      <IntroWrapper>
-        <IntroTitle>My Memo App</IntroTitle>
-        <IntroText>
-          Capture and organize your thoughts with your personal Memo App.
-          <br />
-          Simple, smart, and always with you.
-        </IntroText>
-      </IntroWrapper>
-
       <FormCard>
         <Title>Login</Title>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit}>
           <FormGroupWrapper>
             <FormGroup>
               <FormLabel>Email</FormLabel>
               <FormInput
                 type="email"
-                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
                 required
               />
             </FormGroup>
@@ -173,24 +182,41 @@ const LoginPage = () => {
               <FormLabel>Password</FormLabel>
               <FormInput
                 type="password"
-                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
                 required
               />
             </FormGroup>
-            <SignUpText>
-              Don’t have an account?{" "}
-              <SignUpLink to="/signup">Sign up</SignUpLink>
-            </SignUpText>
+
+            <CheckboxWrapper>
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              Remember Email/Password
+            </CheckboxWrapper>
           </FormGroupWrapper>
 
           <ButtonWrapper>
-            <Button type="submit" style={{ width: "200px", fontWeight: 600 }}>
+            <CancelLinkButton to="/">Cancel</CancelLinkButton>
+            <Button
+              type="submit"
+              style={{
+                width: "120px",
+                fontWeight: 600,
+              }}
+            >
               Login
             </Button>
           </ButtonWrapper>
         </form>
+
+        <SignUpPrompt>
+          Don’t have an account?
+          <Link to="/signup">Sign up</Link>
+        </SignUpPrompt>
       </FormCard>
     </LoginPageContainer>
   );

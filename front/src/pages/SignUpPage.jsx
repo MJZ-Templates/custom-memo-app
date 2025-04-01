@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "@emotion/styled";
 import { Button } from "../components";
 import { Link, useNavigate } from "react-router-dom";
@@ -69,13 +69,6 @@ const FormInput = styled.input`
   }
 `;
 
-const CheckboxWrapper = styled.label`
-  display: flex;
-  justify-content: center;
-  gap: 4px;
-  font-size: 14px;
-`;
-
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -111,30 +104,10 @@ const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const savedEmail = localStorage.getItem("savedEmail");
-    const savedPassword = localStorage.getItem("savedPassword");
-
-    if (savedEmail && savedPassword) {
-      setEmail(savedEmail);
-      setPassword(savedPassword);
-      setRememberMe(true);
-    }
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (rememberMe) {
-      localStorage.setItem("savedEmail", email);
-      localStorage.setItem("savedPassword", password);
-    } else {
-      localStorage.removeItem("savedEmail");
-      localStorage.removeItem("savedPassword");
-    }
 
     try {
       await register({ name, email, password });
@@ -183,15 +156,6 @@ const SignUpPage = () => {
                 required
               />
             </FormGroup>
-
-            <CheckboxWrapper>
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              Remember Email/Password
-            </CheckboxWrapper>
           </FormGroupWrapper>
 
           <ButtonWrapper>
