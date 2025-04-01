@@ -126,7 +126,6 @@ const MemoListPage = () => {
         };
         const response = await updateMemo(selectedMemo.id, updatePayload);
         if (response?.data?.isSuccess) {
-          alert("Memo updated successfully!");
           await fetchMemos();
           closeModal();
         }
@@ -144,7 +143,6 @@ const MemoListPage = () => {
     try {
       const res = await deleteMemo(selectedMemo.id);
       if (res?.data?.isSuccess) {
-        alert("Memo deleted successfully!");
         await fetchMemos();
         closeModal();
       }

@@ -5,12 +5,18 @@ import { MEMO_COLOR_MAP } from "../constants/memoColors";
 const formatDate = (isoString) => {
   if (!isoString) return "";
   const date = new Date(isoString);
-  return `${date.getFullYear()}-${(date.getMonth() + 1)
+
+  const koreaTime = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+  return `${koreaTime.getFullYear()}-${(koreaTime.getMonth() + 1)
     .toString()
-    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${date
+    .padStart(2, "0")}-${koreaTime
+    .getDate()
+    .toString()
+    .padStart(2, "0")} ${koreaTime
     .getHours()
     .toString()
-    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+    .padStart(2, "0")}:${koreaTime.getMinutes().toString().padStart(2, "0")}`;
 };
 
 const MemoCard = ({ memo, onClick, onToggleFavorite }) => {

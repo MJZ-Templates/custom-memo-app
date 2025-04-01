@@ -30,7 +30,7 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
       setTitle(initialData.title);
       setContent(initialData.content);
       setIsFavorite(initialData.isFavorite);
-      setMemoColor(getColorKeyFromHex(initialData.color));
+      setMemoColor(initialData.color);
       setStatus(initialData.status);
     } else {
       setTitle("");
@@ -51,7 +51,7 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
         title !== initialData.title ||
         content !== initialData.content ||
         isFavorite !== initialData.isFavorite ||
-        memoColor !== initialData.color ||
+        memoColor !== getColorKeyFromHex(initialData.color) ||
         status !== initialData.status
       );
     }
