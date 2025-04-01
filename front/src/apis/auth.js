@@ -35,8 +35,8 @@ export const getCurrentUser = async (token) => {
 };
 
 export const checkEmailDuplicate = async (email) => {
-  const response = await axios.post(
-    `${BASE_URL}/api/auth/email?email=${email}`
+  const response = await axios.get(
+    `${BASE_URL}/api/auth/email?email=${encodeURIComponent(email)}`
   );
   return response.data;
 };

@@ -104,10 +104,16 @@ const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isEmailVerified) {
+      alert("Please verify your email before signing up.");
+      return;
+    }
 
     try {
       await register({ name, email, password });
@@ -142,7 +148,10 @@ const SignUpPage = () => {
                 <FormInput
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setIsEmailVerified(false);
+                  }}
                   placeholder="Enter your email"
                   required
                 />
@@ -153,8 +162,10 @@ const SignUpPage = () => {
                       const res = await checkEmailDuplicate(email);
                       if (res.success && res.data?.isSuccess) {
                         alert("This email is available!");
+                        setIsEmailVerified(true);
                       } else {
                         alert("This email is already taken.");
+                        setIsEmailVerified(false);
                       }
                     } catch (error) {
                       alert(
