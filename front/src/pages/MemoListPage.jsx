@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { FaPlus, FaRightLeft } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
   Button,
@@ -25,8 +25,10 @@ const MemoListPage = () => {
   const [mode, setMode] = useState("create");
   const [selectedMemo, setSelectedMemo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [viewMode, setViewMode] = useState("list");
   const [user, setUser] = useState({ name: "Loading..." });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialMode = searchParams.get("mode") || "list";
+  const [viewMode, setViewMode] = useState(initialMode);
 
   const navigate = useNavigate();
 
@@ -155,7 +157,9 @@ const MemoListPage = () => {
   };
 
   const toggleViewMode = () => {
-    setViewMode((prev) => (prev === "list" ? "kanban" : "list"));
+    const newMode = viewMode === "list" ? "kanban" : "list";
+    setViewMode(newMode);
+    setSearchParams({ mode: newMode });
   };
 
   const filteredMemos = searchQuery.trim()
