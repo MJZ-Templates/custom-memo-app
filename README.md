@@ -28,7 +28,7 @@
    3. The run `cd /workspace/custom-memo/front` and execute `npm i`
 
 3. Run Project
-   1. Click [Run Portfolio] button in the menu bar
+   1. Click [Run App] button in the menu bar
    2. Alternatively, You can directly run the process.
    3. `cd /workspace/custom-memo/back` and use `pm2 start "./gradlew bootRun" --name memo-back`
    4. `cd /workspace/custom-memo/front` and use `pm2 start "npm run dev" --name memo-front`
