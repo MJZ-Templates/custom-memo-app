@@ -126,7 +126,7 @@ const MemoListPage = () => {
           title: data.title,
           content: data.content,
           color: colorKey,
-          favorite: data.isFavorite,
+          favorite: data.favorite,
           status: data.status,
         };
         const response = await updateMemo(selectedMemo.id, updatePayload);
