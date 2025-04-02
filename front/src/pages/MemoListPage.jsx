@@ -40,9 +40,12 @@ const MemoListPage = () => {
   const fetchMemos = async () => {
     try {
       const res = await getMemos();
-      const memoList = res.data.map((memo) => ({
-        ...memo,
-      }));
+      const memoList = res.data
+        .map((memo) => ({
+          ...memo,
+        }))
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
       setMemos(memoList);
     } catch (err) {
       alert(
