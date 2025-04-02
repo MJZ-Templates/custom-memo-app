@@ -153,7 +153,13 @@ const LoginPage = () => {
     }
 
     try {
-      await login({ email, password });
+      const response = await login({ email, password });
+
+      const token = response?.data?.accessToken;
+      if (token) {
+        localStorage.setItem("accessToken", token);
+      }
+
       navigate("/memo");
     } catch (error) {
       alert(

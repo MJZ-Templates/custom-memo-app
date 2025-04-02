@@ -7,7 +7,13 @@ const HomePage = () => {
 
   const handleGoToMemo = () => {
     const token = localStorage.getItem("accessToken");
-    if (token) {
+
+    if (
+      token &&
+      token !== "null" &&
+      token !== "undefined" &&
+      token.trim() !== ""
+    ) {
       navigate("/memo");
     } else {
       navigate("/login");
