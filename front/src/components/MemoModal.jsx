@@ -42,7 +42,7 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
   }, [mode, memoData]);
 
   const handleSave = () => {
-    onSave({ title, content, isFavorite, color: memoColor, status });
+    onSave({ title, content, favorite: isFavorite, color: memoColor, status });
   };
 
   const hasUnsavedChanges = () => {

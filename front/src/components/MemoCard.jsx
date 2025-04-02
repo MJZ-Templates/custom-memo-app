@@ -28,7 +28,7 @@ const MemoCard = ({ memo, onClick, onToggleFavorite }) => {
       <MemoContentWrapper>
         <MemoTitleRow>
           <MemoTitle>{memo.title}</MemoTitle>
-          {memo.isFavorite && (
+          {memo.favorite && (
             <FavoriteButton
               onClick={(e) => {
                 e.stopPropagation();
