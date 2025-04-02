@@ -15,19 +15,28 @@ const HomePage = () => {
   };
 
   return (
-      <Wrapper>
-        <GradientCircle />
-        <Title>
-          Your smart, personalized memo space
-          <br />
-          <strong>Start with Custom Memo App today</strong>
-        </Title>
-        <Description>
-          Create, organize, and voice-record your memos with ease. <br />
-          Sign up now to access advanced features like Kanban view and speech-to-text.
-        </Description>
-        <Button onClick={handleGoToMemo}>Go to My Memo Space</Button>
-      </Wrapper>
+    <Wrapper>
+      <GradientCircle />
+      <Title>
+        Your smart, personalized memo space
+        <br />
+        <strong>Start with Custom Memo App today</strong>
+      </Title>
+      <Description>
+        Create, organize, and voice-record your memos with ease. <br />
+        Sign up now to access advanced features like Kanban view and
+        speech-to-text.
+      </Description>
+      <Button
+        onClick={handleGoToMemo}
+        style={{
+          padding: "16px 32px",
+          fontSize: "20px",
+        }}
+      >
+        Go to My Memo Space
+      </Button>
+    </Wrapper>
   );
 };
 
@@ -54,10 +63,10 @@ const GradientCircle = styled.div`
   opacity: 0.6;
   filter: blur(80px);
   background: radial-gradient(
-      circle,
-      rgba(29, 108, 224, 0.4) 0%,
-      rgba(68, 142, 254, 0.2) 40%,
-      rgba(80, 148, 250, 0.05) 100%
+    circle,
+    rgba(29, 108, 224, 0.4) 0%,
+    rgba(68, 142, 254, 0.2) 40%,
+    rgba(80, 148, 250, 0.05) 100%
   );
   top: 50%;
   left: 50%;
@@ -76,7 +85,7 @@ const Title = styled.h1`
   strong {
     font-weight: 700;
     font-size: 38px;
-    color: #1D6CE0;
+    color: #1d6ce0;
   }
 `;
 
