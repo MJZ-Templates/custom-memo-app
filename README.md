@@ -27,7 +27,19 @@
    2. Run `cd /workspace/custom-memo/back` and execute `./gradlew classes`
    3. The run `cd /workspace/custom-memo/front` and execute `npm i`
 
-3. Run Project
+3. Check the secret key
+   1. Before running the server, you **must** export the secret key.
+   2. Run the following command in the terminal:
+      ```
+      export SECURITY_SECRET_KEY={your_secret_key}
+      ```
+      1. for example
+      ```
+      export SECURITY_SECRET_KEY=823e399822c5170927c9802b3feb60b1fe54debefb406ca5f4eaf05e0014ea63
+      ```
+   3. Without this, the server will fail to start due to a missing environment variable.
+
+4. Run Project
    1. Click [Run Portfolio] button in the menu bar
    2. Alternatively, You can directly run the process.
    3. `cd /workspace/custom-memo/back` and use `pm2 start "./gradlew bootRun" --name memo-back`
