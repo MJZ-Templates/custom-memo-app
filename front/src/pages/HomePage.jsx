@@ -99,7 +99,7 @@ const Description = styled.p`
   text-align: center;
   font-size: 20px;
   line-height: 1.6;
-  margin-top: 20px;
+  margin: 20px 0 40px;
   z-index: 1;
   color: #444;
 `;

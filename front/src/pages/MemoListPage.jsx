@@ -45,7 +45,6 @@ const MemoListPage = () => {
           ...memo,
         }))
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
       setMemos(memoList);
     } catch (err) {
       alert(
@@ -58,7 +57,6 @@ const MemoListPage = () => {
     const fetchUser = async () => {
       try {
         const res = await getMember();
-
         if (res.success && res.data) {
           setUser(res.data);
         }
@@ -86,7 +84,6 @@ const MemoListPage = () => {
       const res = await getMemoById(memo.id);
       const fetchedMemo = res.data;
       setSelectedMemo(fetchedMemo);
-
       setIsModalOpen(true);
     } catch (error) {
       alert(
@@ -175,6 +172,7 @@ const MemoListPage = () => {
 
   return (
     <PageContainer>
+      <GradientCircle />
       <HeaderContainer>
         <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
       </HeaderContainer>
@@ -232,14 +230,35 @@ const MemoListPage = () => {
 export default MemoListPage;
 
 const PageContainer = styled.div`
+  position: relative;
+  background-color: #f4f8ff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
-  max-width: 960px;
-  gap: 10px;
   padding: 16px 20px 40px;
+  box-sizing: border-box;
+  overflow: hidden;
+`;
+
+const GradientCircle = styled.div`
+  position: absolute;
+  width: 1200px;
+  height: 1200px;
+  border-radius: 50%;
+  opacity: 0.6;
+  filter: blur(80px);
+  background: radial-gradient(
+    circle,
+    rgba(29, 108, 224, 0.4) 0%,
+    rgba(68, 142, 254, 0.2) 40%,
+    rgba(80, 148, 250, 0.05) 100%
+  );
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
 `;
 
 const HeaderContainer = styled.div`
@@ -247,6 +266,7 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   box-sizing: border-box;
+  z-index: 1;
 `;
 
 const LogoutButton = styled(Button)`
@@ -260,12 +280,20 @@ const LogoutButton = styled(Button)`
 `;
 
 const MemoListPageContainer = styled.div`
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 960px;
+  background-color: #f8fbff;
+  margin: 10px 0;
   border-radius: 16px;
+  padding: 40px 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   gap: 30px;
+  box-sizing: border-box;
 `;
 
 const PageTitle = styled.h1`
