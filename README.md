@@ -28,17 +28,16 @@
    3. The run `cd /workspace/custom-memo/front` and execute `npm i`
 
 3. Check the secret key
-   1. Before running the server, you **must** export the secret key.
-   2. Run the following command in the terminal:
+   1. The `SECURITY_SECRET_KEY` is **automatically registered** in your `~/.bashrc` when the project is set up.
+   2. If you want to **generate and apply a new secret key**, run the following command:
+      ```bash
+      sh set_key.sh && source ~/.bashrc
       ```
-      export SECURITY_SECRET_KEY={your_secret_key}
-      ```
-      1. for example
-      ```
-      export SECURITY_SECRET_KEY=823e399822c5170927c9802b3feb60b1fe54debefb406ca5f4eaf05e0014ea63
-      ```
-   3. Without this, the server will fail to start due to a missing environment variable.
-
+   3. This will:
+      * Generate a new 640-character random secret key
+      * Update the `SECURITY_SECRET_KEY` in your `~/.bashrc`
+   4. Run `source ~/.bashrc` to apply the changes.
+   5. **Note**: If `SECURITY_SECRET_KEY` is missing from you environment, the server will fail to start.
 4. Run Project
    1. Click [Run Portfolio] button in the menu bar
    2. Alternatively, You can directly run the process.
