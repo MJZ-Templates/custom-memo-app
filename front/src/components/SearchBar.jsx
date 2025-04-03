@@ -35,7 +35,7 @@ const SearchWrapper = styled.div`
 
 const SearchInput = styled.input`
   flex: 1;
-  min-width: 280px;
+  min-width: 20vw;
   border: none;
   background: transparent;
   outline: none;

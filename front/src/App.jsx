@@ -8,10 +8,10 @@ import styled from "@emotion/styled";
 const AppContainer = styled.div`
   display: flex;
   justify-content: center;
-  box-sizing: border-box;
+  background-color: #f7f7fa;
   width: 100%;
   margin: 0 auto;
-  background-color: #f7f7fa;
+  box-sizing: border-box;
 `;
 
 function App() {
