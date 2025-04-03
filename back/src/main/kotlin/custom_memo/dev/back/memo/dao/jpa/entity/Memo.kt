@@ -41,14 +41,15 @@ open class Memo(
         content: String,
         color: String,
         favorite: Boolean,
-        member: Member
+        member: Member,
+        status: String
     ) : this(
         null,
         title,
         content,
         MemoColor.valueOf(color.uppercase()),
         favorite,
-        MemoStatus.TODO,
+        MemoStatus.valueOf(status.uppercase()),
         member
     )
 
