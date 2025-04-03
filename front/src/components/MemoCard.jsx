@@ -57,7 +57,6 @@ const MemoContainer = styled.article`
   border-radius: 24px;
   padding: 16px 16px 10px;
   cursor: pointer;
-  height: 154px;
   box-sizing: border-box;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 
