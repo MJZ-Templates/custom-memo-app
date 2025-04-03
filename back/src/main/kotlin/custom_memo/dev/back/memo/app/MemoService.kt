@@ -24,7 +24,7 @@ class MemoService(
 
     fun createMemo(memberId: Long, dto: CreateMemoRequest): CommonSuccess {
         val member = memberService.findMember(memberId)
-        Memo(dto.title, dto.content, dto.color, dto.favorite, member)
+        Memo(dto.title, dto.content, dto.color, dto.favorite, member, dto.status)
             .let { memoRepository.save(it) }
 
         return CommonSuccess.success()
