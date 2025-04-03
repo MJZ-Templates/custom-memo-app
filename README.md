@@ -61,9 +61,6 @@ client
 ```
 front
 ├── node_modules
-├── public
-│   ├── MyMemo-192x192.png
-│   └── MyMemo-512x512.png
 ├── src
 │   ├── App.css
 │   ├── App.jsx
