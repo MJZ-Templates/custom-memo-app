@@ -22,12 +22,23 @@
    2. Check that the domains are registered on the 3000 and 8080 ports.
    3. If not, register the domain.
 
-2. Check Dependencies
+2. Environment variables and config settings
+   1. Move to the `cd /workspace/custom-memo-app/front` directory and create a `.env` file.  
+   2. Inside the file, add the following content:
+   ```shell
+   VITE_API_BASE_URL={server_base_url}
+   ```
+      1. for example
+      ```
+      VITE_API_BASE_URL=https://custom-memo-app-base-url.arkain.site
+      ```
+
+3. Check Dependencies
    1. If you want to install the required module, enter the following in the terminal
    2. Run `cd /workspace/custom-memo-app/back` and execute `./gradlew classes`
    3. The run `cd /workspace/custom-memo-app/front` and execute `npm install`
 
-3. Check the secret key
+4. Check the secret key
    1. Before running the server, you **must** export the secret key.
    2. Run the following command in the terminal:
       ```
@@ -39,7 +50,7 @@
       ```
    3. Without this, the server will fail to start due to a missing environment variable.
 
-4. Run Project
+5. Run Project
    1. Click [Run Portfolio] button in the menu bar
    2. Alternatively, You can directly run the process.
    3. `cd /workspace/custom-memo-app/back` and use `pm2 start "./gradlew bootRun" --name memo-back`
