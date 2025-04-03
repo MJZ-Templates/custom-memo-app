@@ -49,57 +49,57 @@ const HomePage = () => {
 export default HomePage;
 
 const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  background-color: #f4f8ff;
-  color: #111;
-  overflow: hidden;
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #f4f8ff;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  color: #111;
 `;
 
 const GradientCircle = styled.div`
   position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
   width: 1000px;
   height: 1000px;
   border-radius: 50%;
   opacity: 0.6;
-  filter: blur(80px);
   background: radial-gradient(
     circle,
     rgba(29, 108, 224, 0.4) 0%,
     rgba(68, 142, 254, 0.2) 40%,
     rgba(80, 148, 250, 0.05) 100%
   );
-  top: 50%;
-  left: 50%;
+  filter: blur(80px);
   transform: translate(-50%, -50%);
-  z-index: 0;
 `;
 
 const Title = styled.h1`
   text-align: center;
-  font-size: 32px;
-  font-weight: 400;
-  line-height: 1.4;
   z-index: 1;
   color: #1d1d1f;
+  line-height: 1.4;
+  font-size: 32px;
+  font-weight: 400;
 
   strong {
-    font-weight: 700;
-    font-size: 38px;
     color: #1d6ce0;
+    font-size: 38px;
+    font-weight: 700;
   }
 `;
 
 const Description = styled.p`
   text-align: center;
-  font-size: 20px;
-  line-height: 1.6;
   margin: 20px 0 40px;
   z-index: 1;
   color: #444;
+  line-height: 1.6;
+  font-size: 20px;
 `;

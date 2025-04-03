@@ -119,54 +119,54 @@ const SignUpPage = () => {
 export default SignUpPage;
 
 const SignUpPageWrapper = styled.div`
+  display: flex;
   position: relative;
+  justify-content: center;
+  align-items: center;
   background-color: #f4f8ff;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const GradientCircle = styled.div`
   position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
   width: 1000px;
   height: 1000px;
   border-radius: 50%;
   opacity: 0.6;
-  filter: blur(80px);
   background: radial-gradient(
     circle,
     rgba(29, 108, 224, 0.4) 0%,
     rgba(68, 142, 254, 0.2) 40%,
     rgba(80, 148, 250, 0.05) 100%
   );
-  top: 50%;
-  left: 50%;
+  filter: blur(80px);
   transform: translate(-50%, -50%);
-  z-index: 0;
 `;
 
 const SignUpPageContainer = styled.div`
-  position: relative;
-  z-index: 1;
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   max-width: 960px;
   gap: 20px;
+  z-index: 1;
 `;
 
 const FormCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f8fbff;
   padding: 40px 30px;
   border-radius: 16px;
-  background-color: #f8fbff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   gap: 30px;
 `;
@@ -194,8 +194,8 @@ const FormLabel = styled.label`
   align-items: center;
   width: 80px;
   color: #2b2d36;
-  font-weight: 500;
   font-size: 14px;
+  font-weight: 500;
 `;
 
 const FormInput = styled.input`
