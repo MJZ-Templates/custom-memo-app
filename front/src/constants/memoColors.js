@@ -1,5 +1,3 @@
-// src/constants/memoColors.js
-
 export const MEMO_COLORS = {
   RED: "RED",
   ORANGE: "ORANGE",

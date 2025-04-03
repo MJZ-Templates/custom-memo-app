@@ -21,7 +21,7 @@ const HomePage = () => {
   };
 
   return (
-    <Wrapper>
+    <HomePageWrapper>
       <GradientCircle />
       <Title>
         Your smart, personalized memo space
@@ -42,13 +42,13 @@ const HomePage = () => {
       >
         Go to My Memo Space
       </Button>
-    </Wrapper>
+    </HomePageWrapper>
   );
 };
 
 export default HomePage;
 
-const Wrapper = styled.div`
+const HomePageWrapper = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
