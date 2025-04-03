@@ -10,9 +10,9 @@ const STATUS_LABELS = {
 };
 
 const STATUS_COLORS = {
-  TODO: "#fffdea",
-  IN_PROGRESS: "#eaf4fd",
-  DONE: "#e5f6ea",
+  TODO: "#fff59d",
+  IN_PROGRESS: "#90caf9",
+  DONE: "#a5d6a7",
 };
 
 const KanbanBoard = ({ memos, userName, onMemoClick }) => {
@@ -30,7 +30,8 @@ const KanbanBoard = ({ memos, userName, onMemoClick }) => {
           memos={groupedMemos[status] || []}
           userName={userName}
           onMemoClick={onMemoClick}
-          backgroundColor={STATUS_COLORS[status]}
+          backgroundColor="#ffffff"
+          titleBackgroundColor={STATUS_COLORS[status]}
         />
       ))}
     </BoardContainer>
