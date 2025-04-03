@@ -1,5 +1,3 @@
-// src/constants/memoColors.js
-
 export const MEMO_COLORS = {
   RED: "RED",
   ORANGE: "ORANGE",
@@ -11,12 +9,12 @@ export const MEMO_COLORS = {
 };
 
 export const MEMO_COLOR_MAP = {
-  RED: "#f6c1c1",
-  ORANGE: "#fdd9b5",
-  YELLOW: "#fff5b7",
-  GREEN: "#d2ead2",
-  BLUE: "#c7e5f9",
-  PURPLE: "#e3d3f8",
+  RED: "#fde2e2",
+  ORANGE: "#ffe8cc",
+  YELLOW: "#fffbd1",
+  GREEN: "#e0f3e0",
+  BLUE: "#d8ebfa",
+  PURPLE: "#f0e5fb",
   WHITE: "#ffffff",
 };
 

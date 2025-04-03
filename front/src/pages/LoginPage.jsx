@@ -4,26 +4,166 @@ import { Button } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../apis/auth";
 
+const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("savedEmail");
+    const savedPassword = localStorage.getItem("savedPassword");
+
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (rememberMe) {
+      localStorage.setItem("savedEmail", email);
+      localStorage.setItem("savedPassword", password);
+    } else {
+      localStorage.removeItem("savedEmail");
+      localStorage.removeItem("savedPassword");
+    }
+
+    try {
+      const response = await login({ email, password });
+
+      const token = response?.data?.accessToken;
+      if (token) {
+        localStorage.setItem("accessToken", token);
+      }
+
+      navigate("/memo");
+    } catch (error) {
+      alert(
+        "Login failed: " + (error.response?.data?.message || error.message)
+      );
+    }
+  };
+
+  return (
+    <LoginPageWrapper>
+      <GradientCircle />
+      <LoginPageContainer>
+        <FormCard>
+          <Title>Login</Title>
+          <form onSubmit={handleSubmit}>
+            <FormGroupWrapper>
+              <FormGroup>
+                <FormLabel>Email</FormLabel>
+                <FormInput
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Password</FormLabel>
+                <FormInput
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+              </FormGroup>
+
+              <CheckboxWrapper>
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                Remember Email/Password
+              </CheckboxWrapper>
+            </FormGroupWrapper>
+
+            <ButtonWrapper>
+              <CancelLinkButton to="/">Cancel</CancelLinkButton>
+              <Button
+                type="submit"
+                style={{
+                  width: "120px",
+                  fontWeight: 600,
+                }}
+              >
+                Login
+              </Button>
+            </ButtonWrapper>
+          </form>
+
+          <SignUpPrompt>
+            Don’t have an account?
+            <Link to="/signup">Sign up</Link>
+          </SignUpPrompt>
+        </FormCard>
+      </LoginPageContainer>
+    </LoginPageWrapper>
+  );
+};
+
+export default LoginPage;
+
+const LoginPageWrapper = styled.div`
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f8ff;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+`;
+
+const GradientCircle = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: 1000px;
+  height: 1000px;
+  border-radius: 50%;
+  opacity: 0.6;
+  background: radial-gradient(
+    circle,
+    rgba(29, 108, 224, 0.4) 0%,
+    rgba(68, 142, 254, 0.2) 40%,
+    rgba(80, 148, 250, 0.05) 100%
+  );
+  filter: blur(80px);
+  transform: translate(-50%, -50%);
+`;
+
 const LoginPageContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   width: 100%;
   max-width: 960px;
   gap: 20px;
+  z-index: 1;
 `;
 
 const FormCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f8fbff;
   padding: 40px 30px;
-  border: 1px solid #e1e1e8;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(2px);
 `;
 
 const Title = styled.h1`
@@ -35,8 +175,8 @@ const Title = styled.h1`
 const FormGroupWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
   margin: 30px 0;
+  gap: 10px;
 `;
 
 const FormGroup = styled.div`
@@ -50,8 +190,8 @@ const FormLabel = styled.label`
   align-items: center;
   width: 80px;
   color: #2b2d36;
-  font-weight: 500;
   font-size: 14px;
+  font-weight: 500;
 `;
 
 const FormInput = styled.input`
@@ -114,8 +254,8 @@ const SignUpPrompt = styled.div`
 
   a {
     margin-left: 6px;
-    font-weight: 600;
     color: #448efe;
+    font-weight: 600;
     text-decoration: none;
 
     &:hover {
@@ -123,103 +263,3 @@ const SignUpPrompt = styled.div`
     }
   }
 `;
-
-const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const savedEmail = localStorage.getItem("savedEmail");
-    const savedPassword = localStorage.getItem("savedPassword");
-
-    if (savedEmail && savedPassword) {
-      setEmail(savedEmail);
-      setPassword(savedPassword);
-      setRememberMe(true);
-    }
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (rememberMe) {
-      localStorage.setItem("savedEmail", email);
-      localStorage.setItem("savedPassword", password);
-    } else {
-      localStorage.removeItem("savedEmail");
-      localStorage.removeItem("savedPassword");
-    }
-
-    try {
-      await login({ email, password });
-      navigate("/memo");
-    } catch (error) {
-      alert(
-        "Login failed: " + (error.response?.data?.message || error.message)
-      );
-    }
-  };
-
-  return (
-    <LoginPageContainer>
-      <FormCard>
-        <Title>Login</Title>
-        <form onSubmit={handleSubmit}>
-          <FormGroupWrapper>
-            <FormGroup>
-              <FormLabel>Email</FormLabel>
-              <FormInput
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-              />
-            </FormGroup>
-            <FormGroup>
-              <FormLabel>Password</FormLabel>
-              <FormInput
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                required
-              />
-            </FormGroup>
-
-            <CheckboxWrapper>
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              Remember Email/Password
-            </CheckboxWrapper>
-          </FormGroupWrapper>
-
-          <ButtonWrapper>
-            <CancelLinkButton to="/">Cancel</CancelLinkButton>
-            <Button
-              type="submit"
-              style={{
-                width: "120px",
-                fontWeight: 600,
-              }}
-            >
-              Login
-            </Button>
-          </ButtonWrapper>
-        </form>
-
-        <SignUpPrompt>
-          Don’t have an account?
-          <Link to="/signup">Sign up</Link>
-        </SignUpPrompt>
-      </FormCard>
-    </LoginPageContainer>
-  );
-};
-
-export default LoginPage;

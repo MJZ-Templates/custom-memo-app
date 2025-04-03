@@ -5,7 +5,6 @@ import { MEMO_COLOR_MAP } from "../constants/memoColors";
 const formatDate = (isoString) => {
   if (!isoString) return "";
   const date = new Date(isoString);
-
   const koreaTime = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
   return `${koreaTime.getFullYear()}-${(koreaTime.getMonth() + 1)
@@ -28,7 +27,7 @@ const MemoCard = ({ memo, onClick, onToggleFavorite }) => {
       <MemoContentWrapper>
         <MemoTitleRow>
           <MemoTitle>{memo.title}</MemoTitle>
-          {memo.isFavorite && (
+          {memo.favorite && (
             <FavoriteButton
               onClick={(e) => {
                 e.stopPropagation();
@@ -58,7 +57,6 @@ const MemoContainer = styled.article`
   border-radius: 24px;
   padding: 16px 16px 10px;
   cursor: pointer;
-  height: 154px;
   box-sizing: border-box;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 
@@ -80,19 +78,19 @@ const MemoTitleRow = styled.div`
 `;
 
 const MemoTitle = styled.h3`
-  font-size: 16px;
   margin: 0;
+  font-size: 16px;
   font-weight: 700;
 `;
 
 const FavoriteButton = styled.button`
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 4px;
   display: flex;
   align-items: center;
+  background: none;
+  border: none;
+  padding: 4px;
+  font-size: 20px;
+  cursor: pointer;
 `;
 
 const BookmarkIcon = styled(FaBookmark)`
@@ -105,7 +103,6 @@ const MemoContent = styled.p`
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.1px;
-
   white-space: pre-wrap;
   display: -webkit-box;
   -webkit-line-clamp: 3;

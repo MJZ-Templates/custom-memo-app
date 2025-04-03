@@ -40,9 +40,11 @@ const MemoListPage = () => {
   const fetchMemos = async () => {
     try {
       const res = await getMemos();
-      const memoList = res.data.map((memo) => ({
-        ...memo,
-      }));
+      const memoList = res.data
+        .map((memo) => ({
+          ...memo,
+        }))
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setMemos(memoList);
     } catch (err) {
       alert(
@@ -55,7 +57,6 @@ const MemoListPage = () => {
     const fetchUser = async () => {
       try {
         const res = await getMember();
-
         if (res.success && res.data) {
           setUser(res.data);
         }
@@ -83,7 +84,6 @@ const MemoListPage = () => {
       const res = await getMemoById(memo.id);
       const fetchedMemo = res.data;
       setSelectedMemo(fetchedMemo);
-
       setIsModalOpen(true);
     } catch (error) {
       alert(
@@ -123,7 +123,7 @@ const MemoListPage = () => {
           title: data.title,
           content: data.content,
           color: colorKey,
-          favorite: data.isFavorite,
+          favorite: data.favorite,
           status: data.status,
         };
         const response = await updateMemo(selectedMemo.id, updatePayload);
@@ -172,6 +172,7 @@ const MemoListPage = () => {
 
   return (
     <PageContainer>
+      <GradientCircle />
       <HeaderContainer>
         <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
       </HeaderContainer>
@@ -230,26 +231,50 @@ export default MemoListPage;
 
 const PageContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  background-color: #f4f8ff;
   width: 100%;
-  max-width: 960px;
-  gap: 10px;
+  min-height: 100vh;
+  overflow: hidden;
   padding: 16px 20px 40px;
-`;
-
-const HeaderContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
   box-sizing: border-box;
 `;
 
+const GradientCircle = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: 1200px;
+  height: 1200px;
+  border-radius: 50%;
+  opacity: 0.6;
+  background: radial-gradient(
+    circle,
+    rgba(29, 108, 224, 0.4) 0%,
+    rgba(68, 142, 254, 0.2) 40%,
+    rgba(80, 148, 250, 0.05) 100%
+  );
+  filter: blur(80px);
+
+  transform: translate(-50%, -50%);
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 960px;
+  box-sizing: border-box;
+  z-index: 1;
+`;
+
 const LogoutButton = styled(Button)`
+  border: 1px solid #2b2d36;
   background-color: transparent;
   color: #2b2d36;
-  border: 1px solid #2b2d36;
 
   &:hover {
     background-color: #f2f2f2;
@@ -258,18 +283,26 @@ const LogoutButton = styled(Button)`
 
 const MemoListPageContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
+  background-color: #ffffff;
   width: 100%;
+  max-width: 960px;
+  margin: 10px 0;
+  padding: 40px 30px;
   border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   gap: 30px;
+  z-index: 1;
+  box-sizing: border-box;
 `;
 
 const PageTitle = styled.h1`
+  margin: 0;
   color: #2b2d36;
   font-size: 32px;
   font-weight: 700;
-  margin: 0;
 `;
 
 const ButtonContainer = styled.div`
@@ -278,9 +311,9 @@ const ButtonContainer = styled.div`
   width: 100%;
   background-color: #cdced629;
   padding: 12px 16px;
-  box-sizing: border-box;
   border-radius: 8px;
   gap: 8px;
+  box-sizing: border-box;
 `;
 
 const MemoContainer = styled.div`
