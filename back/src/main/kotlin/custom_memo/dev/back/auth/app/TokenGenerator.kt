@@ -7,19 +7,17 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.security.Key
-import java.time.Duration
 import java.time.Instant
 import java.util.*
 
 @Component
-class TokenGenerator {
-
+class TokenGenerator(
     @Value("\${spring.security.secret}")
-    private lateinit var secretKey: String
+    private val secretKey: String,
 
     @Value("\${spring.security.expiration}")
-    private var expiration: Long = 0
-
+    private val expiration: Long
+) {
     private val key: Key by lazy {
         Keys.hmacShaKeyFor(io.jsonwebtoken.io.Decoders.BASE64.decode(secretKey))
     }
@@ -31,7 +29,7 @@ class TokenGenerator {
         return Jwts.builder()
             .subject(userDetails.getEmail().toString())
             .issuedAt(Date.from(now))
-            .expiration(Date.from(now.plus(Duration.ofMillis(expiration))))
+            .expiration(Date.from(now.plusMillis(expiration)))
             .signWith(key)
             .compact()
     }
