@@ -10,9 +10,9 @@ const STATUS_LABELS = {
 };
 
 const STATUS_COLORS = {
-  TODO: "#FFFDE7		",
-  IN_PROGRESS: "#E3F2FD",
-  DONE: "#E8F5E9",
+  TODO: "#fffdea",
+  IN_PROGRESS: "#eaf4fd",
+  DONE: "#e5f6ea",
 };
 
 const KanbanBoard = ({ memos, userName, onMemoClick }) => {

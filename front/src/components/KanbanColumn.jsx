@@ -39,6 +39,7 @@ const ColumnContainer = styled.div`
 `;
 
 const ColumnTitle = styled.h2`
+  padding: 0 6px;
   font-size: 20px;
   font-weight: 600;
   color: #333;
