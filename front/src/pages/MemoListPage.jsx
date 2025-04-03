@@ -263,6 +263,7 @@ const GradientCircle = styled.div`
 
 const HeaderContainer = styled.div`
   width: 100%;
+  max-width: 960px;
   display: flex;
   justify-content: flex-end;
   box-sizing: border-box;
