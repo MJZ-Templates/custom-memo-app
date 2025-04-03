@@ -24,8 +24,8 @@
 
 2. Check Dependencies
    1. If you want to install the required module, enter the following in the terminal
-   2. Run `cd /workspace/custom-memo/back` and execute `./gradlew classes`
-   3. The run `cd /workspace/custom-memo/front` and execute `npm i`
+   2. Run `cd /workspace/custom-memo-app/back` and execute `./gradlew classes`
+   3. The run `cd /workspace/custom-memo-app/front` and execute `npm install`
 
 3. Check the secret key
    1. Before running the server, you **must** export the secret key.
@@ -42,20 +42,17 @@
 4. Run Project
    1. Click [Run Portfolio] button in the menu bar
    2. Alternatively, You can directly run the process.
-   3. `cd /workspace/custom-memo/back` and use `pm2 start "./gradlew bootRun" --name memo-back`
-   4. `cd /workspace/custom-memo/front` and use `pm2 start "npm run dev" --name memo-front`
+   3. `cd /workspace/custom-memo-app/back` and use `pm2 start "./gradlew bootRun" --name memo-back`
+   4. `cd /workspace/custom-memo-app/front` and use `pm2 start "npm run dev" --name memo-front`
 
 ### 📂 Folder Structure
 client
 ```
-.
-├── \010public
+front
+├── node_modules
+├── public
 │   ├── MyMemo-192x192.png
 │   └── MyMemo-512x512.png
-├── eslint.config.js
-├── index.html
-├── package-lock.json
-├── package.json
 ├── src
 │   ├── App.css
 │   ├── App.jsx
@@ -83,12 +80,17 @@ client
 │       ├── LoginPage.jsx
 │       ├── MemoListPage.jsx
 │       └── SignUpPage.jsx
-└── vite.config.js
+├── .env
+├── vite.config.js
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+└── package.json
 ```
 
 server
 ```
-.
+back
 ├── gradle
 │   └── wrapper
 └── src
