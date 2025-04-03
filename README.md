@@ -22,10 +22,16 @@
    2. Check that the domains are registered on the 3000 and 8080 ports.
    3. If not, register the domain.
 
-2. Check Dependencies
-   1. If you want to install the required module, enter the following in the terminal
-   2. Run `cd /workspace/custom-memo/back` and execute `./gradlew classes`
-   3. The run `cd /workspace/custom-memo/front` and execute `npm i`
+2. Environment variables and config settings
+   1. Move to the `cd /workspace/custom-memo-app/front` directory and create a `.env` file.  
+   2. Inside the file, add the following content:
+   ```shell
+   VITE_API_BASE_URL={server_base_url}
+   ```
+      1. for example
+      ```
+      VITE_API_BASE_URL=https://custom-memo-app-base-url.arkain.site
+      ```
 
 3. Check the secret key
    1. The `SECURITY_SECRET_KEY` is **automatically registered** in your `~/.bashrc` when the project is set up.
@@ -39,22 +45,17 @@
    4. Run `source ~/.bashrc` to apply the changes.
    5. **Note**: If `SECURITY_SECRET_KEY` is missing from you environment, the server will fail to start.
 4. Run Project
+5. Run Project
    1. Click [Run Portfolio] button in the menu bar
    2. Alternatively, You can directly run the process.
-   3. `cd /workspace/custom-memo/back` and use `pm2 start "./gradlew bootRun" --name memo-back`
-   4. `cd /workspace/custom-memo/front` and use `pm2 start "npm run dev" --name memo-front`
+   3. `cd /workspace/custom-memo-app/back` and use `pm2 start "./gradlew bootRun" --name memo-back`
+   4. `cd /workspace/custom-memo-app/front` and use `pm2 start "npm run dev" --name memo-front`
 
 ### 📂 Folder Structure
 client
 ```
-.
-├── \010public
-│   ├── MyMemo-192x192.png
-│   └── MyMemo-512x512.png
-├── eslint.config.js
-├── index.html
-├── package-lock.json
-├── package.json
+front
+├── node_modules
 ├── src
 │   ├── App.css
 │   ├── App.jsx
@@ -82,12 +83,17 @@ client
 │       ├── LoginPage.jsx
 │       ├── MemoListPage.jsx
 │       └── SignUpPage.jsx
-└── vite.config.js
+├── .env
+├── vite.config.js
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+└── package.json
 ```
 
 server
 ```
-.
+back
 ├── gradle
 │   └── wrapper
 └── src

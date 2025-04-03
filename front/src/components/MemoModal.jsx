@@ -20,7 +20,7 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
   const initialData = {
     title: memoData?.title || "",
     content: memoData?.content || "",
-    isFavorite: memoData?.isFavorite || false,
+    isFavorite: memoData?.favorite || false,
     color: memoData?.color || "WHITE",
     status: memoData?.status || "TODO",
   };
@@ -42,7 +42,7 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
   }, [mode, memoData]);
 
   const handleSave = () => {
-    onSave({ title, content, isFavorite, color: memoColor, status });
+    onSave({ title, content, favorite: isFavorite, color: memoColor, status });
   };
 
   const hasUnsavedChanges = () => {
@@ -154,18 +154,16 @@ const MemoModal = ({ mode, memoData, onSave, onDelete, onCancel }) => {
 
 export default MemoModal;
 
-// Styled Components
-
 const Overlay = styled.div`
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 999;
 `;
 
@@ -174,8 +172,8 @@ const ModalContainer = styled.div`
   flex-direction: column;
   width: 400px;
   background: #ffffff;
-  border-radius: 12px;
   padding: 24px;
+  border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   gap: 16px;
 `;
@@ -192,13 +190,13 @@ const ModalTitle = styled.h2`
 `;
 
 const FavoriteButton = styled.button`
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 4px;
   display: flex;
   align-items: center;
+  background: none;
+  border: none;
+  padding: 4px;
+  font-size: 20px;
+  cursor: pointer;
 `;
 
 const TitleInput = styled.input`
@@ -215,9 +213,9 @@ const Textarea = styled.textarea`
   width: 100%;
   height: 150px;
   resize: none;
+  padding: 12px;
   border: 1px solid #cccccc;
   border-radius: 8px;
-  padding: 12px;
   font-size: 14px;
   box-sizing: border-box;
 `;
@@ -230,20 +228,20 @@ const ColorPaletteSTTWrapper = styled.div`
 const ColorPalette = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
   flex-wrap: wrap;
+  gap: 8px;
 `;
 
 const ColorCircle = styled.button`
   width: 24px;
   height: 24px;
+  padding: 0;
   border-radius: 50%;
   border: ${(props) =>
     props.isSelected ? "2px solid #000000" : "1px solid #cccccc"};
   background-color: ${(props) => props.color};
   cursor: pointer;
   outline: none;
-  padding: 0;
   transition: transform 0.2s;
 
   &:hover {
@@ -269,8 +267,8 @@ const ButtonGroup = styled.div`
 const BaseButton = styled.button`
   padding: 8px 16px;
   border-radius: 6px;
-  cursor: pointer;
   border: none;
+  cursor: pointer;
 `;
 
 const CancelButton = styled(BaseButton)`

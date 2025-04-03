@@ -34,10 +34,10 @@ const SearchWrapper = styled.div`
 `;
 
 const SearchInput = styled.input`
+  flex: 1;
+  min-width: 20vw;
   border: none;
+  background: transparent;
   outline: none;
   font-size: 14px;
-  min-width: 280px;
-  flex: 1;
-  background: transparent;
 `;

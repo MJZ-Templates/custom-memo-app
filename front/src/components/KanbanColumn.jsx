@@ -7,10 +7,13 @@ const KanbanColumn = ({
   userName,
   onMemoClick,
   backgroundColor,
+  titleBackgroundColor,
 }) => {
   return (
     <ColumnContainer backgroundColor={backgroundColor}>
-      <ColumnTitle>{title}</ColumnTitle>
+      <ColumnTitle titleBackgroundColor={titleBackgroundColor}>
+        {title}
+      </ColumnTitle>
       <MemoList>
         {memos.map((memo) => (
           <MemoCard
@@ -31,22 +34,26 @@ const ColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 12px;
-  padding: 12px 12px 20px;
-  background-color: ${({ backgroundColor }) => backgroundColor || "#f4f5f7"};
+  background-color: ${({ backgroundColor }) => backgroundColor || "#ffffff"};
   border: 1px solid #e1e1e8;
   border-radius: 12px;
+  overflow: hidden;
 `;
 
 const ColumnTitle = styled.h2`
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
   margin: 0;
+  padding: 10px 16px;
+  border-bottom: 1px solid #e1e1e8;
+  background-color: ${({ titleBackgroundColor }) =>
+    titleBackgroundColor || "#f0f0f0"};
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
 `;
 
 const MemoList = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 12px 12px 20px;
   gap: 12px;
 `;
