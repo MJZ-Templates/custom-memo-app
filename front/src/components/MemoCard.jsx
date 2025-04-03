@@ -81,6 +81,9 @@ const MemoTitle = styled.h3`
   margin: 0;
   font-size: 16px;
   font-weight: 700;
+  word-break: break-word;
+  white-space: normal;
+  flex: 1;
 `;
 
 const FavoriteButton = styled.button`
