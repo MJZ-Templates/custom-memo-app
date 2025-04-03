@@ -289,7 +289,6 @@ const MemoListPageContainer = styled.div`
   max-width: 960px;
   background-color: #f8fbff;
   margin: 10px 0;
-  border: 1px solid #c8defc;
   border-radius: 16px;
   padding: 40px 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);

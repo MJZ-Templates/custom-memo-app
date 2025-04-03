@@ -118,8 +118,6 @@ const SignUpPage = () => {
 
 export default SignUpPage;
 
-// 스타일 ---------------------------------------------
-
 const SignUpPageWrapper = styled.div`
   position: relative;
   background-color: #f4f8ff;
@@ -167,7 +165,6 @@ const FormCard = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 40px 30px;
-  border: 1px solid #c8defc;
   border-radius: 16px;
   background-color: #f8fbff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);

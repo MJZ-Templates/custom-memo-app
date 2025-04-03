@@ -51,7 +51,6 @@ const FormCard = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 40px 30px;
-  border: 1px solid #c8defc;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   background-color: #f8fbff;
