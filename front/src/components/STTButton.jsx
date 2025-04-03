@@ -25,9 +25,7 @@ const STTButton = ({ onResult }) => {
     recognition.onend = () => {
       setIsListening(false);
 
-      // 마이크 끄는 중이 아니면 재시도
       if (!isStoppingRef.current) {
-        // 500ms 정도 대기 후 재시작 (안정성 확보)
         retryTimeoutRef.current = setTimeout(() => {
           try {
             recognition.start();
@@ -57,7 +55,6 @@ const STTButton = ({ onResult }) => {
       console.error("STT error:", event.error);
       setIsListening(false);
 
-      // 자동 재시작 가능한 오류만 재시도
       if (
         !isStoppingRef.current &&
         ["no-speech", "audio-capture", "network"].includes(event.error)

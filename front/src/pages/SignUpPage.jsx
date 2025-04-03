@@ -4,6 +4,120 @@ import { Button } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { checkEmailDuplicate, register } from "../apis/auth";
 
+const SignUpPage = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!isEmailVerified) {
+      alert("Please verify your email before signing up.");
+      return;
+    }
+
+    try {
+      await register({ name, email, password });
+      alert("Sign up successful! Please log in.");
+      navigate("/login");
+    } catch (error) {
+      alert(
+        "Sign up failed: " + (error.response?.data?.message || error.message)
+      );
+    }
+  };
+
+  return (
+    <SignUpPageWrapper>
+      <GradientCircle />
+      <SignUpPageContainer>
+        <FormCard>
+          <Title>Sign Up</Title>
+          <form onSubmit={handleSubmit}>
+            <FormGroupWrapper>
+              <FormGroup>
+                <FormLabel>Name*</FormLabel>
+                <FormInput
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter your name"
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Email*</FormLabel>
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <FormInput
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setIsEmailVerified(false);
+                    }}
+                    placeholder="Enter your email"
+                    required
+                  />
+                  <Button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        const res = await checkEmailDuplicate(email);
+                        if (res.success && res.data?.isSuccess) {
+                          alert("This email is available!");
+                          setIsEmailVerified(true);
+                        } else {
+                          alert("This email is already taken.");
+                          setIsEmailVerified(false);
+                        }
+                      } catch (error) {
+                        alert(
+                          "Failed to verify email: " +
+                            (error.response?.data?.message || error.message)
+                        );
+                      }
+                    }}
+                  >
+                    Verify
+                  </Button>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Password*</FormLabel>
+                <FormInput
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+              </FormGroup>
+            </FormGroupWrapper>
+
+            <ButtonWrapper>
+              <CancelLinkButton to="/">Cancel</CancelLinkButton>
+              <Button
+                type="submit"
+                style={{
+                  width: "120px",
+                  fontWeight: 600,
+                }}
+              >
+                Sign Up
+              </Button>
+            </ButtonWrapper>
+          </form>
+        </FormCard>
+      </SignUpPageContainer>
+    </SignUpPageWrapper>
+  );
+};
+
+export default SignUpPage;
+
 const SignUpPageWrapper = styled.div`
   display: flex;
   position: relative;
@@ -129,117 +243,3 @@ const CancelLinkButton = styled(Link)`
     text-decoration: none;
   }
 `;
-
-const SignUpPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!isEmailVerified) {
-      alert("Please verify your email before signing up.");
-      return;
-    }
-
-    try {
-      await register({ name, email, password });
-      alert("Sign up successful! Please log in.");
-      navigate("/login");
-    } catch (error) {
-      alert(
-        "Sign up failed: " + (error.response?.data?.message || error.message)
-      );
-    }
-  };
-
-  return (
-    <SignUpPageWrapper>
-      <GradientCircle />
-      <SignUpPageContainer>
-        <FormCard>
-          <Title>Sign Up</Title>
-          <form onSubmit={handleSubmit}>
-            <FormGroupWrapper>
-              <FormGroup>
-                <FormLabel>Name*</FormLabel>
-                <FormInput
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter your name"
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <FormLabel>Email*</FormLabel>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <FormInput
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      setIsEmailVerified(false);
-                    }}
-                    placeholder="Enter your email"
-                    required
-                  />
-                  <Button
-                    type="button"
-                    onClick={async () => {
-                      try {
-                        const res = await checkEmailDuplicate(email);
-                        if (res.success && res.data?.isSuccess) {
-                          alert("This email is available!");
-                          setIsEmailVerified(true);
-                        } else {
-                          alert("This email is already taken.");
-                          setIsEmailVerified(false);
-                        }
-                      } catch (error) {
-                        alert(
-                          "Failed to verify email: " +
-                            (error.response?.data?.message || error.message)
-                        );
-                      }
-                    }}
-                  >
-                    Verify
-                  </Button>
-                </div>
-              </FormGroup>
-              <FormGroup>
-                <FormLabel>Password*</FormLabel>
-                <FormInput
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  required
-                />
-              </FormGroup>
-            </FormGroupWrapper>
-
-            <ButtonWrapper>
-              <CancelLinkButton to="/">Cancel</CancelLinkButton>
-              <Button
-                type="submit"
-                style={{
-                  width: "120px",
-                  fontWeight: 600,
-                }}
-              >
-                Sign Up
-              </Button>
-            </ButtonWrapper>
-          </form>
-        </FormCard>
-      </SignUpPageContainer>
-    </SignUpPageWrapper>
-  );
-};
-
-export default SignUpPage;

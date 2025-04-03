@@ -7,7 +7,7 @@ const KanbanColumn = ({
   userName,
   onMemoClick,
   backgroundColor,
-  titleBackgroundColor, // ✅ 추가
+  titleBackgroundColor,
 }) => {
   return (
     <ColumnContainer backgroundColor={backgroundColor}>
@@ -41,14 +41,14 @@ const ColumnContainer = styled.div`
 `;
 
 const ColumnTitle = styled.h2`
+  margin: 0;
+  padding: 10px 16px;
+  border-bottom: 1px solid #e1e1e8;
   background-color: ${({ titleBackgroundColor }) =>
     titleBackgroundColor || "#f0f0f0"};
-  padding: 10px 16px;
+  color: #333;
   font-size: 18px;
   font-weight: 600;
-  color: #333;
-  margin: 0;
-  border-bottom: 1px solid #e1e1e8;
 `;
 
 const MemoList = styled.div`

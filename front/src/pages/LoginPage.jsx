@@ -4,6 +4,115 @@ import { Button } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../apis/auth";
 
+const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("savedEmail");
+    const savedPassword = localStorage.getItem("savedPassword");
+
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (rememberMe) {
+      localStorage.setItem("savedEmail", email);
+      localStorage.setItem("savedPassword", password);
+    } else {
+      localStorage.removeItem("savedEmail");
+      localStorage.removeItem("savedPassword");
+    }
+
+    try {
+      const response = await login({ email, password });
+
+      const token = response?.data?.accessToken;
+      if (token) {
+        localStorage.setItem("accessToken", token);
+      }
+
+      navigate("/memo");
+    } catch (error) {
+      alert(
+        "Login failed: " + (error.response?.data?.message || error.message)
+      );
+    }
+  };
+
+  return (
+    <LoginPageWrapper>
+      <GradientCircle />
+      <LoginPageContainer>
+        <FormCard>
+          <Title>Login</Title>
+          <form onSubmit={handleSubmit}>
+            <FormGroupWrapper>
+              <FormGroup>
+                <FormLabel>Email</FormLabel>
+                <FormInput
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <FormLabel>Password</FormLabel>
+                <FormInput
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+              </FormGroup>
+
+              <CheckboxWrapper>
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                Remember Email/Password
+              </CheckboxWrapper>
+            </FormGroupWrapper>
+
+            <ButtonWrapper>
+              <CancelLinkButton to="/">Cancel</CancelLinkButton>
+              <Button
+                type="submit"
+                style={{
+                  width: "120px",
+                  fontWeight: 600,
+                }}
+              >
+                Login
+              </Button>
+            </ButtonWrapper>
+          </form>
+
+          <SignUpPrompt>
+            Don’t have an account?
+            <Link to="/signup">Sign up</Link>
+          </SignUpPrompt>
+        </FormCard>
+      </LoginPageContainer>
+    </LoginPageWrapper>
+  );
+};
+
+export default LoginPage;
+
 const LoginPageWrapper = styled.div`
   display: flex;
   position: relative;
@@ -154,112 +263,3 @@ const SignUpPrompt = styled.div`
     }
   }
 `;
-
-const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const savedEmail = localStorage.getItem("savedEmail");
-    const savedPassword = localStorage.getItem("savedPassword");
-
-    if (savedEmail && savedPassword) {
-      setEmail(savedEmail);
-      setPassword(savedPassword);
-      setRememberMe(true);
-    }
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (rememberMe) {
-      localStorage.setItem("savedEmail", email);
-      localStorage.setItem("savedPassword", password);
-    } else {
-      localStorage.removeItem("savedEmail");
-      localStorage.removeItem("savedPassword");
-    }
-
-    try {
-      const response = await login({ email, password });
-
-      const token = response?.data?.accessToken;
-      if (token) {
-        localStorage.setItem("accessToken", token);
-      }
-
-      navigate("/memo");
-    } catch (error) {
-      alert(
-        "Login failed: " + (error.response?.data?.message || error.message)
-      );
-    }
-  };
-
-  return (
-    <LoginPageWrapper>
-      <GradientCircle />
-      <LoginPageContainer>
-        <FormCard>
-          <Title>Login</Title>
-          <form onSubmit={handleSubmit}>
-            <FormGroupWrapper>
-              <FormGroup>
-                <FormLabel>Email</FormLabel>
-                <FormInput
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <FormLabel>Password</FormLabel>
-                <FormInput
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  required
-                />
-              </FormGroup>
-
-              <CheckboxWrapper>
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                />
-                Remember Email/Password
-              </CheckboxWrapper>
-            </FormGroupWrapper>
-
-            <ButtonWrapper>
-              <CancelLinkButton to="/">Cancel</CancelLinkButton>
-              <Button
-                type="submit"
-                style={{
-                  width: "120px",
-                  fontWeight: 600,
-                }}
-              >
-                Login
-              </Button>
-            </ButtonWrapper>
-          </form>
-
-          <SignUpPrompt>
-            Don’t have an account?
-            <Link to="/signup">Sign up</Link>
-          </SignUpPrompt>
-        </FormCard>
-      </LoginPageContainer>
-    </LoginPageWrapper>
-  );
-};
-
-export default LoginPage;

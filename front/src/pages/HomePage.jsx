@@ -2,6 +2,52 @@ import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components";
 
+const HomePage = () => {
+  const navigate = useNavigate();
+
+  const handleGoToMemo = () => {
+    const token = localStorage.getItem("accessToken");
+
+    if (
+      token &&
+      token !== "null" &&
+      token !== "undefined" &&
+      token.trim() !== ""
+    ) {
+      navigate("/memo");
+    } else {
+      navigate("/login");
+    }
+  };
+
+  return (
+    <Wrapper>
+      <GradientCircle />
+      <Title>
+        Your smart, personalized memo space
+        <br />
+        <strong>Start with Custom Memo App today</strong>
+      </Title>
+      <Description>
+        Create, organize, and voice-record your memos with ease. <br />
+        Sign up now to access advanced features like Kanban view and
+        speech-to-text.
+      </Description>
+      <Button
+        onClick={handleGoToMemo}
+        style={{
+          padding: "16px 32px",
+          fontSize: "20px",
+        }}
+      >
+        Go to My Memo Space
+      </Button>
+    </Wrapper>
+  );
+};
+
+export default HomePage;
+
 const Wrapper = styled.div`
   display: flex;
   position: relative;
@@ -57,49 +103,3 @@ const Description = styled.p`
   line-height: 1.6;
   font-size: 20px;
 `;
-
-const HomePage = () => {
-  const navigate = useNavigate();
-
-  const handleGoToMemo = () => {
-    const token = localStorage.getItem("accessToken");
-
-    if (
-      token &&
-      token !== "null" &&
-      token !== "undefined" &&
-      token.trim() !== ""
-    ) {
-      navigate("/memo");
-    } else {
-      navigate("/login");
-    }
-  };
-
-  return (
-    <Wrapper>
-      <GradientCircle />
-      <Title>
-        Your smart, personalized memo space
-        <br />
-        <strong>Start with Custom Memo App today</strong>
-      </Title>
-      <Description>
-        Create, organize, and voice-record your memos with ease. <br />
-        Sign up now to access advanced features like Kanban view and
-        speech-to-text.
-      </Description>
-      <Button
-        onClick={handleGoToMemo}
-        style={{
-          padding: "16px 32px",
-          fontSize: "20px",
-        }}
-      >
-        Go to My Memo Space
-      </Button>
-    </Wrapper>
-  );
-};
-
-export default HomePage;
