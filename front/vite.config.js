@@ -5,5 +5,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
+    allowedHosts: [
+      // ex) "custom-memo-front.ap-northeast-2.arkain.site"
+      // add your own domain here
+    ]
   },
 });

@@ -32,6 +32,26 @@
       ```
       VITE_API_BASE_URL=https://custom-memo-app-base-url.arkain.site
       ```
+   3. add domain to the `vite.config.js` file
+   ```javascript
+   allowedHosts: [
+      // ex) "custom-memo-front.ap-northeast-2.arkain.site"
+      // add your own domain here
+   ]
+   ```
+   
+   4. add your front domain in CorsConfig in `back/src/.../back/config/web/CorsConfig.kt`
+   ```java
+   val configuration = CorsConfiguration().apply {
+            allowedOrigins = listOf("http://localhost:3000", "http://localhost:5173")
+            // add your front domain here
+            // for example
+            // allowedOrigins = listOf("http://localhost:3000", "http://localhost:5173", "https://custom-memo-front.ap-northeast-2.arkain.site")
+            allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+            allowedHeaders = listOf("*")
+            allowCredentials = true
+        }
+   ```
 
 3. Check the secret key
    1. The `SECURITY_SECRET_KEY` is **automatically registered** in your `~/.bashrc` when the project is set up.
@@ -45,7 +65,6 @@
    4. Run `source ~/.bashrc` to apply the changes.
    5. **Note**: If `SECURITY_SECRET_KEY` is missing from you environment, the server will fail to start.
 4. Run Project
-5. Run Project
    1. Click [Run Portfolio] button in the menu bar
    2. Alternatively, You can directly run the process.
    3. `cd /workspace/custom-memo-app/back` and use `pm2 start "./gradlew bootRun" --name memo-back`

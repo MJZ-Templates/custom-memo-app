@@ -13,6 +13,9 @@ class CorsConfig {
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration().apply {
             allowedOrigins = listOf("http://localhost:3000", "http://localhost:5173")
+            // add your front domain here
+            // for example
+            // allowedOrigins = listOf("http://localhost:3000", "http://localhost:5173", "https://custom-memo-front.ap-northeast-2.arkain.site")
             allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
             allowedHeaders = listOf("*")
             allowCredentials = true
