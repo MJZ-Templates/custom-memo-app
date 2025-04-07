@@ -53,7 +53,11 @@
         }
    ```
 
-3. Check the secret key
+3. Check the database
+```bash
+service mysql start 
+```
+4. Check the secret key
    1. The `SECURITY_SECRET_KEY` is **automatically registered** in your `~/.bashrc` when the project is set up.
    2. If you want to **generate and apply a new secret key**, run the following command:
       ```bash
@@ -64,7 +68,7 @@
       * Update the `SECURITY_SECRET_KEY` in your `~/.bashrc`
    4. Run `source ~/.bashrc` to apply the changes.
    5. **Note**: If `SECURITY_SECRET_KEY` is missing from you environment, the server will fail to start.
-4. Run Project
+5. Run Project
    1. Click [Run Portfolio] button in the menu bar
    2. Alternatively, You can directly run the process.
    3. `cd /workspace/custom-memo-app/back` and use `pm2 start "./gradlew bootRun" --name memo-back`
